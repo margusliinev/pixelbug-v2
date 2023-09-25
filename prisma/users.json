@@ -1,0 +1,191 @@
+[
+    {
+        "username": "JohnDoe",
+        "email": "johndoe@gmail.com",
+        "password": "johndoe123",
+        "firstName": "John",
+        "lastName": "Doe",
+        "jobTitle": "Full Stack Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1692081328/thconr32kzyg2nwv4gy4.jpg"
+    },
+    {
+        "username": "MariaGlenn",
+        "email": "mariaglenn@gmail.com",
+        "password": "mariaglenn123",
+        "firstName": "Maria",
+        "lastName": "Glenn",
+        "jobTitle": "Front End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774123/nmvtpdfjrsa02dxxgrmw.jpg"
+    },
+    {
+        "username": "ShawnTray",
+        "email": "shawntray@gmail.com",
+        "password": "shawntray123",
+        "firstName": "Shawn",
+        "lastName": "Tray",
+        "jobTitle": "Back End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774179/vaoxagyw0prvrv9bp5w4.jpg"
+    },
+    {
+        "username": "MikeBrown",
+        "email": "mikebrown@gmail.com",
+        "password": "mikebrown123",
+        "firstName": "Mike",
+        "lastName": "Brown",
+        "jobTitle": "DevOps Engineer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774298/jf1bmqvh9gvowbaasomd.jpg"
+    },
+    {
+        "username": "LarrySmith",
+        "email": "larrysmith@gmail.com",
+        "password": "larrysmith123",
+        "firstName": "Larry",
+        "lastName": "Smith",
+        "jobTitle": "UI/UX Designer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774353/ogpvgu2yzsuyfijh4lzz.jpg"
+    },
+    {
+        "username": "JoeDuffy",
+        "email": "joeduffy@gmail.com",
+        "password": "joeduffy123",
+        "firstName": "Joe",
+        "lastName": "Duffy",
+        "jobTitle": "Web Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774401/jb3hpmihc7c4mnthy6ys.jpg"
+    },
+    {
+        "username": "ChrisMiller",
+        "email": "chrismiller@gmail.com",
+        "password": "chrismiller123",
+        "firstName": "Chris",
+        "lastName": "Miller",
+        "jobTitle": "Software Engineer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774465/jwo6j5jfb7zcyuyhtn1p.jpg"
+    },
+    {
+        "username": "ChangLee",
+        "email": "changlee@gmail.com",
+        "password": "changlee123",
+        "firstName": "Chang",
+        "lastName": "Lee",
+        "jobTitle": "Data Scientist",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774524/qh3gx3yqq3iyah6hiwja.jpg"
+    },
+    {
+        "username": "AndreaMoore",
+        "email": "andreamoore@gmail.com",
+        "password": "andreamoore123",
+        "firstName": "Andrea",
+        "lastName": "Moore",
+        "jobTitle": "Full Stack Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774582/e1fzj0zz9thump1iyw1k.jpg"
+    },
+    {
+        "username": "DavidCooper",
+        "email": "davidcooper@gmail.com",
+        "password": "davidcooper123",
+        "firstName": "David",
+        "lastName": "Cooper",
+        "jobTitle": "Front End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774716/e9hxdpanb0agkrzjf8ml.jpg"
+    },
+    {
+        "username": "JuanMartinez",
+        "email": "juanmartinez@gmail.com",
+        "password": "juanmartinez123",
+        "firstName": "Juan",
+        "lastName": "Martinez",
+        "jobTitle": "Back End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774862/t1yaou6bi67qzbfg3yxv.jpg"
+    },
+    {
+        "username": "JacobCrook",
+        "email": "jacobcrook@gmail.com",
+        "password": "jacobcrook123",
+        "firstName": "Jacob",
+        "lastName": "Crook",
+        "jobTitle": "DevOps Engineer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340340/lzge60tlsaholwwj6qdr.jpg"
+    },
+    {
+        "username": "DennisAmber",
+        "email": "dennisamber@gmail.com",
+        "password": "dennisamber123",
+        "firstName": "Dennis",
+        "lastName": "Amber",
+        "jobTitle": "UI/UX Designer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340399/ctdwkpnnq1ae3heixgyk.jpg"
+    },
+    {
+        "username": "EstherHoward",
+        "email": "estherhoward@gmail.com",
+        "password": "estherhoward123",
+        "firstName": "Esther",
+        "lastName": "Howard",
+        "jobTitle": "Web Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340498/rfypu2saajh6ohyb1s8f.jpg"
+    },
+    {
+        "username": "CourtneyHenry",
+        "email": "courtneyhenry@gmail.com",
+        "password": "courtneyhenry123",
+        "firstName": "Courtney",
+        "lastName": "Henry",
+        "jobTitle": "Software Engineer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340548/gw2sezbrtehggbvmd8b2.jpg"
+    },
+    {
+        "username": "CodyFisher",
+        "email": "codyfisher@gmail.com",
+        "password": "codyfisher123",
+        "firstName": "Cody",
+        "lastName": "Fisher",
+        "jobTitle": "Data Scientist",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340638/uc7xy4ob3evcxibyus9h.jpg"
+    },
+    {
+        "username": "CameronWill",
+        "email": "cameronwill@gmail.com",
+        "password": "cameronwill123",
+        "firstName": "Cameron",
+        "lastName": "Will",
+        "jobTitle": "Full Stack Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340718/vibzmjo5mifjoxicwocx.jpg"
+    },
+    {
+        "username": "TheresaWebb",
+        "email": "theresawebb@gmail.com",
+        "password": "theresawebb123",
+        "firstName": "Theresa",
+        "lastName": "Webb",
+        "jobTitle": "Front End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340821/t7bkpeyzew4d7nwcfoan.jpg"
+    },
+    {
+        "username": "KristinWatson",
+        "email": "kristinwatson@gmail.com",
+        "password": "kristinwatson123",
+        "firstName": "Kristin",
+        "lastName": "Watson",
+        "jobTitle": "Back End Developer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340911/jna2borq61rbumzzllq7.jpg"
+    },
+    {
+        "username": "JennyWilson",
+        "email": "jennywilson@gmail.com",
+        "password": "jennywilson123",
+        "firstName": "Jenny",
+        "lastName": "Wilson",
+        "jobTitle": "DevOps Engineer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340946/ufouyjjll2sooczozl46.jpg"
+    },
+    {
+        "username": "JaneCooper",
+        "email": "janecooper@gmail.com",
+        "password": "janecooper123",
+        "firstName": "Jane",
+        "lastName": "Cooper",
+        "jobTitle": "UI/UX Designer",
+        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691341059/ntyohizoo5hpdpz6nqvz.jpg"
+    }
+]
