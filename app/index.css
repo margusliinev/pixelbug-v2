@@ -12,8 +12,9 @@
         --card-foreground: 224 71.4% 4.1%;
         --popover: 0 0% 100%;
         --popover-foreground: 224 71.4% 4.1%;
-        --primary: 220.9 39.3% 11%;
-        --primary-foreground: 210 20% 98%;
+        --primary: 161.4, 93.5%, 30.4%;
+        --primary-foreground: 151.8, 81%, 95.9%;
+        --primary-hover: 162.9, 93.5%, 24.3%;
         --secondary: 220 14.3% 95.9%;
         --secondary-foreground: 220.9 39.3% 11%;
         --muted: 220 14.3% 95.9%;
@@ -22,6 +23,7 @@
         --accent-foreground: 220.9 39.3% 11%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 210 20% 98%;
+        --destructive-hover: 0, 72.2%, 50.6%;
         --border: 220 13% 91%;
         --input: 220 13% 91%;
         --ring: 224 71.4% 4.1%;
@@ -36,4 +38,9 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+.pattern {
+    background-image: url('../public/background.png');
+    background-repeat: repeat;
 }
