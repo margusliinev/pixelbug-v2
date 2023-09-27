@@ -14,6 +14,10 @@ module.exports = {
             },
         },
         extend: {
+            screens: {
+                xs: '600px',
+                xxs: '500px',
+            },
             width: {
                 'screen-90': '90vw',
                 'screen-80': '80vw',

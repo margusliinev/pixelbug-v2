@@ -1,5 +1,5 @@
 import { Outlet } from '@remix-run/react';
-import HomeNavbar from '~/components/HomeNavbar';
+import HomeNavbar from '~/components/Home/HomeNavbar';
 
 export default function Home() {
     return (
