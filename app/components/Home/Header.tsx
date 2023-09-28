@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react';
 
-export default function HomeHeader() {
+export default function Header() {
     const currentDate = new Date(Date.now()).toDateString().split(' ').slice(1, 3).join(' ');
     return (
         <header className='mx-auto max-w-4xl pb-32 pt-20 z-20 text-center w-screen-90'>
@@ -9,10 +9,8 @@ export default function HomeHeader() {
                     {currentDate}: We are now in open beta!
                 </div>
             </div>
-            <h1 className='text-4xl xs:text-5xl md:text-6xl font-bold tracking-tight lg:text-7xl mb-2'>
-                Experiences Perfected
-                <br />
-                Bugs Rejected!
+            <h1 className='text-4xl xs:text-5xl md:text-6xl font-bold tracking-tight lg:text-7xl mb-2 flex flex-col'>
+                <span className='mb-2'>Experiences Perfected</span> <span>Bugs Rejected!</span>
             </h1>
             <p className='text-md md:text-lg leading-8 text-gray-600 max-w-2xl mx-auto mt-6'>
                 PixelBug is your ultimate companion for bug-free software development. With its robust tracking and comprehensive management tools,
