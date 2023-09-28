@@ -9,7 +9,7 @@ export default function Navbar() {
     return (
         <nav className='fixed top-0 h-16 w-full bg-white border-b border-border grid place-items-center z-30'>
             <div className='w-screen-90 max-w-6xl flex items-center justify-between'>
-                <NavLogo />
+                <NavLogo isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
                 <NavLinks />
                 <NavMobileMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
                 <NavMobileLinks isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />

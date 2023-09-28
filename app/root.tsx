@@ -30,7 +30,6 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
-    const error = useRouteError();
     return (
         <html lang='en'>
             <head>
@@ -40,9 +39,6 @@ export default function App() {
                 <Links />
             </head>
             <body>
-                <h1>
-                    {isRouteErrorResponse(error) ? `${error.status} ${error.statusText}` : error instanceof Error ? error.message : 'Unknown Error'}
-                </h1>
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />
@@ -85,7 +81,7 @@ export function ErrorBoundary() {
                         <div className='mt-10 flex items-center justify-center gap-x-6'>
                             <Link
                                 to={'/'}
-                                className='rounded-full bg-primary px-3.5 py-2.5 text-sm font-semibold transition-colors text-white shadow-sm hover:bg-primary-hover'
+                                className='rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium transition-colors text-white shadow-sm hover:bg-primary-hover'
                             >
                                 Go back home
                             </Link>

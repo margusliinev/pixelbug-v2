@@ -18,12 +18,12 @@ export default function Header() {
             </p>
             <div className='mt-6 md:mt-10 flex items-center justify-center gap-x-6'>
                 <Link
-                    to='/register'
-                    className='bg-primary text-primary-foreground text-sm md:text-base font-medium py-2.5 px-6 rounded-full hover:bg-primary-hover transition-colors'
+                    to='/sign-up'
+                    className='bg-primary text-primary-foreground text-sm font-medium py-3 px-6 rounded-full hover:bg-primary-hover transition-colors'
                 >
                     Get Started
                 </Link>
-                <Link to={'/login'} className='text-sm font-semibold group flex items-center gap-1'>
+                <Link to={'/sign-in'} className='text-sm font-semibold group flex items-center gap-1'>
                     <span>Want to demo?</span>
                     <span aria-hidden='true' className='group-hover:text-primary transition-colors'>
                         →

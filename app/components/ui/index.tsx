@@ -1,7 +1,25 @@
 import { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator } from './select';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
 import { Button } from './button';
 import { Label } from './label';
 import { Input } from './input';
 import { Textarea } from './textarea';
 
-export { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, Button, Label, Input, Textarea };
+export {
+    Select,
+    SelectGroup,
+    SelectValue,
+    SelectTrigger,
+    SelectContent,
+    SelectLabel,
+    SelectItem,
+    SelectSeparator,
+    Button,
+    Label,
+    Input,
+    Textarea,
+    Accordion,
+    AccordionItem,
+    AccordionTrigger,
+    AccordionContent,
+};
