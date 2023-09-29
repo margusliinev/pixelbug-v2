@@ -1,5 +1,5 @@
-import AddedFeature from '~/components/Home/Pricing/AddedFeature';
-import MissingFeature from '~/components/Home/Pricing/MissingFeature';
+import AddedFeature from './AddedFeature';
+import MissingFeature from './MissingFeature';
 import ArrowRight from '~/components/icons/ArrowRight';
 import { Button } from '~/components/ui';
 import { Link } from '@remix-run/react';

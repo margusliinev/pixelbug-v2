@@ -1,4 +1,4 @@
-import Minus from '../../icons/Minus';
+import Minus from '~/components/icons/Minus';
 
 export default function MissingFeature({ text }: { text: string }) {
     return (

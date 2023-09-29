@@ -1,4 +1,4 @@
-import Tick from '../../icons/Tick';
+import Tick from '~/components/icons/Tick';
 
 export default function AddedFeature({ text }: { text: string }) {
     return (
