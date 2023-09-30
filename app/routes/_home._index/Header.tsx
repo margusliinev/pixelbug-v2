@@ -3,29 +3,29 @@ import { Link } from '@remix-run/react';
 export default function Header() {
     const currentDate = new Date(Date.now()).toDateString().split(' ').slice(1, 3).join(' ');
     return (
-        <header className='mx-auto max-w-4xl pb-32 pt-20 z-20 text-center w-screen-90'>
-            <div className='flex mb-6 justify-center'>
-                <div className='relative rounded-full px-6 py-2 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 font-semibold bg-white'>
+        <header className='z-20 mx-auto w-screen-90 max-w-4xl pb-32 pt-20 text-center'>
+            <div className='mb-6 flex justify-center'>
+                <div className='relative rounded-full bg-white px-6 py-2 text-sm font-semibold leading-6 text-gray-600 ring-1 ring-gray-900/10'>
                     {currentDate}: We are now in open beta!
                 </div>
             </div>
-            <h1 className='text-4xl xs:text-5xl md:text-6xl font-bold tracking-tight lg:text-7xl mb-2 flex flex-col'>
+            <h1 className='mb-2 flex flex-col text-4xl font-bold tracking-tight xs:text-5xl md:text-6xl lg:text-7xl'>
                 <span className='mb-2'>Experiences Perfected</span> <span>Bugs Rejected!</span>
             </h1>
-            <p className='text-md md:text-lg leading-8 text-gray-600 max-w-2xl mx-auto mt-6'>
+            <p className='text-md mx-auto mt-6 max-w-2xl leading-8 text-gray-600 md:text-lg'>
                 PixelBug is your ultimate companion for bug-free software development. With its robust tracking and comprehensive management tools,
                 PixelBug helps you track and analyze bugs at every stage of your project.
             </p>
-            <div className='mt-6 md:mt-10 flex items-center justify-center gap-x-6'>
+            <div className='mt-6 flex items-center justify-center gap-x-6 md:mt-10'>
                 <Link
                     to='/sign-up'
-                    className='bg-primary text-primary-foreground text-sm font-medium py-3 px-6 rounded-full hover:bg-primary-hover transition-colors'
+                    className='rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
                 >
                     Get Started
                 </Link>
-                <Link to={'/sign-in'} className='text-sm font-semibold group flex items-center gap-1'>
+                <Link to={'/sign-in'} className='group flex items-center gap-1 text-sm font-semibold'>
                     <span>Want to demo?</span>
-                    <span aria-hidden='true' className='group-hover:text-primary transition-colors'>
+                    <span aria-hidden='true' className='transition-colors group-hover:text-primary'>
                         →
                     </span>
                 </Link>

@@ -2,11 +2,11 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '~/
 
 export default function PricingFAQ() {
     return (
-        <section className='mx-auto w-screen-90 max-w-screen-xl px-2.5 md:px-20 py-12 z-20'>
-            <div className='relative isolate overflow-hidden bg-slate-50 border bg-background px-6sm:rounded-3xl sm:px-10 xl:px-24 rounded-2xl shadow-sm'>
+        <section className='z-20 mx-auto w-screen-90 max-w-screen-xl px-2.5 py-12 md:px-20'>
+            <div className='px-6sm:rounded-3xl relative isolate overflow-hidden rounded-2xl border bg-background bg-slate-50 shadow-sm sm:px-10 xl:px-24'>
                 <div className='mx-auto max-w-7xl px-6 py-24 sm:py-20 lg:px-8 lg:py-24'>
                     <div className='mx-auto max-w-4xl divide-y divide-white/10'>
-                        <h2 className='text-4xl lg:text-5xl font-semibold mb-16'>Frequently asked questions</h2>
+                        <h2 className='mb-16 text-4xl font-semibold lg:text-5xl'>Frequently asked questions</h2>
                         <Accordion type='single' collapsible>
                             <AccordionItem value='item-1' className='py-2'>
                                 <AccordionTrigger className='text-lg'>Can I use PixelBug for free?</AccordionTrigger>

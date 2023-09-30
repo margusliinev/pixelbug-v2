@@ -58,11 +58,11 @@ export function ErrorBoundary() {
                 <Links />
             </head>
             <body>
-                <main className='grid place-items-center w-full h-full min-h-screen bg-white px-6 py-24 sm:py-32 lg:px-8 pattern'>
-                    <div className='absolute inset-x-0 -top-40 z-10 transform-gpu overflow-hidden blur-3xl md:-top-80 opacity-40' aria-hidden='true'>
+                <main className='pattern grid h-full min-h-screen w-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8'>
+                    <div className='absolute inset-x-0 -top-40 z-10 transform-gpu overflow-hidden opacity-40 blur-3xl md:-top-80' aria-hidden='true'>
                         <div className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#059669] to-[#d4d4d4] opacity-30 md:left-[calc(50%-30rem)] md:w-[72.1875rem]'></div>
                     </div>
-                    <div className='text-center z-20'>
+                    <div className='z-20 text-center'>
                         <p className='text-5xl font-bold text-primary'>{isRouteErrorResponse(error) ? `${error.status}` : '500'}</p>
                         <h1 className='mt-4 text-3xl font-bold tracking-tight sm:text-5xl'>
                             {isRouteErrorResponse(error) ? (error.status === 404 ? 'Page Not Found' : error.statusText) : 'Internal Server Error'}
@@ -81,7 +81,7 @@ export function ErrorBoundary() {
                         <div className='mt-10 flex items-center justify-center gap-x-6'>
                             <Link
                                 to={'/'}
-                                className='rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium transition-colors text-white shadow-sm hover:bg-primary-hover'
+                                className='rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-hover'
                             >
                                 Go back home
                             </Link>
@@ -91,7 +91,7 @@ export function ErrorBoundary() {
                         </div>
                     </div>
                     <div
-                        className='fixed inset-x-0 top-[calc(100%-13rem)] z-10 transform-gpu overflow-hidden blur-3xl md:top-[calc(100%-30rem)] opacity-40'
+                        className='fixed inset-x-0 top-[calc(100%-13rem)] z-10 transform-gpu overflow-hidden opacity-40 blur-3xl md:top-[calc(100%-30rem)]'
                         aria-hidden='true'
                     >
                         <div className='relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#059669] to-[#d4d4d4] opacity-30 md:left-[calc(50%+36rem)] md:w-[72.1875rem]'></div>

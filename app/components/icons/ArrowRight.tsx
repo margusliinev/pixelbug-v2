@@ -10,7 +10,7 @@ export default function ArrowRight() {
             stroke-width='2'
             stroke-linecap='round'
             stroke-linejoin='round'
-            className='h-5 w-5 ml-1.5'
+            className='ml-1.5 h-5 w-5'
         >
             <path d='M5 12h14'></path>
             <path d='m12 5 7 7-7 7'></path>
