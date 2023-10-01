@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 export default function Header() {
     const currentDate = new Date(Date.now()).toDateString().split(' ').slice(1, 3).join(' ');
     return (
-        <header className='z-20 mx-auto w-screen-90 max-w-4xl pb-32 pt-20 text-center'>
+        <header className='z-10 mx-auto mb-32 mt-20 w-screen-90 max-w-4xl text-center'>
             <div className='mb-6 flex justify-center'>
                 <div className='relative rounded-full bg-white px-6 py-2 text-sm font-semibold leading-6 text-secondary-foreground ring-1 ring-gray-900/10'>
                     {currentDate}: We are now in open beta!

@@ -11,13 +11,13 @@ type Props = {
 export default function Home() {
     return (
         <main className='pattern grid h-full min-h-screen w-full place-items-center'>
-            <div className='absolute inset-x-0 -top-40 z-10 transform-gpu overflow-hidden opacity-40 blur-3xl md:-top-80' aria-hidden='true'>
+            <div className='absolute inset-x-0 -top-40 transform-gpu overflow-hidden opacity-40 blur-3xl md:-top-80' aria-hidden='true'>
                 <div className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#059669] to-[#d4d4d4] opacity-30 md:left-[calc(50%-30rem)] md:w-[72.1875rem]'></div>
             </div>
             <Navbar />
             <Outlet />
             <div
-                className='fixed inset-x-0 top-[calc(100%-13rem)] z-10 transform-gpu overflow-hidden opacity-40 blur-3xl md:top-[calc(100%-30rem)]'
+                className='fixed inset-x-0 top-[calc(100%-13rem)] transform-gpu overflow-hidden opacity-40 blur-3xl md:top-[calc(100%-30rem)]'
                 aria-hidden='true'
             >
                 <div className='relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#059669] to-[#d4d4d4] opacity-30 md:left-[calc(50%+36rem)] md:w-[72.1875rem]'></div>
@@ -29,7 +29,7 @@ export default function Home() {
 export function Navbar() {
     const [isMobileMenuOpen, setisMobileMenuOpen] = useState(false);
     return (
-        <nav className='fixed top-0 z-30 grid h-16 w-full place-items-center border-b border-border bg-white'>
+        <nav className='fixed top-0 z-50 grid h-16 w-full place-items-center border-b border-border bg-white'>
             <div className='flex w-screen-90 max-w-6xl items-center justify-between'>
                 <Logo isMobileMenuOpen={isMobileMenuOpen} setisMobileMenuOpen={setisMobileMenuOpen} />
                 <DesktopLinks />

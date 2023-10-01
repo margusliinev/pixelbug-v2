@@ -2,7 +2,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '~/
 
 export default function PricingFAQ() {
     return (
-        <section className='z-20 mx-auto w-screen-90 max-w-screen-xl px-2.5 py-12 md:px-20'>
+        <section className='z-10 mx-auto w-screen-90 max-w-screen-xl px-2.5 py-12 md:px-20'>
             <div className='px-6sm:rounded-3xl relative isolate overflow-hidden rounded-2xl border bg-background bg-slate-50 shadow-sm sm:px-10 xl:px-24'>
                 <div className='mx-auto max-w-7xl px-6 py-24 sm:py-20 lg:px-8 lg:py-24'>
                     <div className='mx-auto max-w-4xl divide-y divide-white/10'>

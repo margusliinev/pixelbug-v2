@@ -6,7 +6,7 @@ import { Link } from '@remix-run/react';
 
 export default function PricingOptions() {
     return (
-        <section className='z-20 mx-auto mb-8 w-screen-90 max-w-screen-xl px-2.5 text-center md:px-20 '>
+        <section className='z-10 mx-auto mb-8 w-screen-90 max-w-screen-xl px-2.5 text-center md:px-20 '>
             <div className='grid grid-cols-1 gap-10 pt-12 lg:grid-cols-3 '>
                 <div className='relative flex flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-lg'>
                     <div className='p-5'>
