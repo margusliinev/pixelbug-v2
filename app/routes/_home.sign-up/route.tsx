@@ -15,6 +15,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const email = formData.get('email');
     const password = formData.get('password');
 
+    if (!username) {
+        return json({ success: false, message: 'Username is required', field: 'username' });
+    }
+
+    if (!email) {
+        return json({ success: false, message: 'Email is required', field: 'email' });
+    }
+
+    if (!password) {
+        return json({ success: false, message: 'Password is required', field: 'password' });
+    }
+
     return json({ success: true, message: 'Account created successfully', field: '' });
 };
 
@@ -63,7 +75,7 @@ export default function SignUpForm() {
                     />
                     {actionData?.field === 'username' && isUsernameError ? (
                         <p className='pt-1 text-sm text-destructive' id='username-error'>
-                            Username must be at least 3 characters long
+                            {actionData?.message}
                         </p>
                     ) : null}
                 </fieldset>
@@ -82,7 +94,7 @@ export default function SignUpForm() {
                     />
                     {actionData?.field === 'email' && isEmailError ? (
                         <p className='pt-1 text-sm text-destructive' id='email-error'>
-                            Email is already in use
+                            {actionData?.message}
                         </p>
                     ) : null}
                 </fieldset>
@@ -101,7 +113,7 @@ export default function SignUpForm() {
                     />
                     {actionData?.field === 'password' && isPasswordError ? (
                         <p className='pt-1 text-sm text-destructive' id='password-error'>
-                            Password must contain at least 1 number
+                            {actionData?.message}
                         </p>
                     ) : null}
                 </fieldset>
