@@ -5,7 +5,6 @@ import styles from './index.css';
 
 export const meta: MetaFunction = () => {
     return [
-        { title: 'PixelBug | Project Management & Bug Tracking Software' },
         {
             name: 'description',
             content:

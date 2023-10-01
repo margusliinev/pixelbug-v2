@@ -11,9 +11,9 @@ export default function PricingOptions() {
                 <div className='relative flex flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-lg'>
                     <div className='p-5'>
                         <h3 className='font-display my-3 text-center text-3xl font-bold'>Free</h3>
-                        <p className='text-gray-500'>For individuals and small teams.</p>
+                        <p className='text-secondary-foreground'>For individuals and small teams.</p>
                         <p className='font-display my-5 text-6xl font-semibold'>$0</p>
-                        <p className='text-gray-500'>per user</p>
+                        <p className='text-secondary-foreground'>per user</p>
                     </div>
                     <div className='flex h-20 items-center justify-center border-b border-t border-gray-200 bg-gray-50'>
                         <p className='text-secondary-foreground'>Maximum of 6 active users</p>
@@ -45,9 +45,9 @@ export default function PricingOptions() {
                     </div>
                     <div className='p-5'>
                         <h3 className='font-display my-3 text-center text-3xl font-bold'>Pro</h3>
-                        <p className='text-gray-500'>For larger teams with higher needs.</p>
+                        <p className='text-secondary-foreground'>For larger teams with higher needs.</p>
                         <p className='font-display my-5 text-6xl font-semibold'>$7</p>
-                        <p className='text-gray-500'>per user</p>
+                        <p className='text-secondary-foreground'>per user</p>
                     </div>
                     <div className='flex h-20 items-center justify-center border-b border-t border-gray-200 bg-gray-50'>
                         <p className='text-secondary-foreground'>Maximum of 30 active users</p>
@@ -76,9 +76,9 @@ export default function PricingOptions() {
                 <div className='relative flex flex-col justify-between rounded-2xl border border-gray-200 bg-white shadow-lg'>
                     <div className='p-5'>
                         <h3 className='font-display my-3 text-center text-3xl font-bold'>Business</h3>
-                        <p className='text-gray-500'>For businesses and organizations.</p>
+                        <p className='text-secondary-foreground'>For businesses and organizations.</p>
                         <p className='font-display my-5 text-6xl font-semibold'>$19</p>
-                        <p className='text-gray-500'>per user</p>
+                        <p className='text-secondary-foreground'>per user</p>
                     </div>
                     <div className='flex h-20 items-center justify-center border-b border-t border-gray-200 bg-gray-50'>
                         <p className='text-secondary-foreground'>Unlimited active users</p>

@@ -5,14 +5,14 @@ export default function Header() {
     return (
         <header className='z-20 mx-auto w-screen-90 max-w-4xl pb-32 pt-20 text-center'>
             <div className='mb-6 flex justify-center'>
-                <div className='relative rounded-full bg-white px-6 py-2 text-sm font-semibold leading-6 text-gray-600 ring-1 ring-gray-900/10'>
+                <div className='relative rounded-full bg-white px-6 py-2 text-sm font-semibold leading-6 text-secondary-foreground ring-1 ring-gray-900/10'>
                     {currentDate}: We are now in open beta!
                 </div>
             </div>
             <h1 className='mb-2 flex flex-col text-4xl font-bold tracking-tight xs:text-5xl md:text-6xl lg:text-7xl'>
                 <span className='mb-2'>Experiences Perfected</span> <span>Bugs Rejected!</span>
             </h1>
-            <p className='text-md mx-auto mt-6 max-w-2xl leading-8 text-gray-600 md:text-lg'>
+            <p className='text-md mx-auto mt-6 max-w-2xl leading-8 text-secondary-foreground md:text-lg'>
                 PixelBug is your ultimate companion for bug-free software development. With its robust tracking and comprehensive management tools,
                 PixelBug helps you track and analyze bugs at every stage of your project.
             </p>
