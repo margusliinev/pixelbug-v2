@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData } from '@remix-run/react';
 import { Label, Input, Button } from '~/components/ui';
-import Logo from '../../../public/apple-touch-icon.png';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign Up' }];
 };
+
+export const links: LinksFunction = () => [{ rel: 'preload', href: 'apple-touch-icon.png', as: 'image' }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -55,7 +56,7 @@ export default function SignUpForm() {
     return (
         <div className='z-10 mb-32 mt-20 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
             <div className='place-items-cente grid place-items-center text-center'>
-                <img src={Logo} alt='logo' className='mb-3 w-12' />
+                <img src='apple-touch-icon.png' alt='logo' className='mb-3 w-12' />
                 <h1 className='mb-1 text-2xl font-semibold'>Create an account</h1>
                 <p className='mb-8 text-sm text-secondary-foreground'>And lets get you started with your free trial</p>
             </div>
