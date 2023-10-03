@@ -29,14 +29,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ success: true, message: 'Account created successfully', field: '' });
 };
 
-export default function SignUpForm() {
+export default function SignUp() {
     const [isUsernameError, setIsUsernameError] = useState(false);
     const [isEmailError, setIsEmailError] = useState(false);
     const [isPasswordError, setIsPasswordError] = useState(false);
-    const actionData = useActionData<typeof action>();
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const actionData = useActionData<typeof action>();
 
     useEffect(() => {
         if (actionData?.field === 'username') {
