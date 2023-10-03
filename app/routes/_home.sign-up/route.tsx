@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData } from '@remix-run/react';
 import { Label, Input, Button } from '~/components/ui';
@@ -7,8 +7,6 @@ import { Label, Input, Button } from '~/components/ui';
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign Up' }];
 };
-
-export const links: LinksFunction = () => [{ rel: 'preload', href: 'apple-touch-icon.png', as: 'image' }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
