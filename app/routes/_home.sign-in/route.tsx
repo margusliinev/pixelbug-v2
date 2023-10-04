@@ -1,7 +1,8 @@
 import { json, type ActionFunctionArgs, type MetaFunction } from '@remix-run/node';
-import { Form, Link, useActionData } from '@remix-run/react';
+import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Label } from '~/components/ui';
+import Spinner from '~/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign In' }];
@@ -29,6 +30,8 @@ export default function SignIn() {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const actionData = useActionData<typeof action>();
+    let navigation = useNavigation();
+    let busy = navigation.state !== 'idle';
 
     useEffect(() => {
         if (actionData?.field === 'email') {
@@ -87,7 +90,7 @@ export default function SignIn() {
                     ) : null}
                 </fieldset>
                 <Button type='submit' size={'sm'} className='mb-4 mt-2'>
-                    Sign In
+                    {busy ? <Spinner /> : 'Sign In'}
                 </Button>
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
