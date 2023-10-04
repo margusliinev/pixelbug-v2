@@ -1,4 +1,5 @@
-import { json, type ActionFunctionArgs, type MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Label } from '~/components/ui';
@@ -21,7 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json({ success: false, message: 'Password is required', field: 'password' });
     }
 
-    return json({ success: true, message: 'Account created successfully', field: '' });
+    return redirect('/dashboard');
 };
 
 export default function SignIn() {
@@ -31,7 +32,7 @@ export default function SignIn() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const actionData = useActionData<typeof action>();
     let navigation = useNavigation();
-    let busy = navigation.state !== 'idle';
+    let submitting = navigation.formAction === '/sign-in';
 
     useEffect(() => {
         if (actionData?.field === 'email') {
@@ -50,8 +51,8 @@ export default function SignIn() {
                 <h1 className='mb-1 text-2xl font-semibold'>Welcome back!</h1>
                 <p className='mb-8 text-sm text-secondary-foreground'>Please enter your credentials to sign in!</p>
             </div>
-            <Form className='grid gap-4' method='POST' noValidate>
-                <fieldset className='grid gap-1'>
+            <Form className='grid gap-4' method='POST' action='/sign-in' noValidate>
+                <fieldset className='grid gap-1' disabled={submitting}>
                     <Label htmlFor='email' className='mb-2'>
                         Email
                     </Label>
@@ -70,7 +71,7 @@ export default function SignIn() {
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1'>
+                <fieldset className='grid gap-1' disabled={submitting}>
                     <Label htmlFor='password' className='mb-2'>
                         Password
                     </Label>
@@ -90,7 +91,7 @@ export default function SignIn() {
                     ) : null}
                 </fieldset>
                 <Button type='submit' size={'sm'} className='mb-4 mt-2'>
-                    {busy ? <Spinner /> : 'Sign In'}
+                    {submitting ? <Spinner /> : 'Sign In'}
                 </Button>
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
