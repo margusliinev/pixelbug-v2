@@ -3,18 +3,15 @@ import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
 import { Label, Input, Button } from '~/components/ui';
-import { createUser, getUserByEmail } from '~/models/user.server';
+import { createUser, getUserByEmail, getUserByUsername } from '~/models/user.server';
 import { createSession } from '~/models/session.server';
 import { handleSessionAndRedirect } from '~/utils/auth.server';
+import { validateEmail, validatePassword, validateUsername } from './validation';
 import Spinner from '~/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign Up' }];
 };
-
-const usernameRegex = /^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){3,39}$/;
-const emailRegex = /^[^\s@]{1,50}@[^\s@]+\.[^\s@]+$/;
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%&*,.?]{8,50}$/;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -22,48 +19,34 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    if (typeof username !== 'string' || username.length === 0) {
-        return json({ success: false, message: 'Username is required', field: 'username' });
+    const usernameError = validateUsername(username);
+    if (usernameError) {
+        return json({ success: false, message: usernameError, field: 'username' });
     }
 
-    if (typeof email !== 'string' || email.length === 0) {
-        return json({ success: false, message: 'Email is required', field: 'email' });
+    const emailError = validateEmail(email);
+    if (emailError) {
+        return json({ success: false, message: emailError, field: 'email' });
     }
 
-    if (typeof password !== 'string' || password.length === 0) {
-        return json({ success: false, message: 'Password is required', field: 'password' });
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        return json({ success: false, message: passwordError, field: 'password' });
     }
 
-    if (username.length < 3 || username.length > 39) {
-        return json({ success: false, message: 'Username must be between 3 and 39 characters', field: 'username' });
-    } else if (username.startsWith('-')) {
-        return json({ success: false, message: 'Username cannot start with a hyphen', field: 'username' });
-    } else if (username.endsWith('-')) {
-        return json({ success: false, message: 'Username cannot end with a hyphen', field: 'username' });
-    } else if (!usernameRegex.test(username)) {
-        return json({ success: false, message: 'Username can only contain letters (A-Z), numbers (0-9), and hyphens (-).', field: 'username' });
+    // After validation we can safely cast the values to strings to make typescript happy
+
+    const exisitingUsername = await getUserByUsername((username as string).toLowerCase());
+    if (exisitingUsername) {
+        return json({ success: false, message: 'Username is already in use', field: 'username' });
     }
 
-    if (!emailRegex.test(email)) {
-        return json({ success: false, message: 'Email is invalid', field: 'email' });
-    }
-
-    if (password.length < 8 || password.length > 50) {
-        return json({ success: false, message: 'Password must be between 8 and 50 characters', field: 'password' });
-    } else if (!/(?=.*[a-zA-Z])/.test(password)) {
-        return json({ success: false, message: 'Password must contain at least one letter', field: 'password' });
-    } else if (!/(?=.*\d)/.test(password)) {
-        return json({ success: false, message: 'Password must contain at least one number', field: 'password' });
-    } else if (!passwordRegex.test(password)) {
-        return json({ success: false, message: 'Password can only contain the following special characters: !@#$%&*,.?', field: 'password' });
-    }
-
-    const existingEmail = await getUserByEmail(email.toLowerCase());
+    const existingEmail = await getUserByEmail((email as string).toLowerCase());
     if (existingEmail) {
         return json({ success: false, message: 'Email is already in use', field: 'email' });
     }
 
-    const newUser = await createUser(username, email.toLowerCase(), password);
+    const newUser = await createUser((username as string).toLowerCase(), (email as string).toLowerCase(), password as string);
     if (!newUser) {
         return json({ success: false, message: 'Something went wrong, please try again later', field: 'password' });
     }
