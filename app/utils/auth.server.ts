@@ -2,6 +2,7 @@ import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import type { Session } from '@prisma/client';
 import { prisma } from './db.server';
 import invariant from 'tiny-invariant';
+import bcrypt from 'bcryptjs';
 
 invariant(process.env.SESSION_SECRET, 'SESSION_SECRET environment variable must be set');
 
@@ -65,4 +66,14 @@ export async function handleSessionAndRedirect(request: Request, session: Sessio
     } catch (error) {
         throw new Error('Failed to handle the session and redirect');
     }
+}
+
+export async function hashPassword(password: string) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return hashedPassword;
+}
+
+export async function verifyPassword(password: string, hashedPassword: string) {
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    return isMatch;
 }

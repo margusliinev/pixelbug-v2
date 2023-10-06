@@ -1,8 +1,11 @@
 import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Label } from '~/components/ui';
+import { handleSessionAndRedirect, verifyPassword } from '~/utils/auth.server';
+import { getUserByEmail } from '~/models/user.server';
+import { createSession } from '~/models/session.server';
 import Spinner from '~/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
@@ -14,15 +17,29 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    if (!email) {
+    if (typeof email !== 'string' || email.length === 0) {
         return json({ success: false, message: 'Email is required', field: 'email' });
     }
 
-    if (!password) {
+    if (typeof password !== 'string' || password.length === 0) {
         return json({ success: false, message: 'Password is required', field: 'password' });
     }
 
-    return redirect('/dashboard');
+    const user = await getUserByEmail(email.toLowerCase());
+    if (!user) {
+        return json({ success: false, message: 'Email or password is incorrect', field: 'all' });
+    }
+
+    const hashedPassword = user.password;
+
+    const isPasswordCorrect = await verifyPassword(password, hashedPassword);
+    if (!isPasswordCorrect) {
+        return json({ success: false, message: 'Email or password is incorrect', field: 'all' });
+    }
+
+    const session = await createSession(user.id);
+
+    return handleSessionAndRedirect(request, session, '/dashboard');
 };
 
 export default function SignIn() {
@@ -35,7 +52,10 @@ export default function SignIn() {
     let submitting = navigation.formAction === '/sign-in';
 
     useEffect(() => {
-        if (actionData?.field === 'email') {
+        if (actionData?.field === 'all') {
+            setIsEmailError(true);
+            setIsPasswordError(true);
+        } else if (actionData?.field === 'email') {
             setIsEmailError(true);
             emailRef.current?.focus();
         } else if (actionData?.field === 'password') {
@@ -60,12 +80,26 @@ export default function SignIn() {
                         id='email'
                         name='email'
                         type='email'
-                        aria-invalid={actionData?.field === 'email' && isEmailError ? true : undefined}
+                        aria-invalid={
+                            actionData?.field === 'email' && isEmailError
+                                ? true
+                                : actionData?.field === 'all' && isEmailError && isPasswordError
+                                ? true
+                                : undefined
+                        }
                         aria-describedby='email-error'
                         ref={emailRef}
-                        onChange={() => setIsEmailError(false)}
+                        onChange={() => {
+                            setIsEmailError(false);
+                            setIsPasswordError(false);
+                        }}
                     />
                     {actionData?.field === 'email' && isEmailError ? (
+                        <p className='pt-1 text-sm text-destructive' id='email-error'>
+                            {actionData?.message}
+                        </p>
+                    ) : null}
+                    {actionData?.field === 'all' && isEmailError && isPasswordError ? (
                         <p className='pt-1 text-sm text-destructive' id='email-error'>
                             {actionData?.message}
                         </p>
@@ -79,10 +113,19 @@ export default function SignIn() {
                         id='password'
                         name='password'
                         type='password'
-                        aria-invalid={actionData?.field === 'password' && isPasswordError ? true : undefined}
+                        aria-invalid={
+                            actionData?.field === 'password' && isPasswordError
+                                ? true
+                                : actionData?.field === 'all' && isEmailError && isPasswordError
+                                ? true
+                                : undefined
+                        }
                         aria-describedby='password-error'
                         ref={passwordRef}
-                        onChange={() => setIsPasswordError(false)}
+                        onChange={() => {
+                            setIsEmailError(false);
+                            setIsPasswordError(false);
+                        }}
                     />
                     {actionData?.field === 'password' && isPasswordError ? (
                         <p className='pt-1 text-sm text-destructive' id='password-error'>

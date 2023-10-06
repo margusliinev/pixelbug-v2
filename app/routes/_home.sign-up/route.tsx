@@ -19,6 +19,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const email = formData.get('email');
     const password = formData.get('password');
 
+    if (typeof username !== 'string' || username.length === 0) {
+        return json({ success: false, message: 'Username is required', field: 'username' });
+    }
+
+    if (typeof email !== 'string' || email.length === 0) {
+        return json({ success: false, message: 'Email is required', field: 'email' });
+    }
+
+    if (typeof password !== 'string' || password.length === 0) {
+        return json({ success: false, message: 'Password is required', field: 'password' });
+    }
+
     const usernameError = validateUsername(username);
     if (usernameError) {
         return json({ success: false, message: usernameError, field: 'username' });
@@ -34,19 +46,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json({ success: false, message: passwordError, field: 'password' });
     }
 
-    // After validation we can safely cast the values to strings to make typescript happy
-
-    const exisitingUsername = await getUserByUsername((username as string).toLowerCase());
+    const exisitingUsername = await getUserByUsername(username.toLowerCase());
     if (exisitingUsername) {
         return json({ success: false, message: 'Username is already in use', field: 'username' });
     }
 
-    const existingEmail = await getUserByEmail((email as string).toLowerCase());
+    const existingEmail = await getUserByEmail(email.toLowerCase());
     if (existingEmail) {
         return json({ success: false, message: 'Email is already in use', field: 'email' });
     }
 
-    const newUser = await createUser((username as string).toLowerCase(), (email as string).toLowerCase(), password as string);
+    const newUser = await createUser(username.toLowerCase(), email.toLowerCase(), password);
     if (!newUser) {
         return json({ success: false, message: 'Something went wrong, please try again later', field: 'password' });
     }
