@@ -43,6 +43,6 @@
 }
 
 .pattern {
-    background-image: url('../public/background.png');
+    background-image: url('../../public/background.png');
     background-repeat: repeat;
 }

@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
@@ -12,8 +12,6 @@ import Spinner from '~/components/icons/Spinner';
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign up' }];
 };
-
-export const links: LinksFunction = () => [{ rel: 'preload', href: 'apple-touch-icon.png', as: 'image' }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();

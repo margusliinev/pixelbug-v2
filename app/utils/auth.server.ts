@@ -1,5 +1,5 @@
-import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import type { Session } from '@prisma/client';
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import { prisma } from './db.server';
 import invariant from 'tiny-invariant';
 import bcrypt from 'bcryptjs';

@@ -42,8 +42,9 @@ export function Navbar() {
 
 export function Logo({ setisMobileMenuOpen }: Props) {
     return (
-        <Link prefetch='intent' to={'/'} className='text-2xl font-bold text-emerald-700 sm:text-3xl' onClick={() => setisMobileMenuOpen(false)}>
-            PixelBug
+        <Link prefetch='intent' to={'/'} className='flex items-center gap-2' onClick={() => setisMobileMenuOpen(false)}>
+            <img src='apple-touch-icon.png' alt='logo' className='w-8 sm:hidden' />
+            <span className='text-2xl font-bold text-emerald-700 sm:text-3xl'>PixelBug</span>
         </Link>
     );
 }
