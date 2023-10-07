@@ -1,5 +1,5 @@
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from '@remix-run/react';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from '@remix-run/react';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import styles from './index.css';
 import fonts from './fonts.css';
@@ -21,7 +21,6 @@ export const meta: MetaFunction = () => {
 };
 
 export const links: LinksFunction = () => [
-    { rel: 'preload', href: 'apple-touch-icon.png', as: 'image' },
     { rel: 'preload', href: fonts, as: 'style' },
     { rel: 'preload', href: styles, as: 'style' },
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },

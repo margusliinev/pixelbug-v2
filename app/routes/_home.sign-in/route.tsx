@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
@@ -11,6 +11,8 @@ import Spinner from '~/components/icons/Spinner';
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign In' }];
 };
+
+export const links: LinksFunction = () => [{ rel: 'preload', href: 'apple-touch-icon.png', as: 'image' }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -139,8 +141,8 @@ export default function SignIn() {
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
                 <p>Don't have an account?</p>
-                <Link to='/sign-up' className='font-medium text-primary'>
-                    Sign Up
+                <Link prefetch='intent' to='/sign-up' className='font-medium text-primary'>
+                    Sign up
                 </Link>
             </div>
         </div>

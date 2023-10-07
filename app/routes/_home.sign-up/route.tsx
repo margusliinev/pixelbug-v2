@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
@@ -10,8 +10,10 @@ import { validateEmail, validatePassword, validateUsername } from './validation'
 import Spinner from '~/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
-    return [{ title: 'PixelBug | Sign Up' }];
+    return [{ title: 'PixelBug | Sign up' }];
 };
+
+export const links: LinksFunction = () => [{ rel: 'preload', href: 'apple-touch-icon.png', as: 'image' }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
@@ -156,12 +158,12 @@ export default function SignUp() {
                     ) : null}
                 </fieldset>
                 <Button type='submit' size={'sm'} className='mb-4 mt-2'>
-                    {submitting ? <Spinner /> : 'Sign Up'}
+                    {submitting ? <Spinner /> : 'Sign up'}
                 </Button>
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
                 <p>Already have an account?</p>
-                <Link to='/sign-in' className='font-medium text-primary'>
+                <Link prefetch='intent' to='/sign-in' className='font-medium text-primary'>
                     Sign In
                 </Link>
             </div>

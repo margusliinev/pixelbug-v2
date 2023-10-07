@@ -1,6 +1,5 @@
 import AddedFeature from './AddedFeature';
 import MissingFeature from './MissingFeature';
-import ArrowRight from '~/components/icons/ArrowRight';
 import { Button } from '~/components/ui';
 import { Link } from '@remix-run/react';
 
@@ -32,10 +31,13 @@ export default function PricingOptions() {
                     <div className='border-t border-gray-200'></div>
                     <div className='align-self-end p-5'>
                         <Link
-                            className='inline-flex w-full items-center justify-center rounded-full bg-gray-200 px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-gray-300'
+                            className='inline-flex w-full items-center justify-center gap-1 rounded-full bg-gray-200 px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-gray-300'
                             to='/sign-up'
                         >
-                            Sign up <ArrowRight />
+                            Sign up
+                            <span aria-hidden='true' className='font-semibold'>
+                                &rarr;
+                            </span>
                         </Link>
                     </div>
                 </div>
@@ -67,9 +69,12 @@ export default function PricingOptions() {
                     <div className='align-self-end p-5'>
                         <Link
                             to={'/sign-up'}
-                            className='inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
+                            className='inline-flex w-full items-center justify-center gap-1 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
                         >
-                            Get Started <ArrowRight />
+                            Get Started
+                            <span aria-hidden='true' className='font-semibold'>
+                                &rarr;
+                            </span>
                         </Link>
                     </div>
                 </div>
@@ -99,9 +104,12 @@ export default function PricingOptions() {
                         <Button
                             disabled={true}
                             aria-disabled={true}
-                            className='inline-flex w-full items-center justify-center rounded-full bg-zinc-200 px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-gray-300'
+                            className='inline-flex w-full items-center justify-center gap-1 rounded-full bg-zinc-200 px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-gray-300'
                         >
-                            Available soon <ArrowRight />
+                            Available soon
+                            <span aria-hidden='true' className='font-semibold'>
+                                &rarr;
+                            </span>
                         </Button>
                     </div>
                 </div>

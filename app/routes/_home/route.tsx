@@ -42,7 +42,7 @@ export function Navbar() {
 
 export function Logo({ setisMobileMenuOpen }: Props) {
     return (
-        <Link to={'/'} className='text-2xl font-bold text-emerald-700 sm:text-3xl' onClick={() => setisMobileMenuOpen(false)}>
+        <Link prefetch='intent' to={'/'} className='text-2xl font-bold text-emerald-700 sm:text-3xl' onClick={() => setisMobileMenuOpen(false)}>
             PixelBug
         </Link>
     );
@@ -50,19 +50,20 @@ export function Logo({ setisMobileMenuOpen }: Props) {
 
 export function DesktopLinks() {
     return (
-        <ul className='hidden items-center gap-12 sm:flex'>
+        <ul className='hidden items-center sm:flex'>
             <li>
-                <Link to={'/pricing'} className='text-sm font-medium'>
+                <Link prefetch='intent' to={'/pricing'} className='px-6 py-2.5 text-sm font-medium'>
                     Pricing
                 </Link>
             </li>
             <li>
-                <Link to={'/sign-in'} className='-mr-1 whitespace-nowrap text-sm font-medium'>
+                <Link prefetch='intent' to={'/sign-in'} className='py-2.5 pl-6 pr-10 text-sm font-medium'>
                     Sign In
                 </Link>
             </li>
             <li>
                 <Link
+                    prefetch='intent'
                     to='/sign-up'
                     className='flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
                 >
@@ -88,10 +89,11 @@ export function MobileLinks({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
     return (
         <div className={isMobileMenuOpen ? 'fixed inset-0 z-50 mt-16 w-full bg-white p-8 transition-all sm:hidden' : 'hidden'}>
             <ul className='grid gap-4'>
-                <li className='border-b border-gray-300 py-6'>
+                <li className='border-b border-gray-300'>
                     <Link
+                        prefetch='intent'
                         to='/sign-up'
-                        className='text-md flex items-center gap-2 font-semibold text-primary'
+                        className='text-md flex items-center gap-2 py-6 font-semibold text-primary'
                         onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         Get Started
@@ -100,13 +102,23 @@ export function MobileLinks({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
                         </span>
                     </Link>
                 </li>
-                <li className='border-b border-gray-300 py-6'>
-                    <Link to={'/sign-in'} className='text-md font-semibold' onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}>
+                <li className='border-b border-gray-300'>
+                    <Link
+                        prefetch='intent'
+                        to={'/sign-in'}
+                        className='text-md block py-6 font-semibold'
+                        onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
+                    >
                         Sign In
                     </Link>
                 </li>
-                <li className='border-b border-gray-300 py-6'>
-                    <Link to={'/pricing'} className='text-md font-semibold' onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}>
+                <li className='border-b border-gray-300'>
+                    <Link
+                        prefetch='intent'
+                        to={'/pricing'}
+                        className='text-md block py-6 font-semibold'
+                        onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
+                    >
                         Pricing
                     </Link>
                 </li>
