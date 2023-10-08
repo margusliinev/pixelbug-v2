@@ -40,6 +40,9 @@ module.exports = {
                 'screen-20': '20vh',
                 'screen-10': '10vh',
             },
+            gridTemplateColumns: {
+                'sidebar-layout': 'auto 1fr',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
