@@ -1,33 +1,21 @@
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
+import { NavLink, Outlet } from '@remix-run/react';
 import { useState } from 'react';
-import { requireUserId } from '~/utils/auth.server';
-import { Menu, Home, Folder, Ticket, User, Users } from '~/components/icons';
+import { Menu, Home, Folder, Ticket, User, Users, Search } from '~/components/icons';
 import Logo from '../../../public/apple-touch-icon.png';
-
-export async function loader({ request }: LoaderFunctionArgs) {
-    const userId = await requireUserId(request);
-    if (!userId) {
-        throw redirect('/sign-in');
-    }
-    return json({ userId });
-}
 
 export default function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { userId } = useLoaderData<typeof loader>();
-
-    if (!userId) {
-        throw redirect('/sign-in');
-    }
 
     return (
         <main className='grid lg:grid-cols-sidebar-layout'>
             <SidebarDesktop isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-            <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-            <Outlet />
+            <div>
+                <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+                <div>
+                    <Outlet />
+                </div>
+            </div>
         </main>
     );
 }
@@ -41,15 +29,24 @@ export function Navbar({
 }) {
     return (
         <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white shadow-sm'>
-            <div className='flex items-center justify-between gap-4 px-6 xs:px-8 lg:px-12 xl:px-16'>
+            <div className='flex items-center justify-between gap-4'>
                 <div className='flex w-full max-w-md items-center gap-4'>
                     <button className='block cursor-pointer text-gray-600 lg:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <Menu />
                     </button>
                     <div className='h-6 w-px bg-neutral-300 lg:hidden'></div>
-                    <input type='text' className='border-border' />
+                    <div className='relative flex w-full gap-2 rounded-full px-3 py-2 ring-1 ring-border sm:px-2 sm:py-2'>
+                        <label htmlFor='search' className='ml-1 hidden text-gray-500 xs:flex xs:items-center'>
+                            <div className='grid w-4 place-items-center'>
+                                <Search />
+                            </div>
+                        </label>
+                        <div className='w-full'>
+                            <input type='text' name='search' id='search' placeholder='Search' className='w-full text-sm focus:outline-none' />
+                        </div>
+                    </div>
                 </div>
-                <button>User Button</button>
+                <button className='whitespace-nowrap'>User Button</button>
             </div>
         </nav>
     );

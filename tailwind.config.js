@@ -43,6 +43,9 @@ module.exports = {
             gridTemplateColumns: {
                 'sidebar-layout': 'auto 1fr',
             },
+            minHeight: {
+                'screen-minus-nav': 'calc(100vh - 4rem)',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

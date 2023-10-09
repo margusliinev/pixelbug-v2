@@ -8,4 +8,5 @@ import Spinner from './Spinner';
 import Ticket from './Ticket';
 import User from './User';
 import Users from './Users';
-export { Check, Close, Folder, Home, Menu, Minus, Spinner, Ticket, User, Users };
+import Search from './Search';
+export { Check, Close, Folder, Home, Menu, Minus, Spinner, Ticket, User, Users, Search };

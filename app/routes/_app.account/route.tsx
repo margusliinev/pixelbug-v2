@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { requireUserId } from '~/utils/auth.server';
 
 export const meta: MetaFunction = () => {
-    return [{ title: 'PixelBug | Dashboard' }];
+    return [{ title: 'PixelBug | Account' }];
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -17,12 +17,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return json({ userId });
 }
 
-export default function Dashboard() {
+export default function Account() {
     const { userId } = useLoaderData<typeof loader>();
 
     if (!userId) {
         throw redirect('/sign-in');
     }
 
-    return <section className='pattern min-h-screen-minus-nav'>Dashboard</section>;
+    return <section className='pattern min-h-screen-minus-nav'>Account</section>;
 }
