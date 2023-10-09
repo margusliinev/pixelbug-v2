@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, Outlet } from '@remix-run/react';
-import MenuOpen from '~/components/icons/MenuOpen';
-import MenuClose from '~/components/icons/MenuClose';
+import Close from '~/components/icons/Close';
+import Menu from '~/components/icons/Menu';
 
 type Props = {
     isMobileMenuOpen: boolean;
@@ -81,7 +81,7 @@ export function DesktopLinks() {
 export function MobileMenu({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
     return (
         <button onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)} className='block sm:hidden'>
-            {isMobileMenuOpen ? <MenuOpen /> : <MenuClose />}
+            {isMobileMenuOpen ? <Close /> : <Menu />}
         </button>
     );
 }
