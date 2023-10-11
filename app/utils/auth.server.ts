@@ -3,6 +3,7 @@ import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import { prisma } from './db.server';
 import invariant from 'tiny-invariant';
 import bcrypt from 'bcryptjs';
+import { getUserById } from '~/models/user.server';
 
 invariant(process.env.SESSION_SECRET, 'SESSION_SECRET environment variable must be set');
 
@@ -43,6 +44,20 @@ export async function getUserId(request: Request) {
     return session.user.id;
 }
 
+export async function getUser(request: Request) {
+    const userId = await getUserId(request);
+    if (userId === null) return null;
+
+    const user = await getUserById(userId);
+
+    if (user) {
+        const { password: _, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+    }
+
+    throw await logout(request);
+}
+
 export async function requireUserId(request: Request) {
     const userId = await getUserId(request);
     if (!userId) {
@@ -66,6 +81,15 @@ export async function handleSessionAndRedirect(request: Request, session: Sessio
     } catch (error) {
         throw new Error('Failed to handle the session and redirect');
     }
+}
+
+export async function logout(request: Request) {
+    const session = await getSession(request);
+    return redirect('/', {
+        headers: {
+            'Set-Cookie': await sessionStorage.destroySession(session),
+        },
+    });
 }
 
 export async function hashPassword(password: string) {

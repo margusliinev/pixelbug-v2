@@ -1,19 +1,36 @@
-import { NavLink, Outlet } from '@remix-run/react';
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { User as UserType } from '@prisma/client';
+import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
 import { useState } from 'react';
-import { Menu, Home, Folder, Ticket, User, Users, Search } from '~/components/icons';
+import { Menu, Home, Folder, Ticket, User, Users, Search, Close } from '~/components/icons';
+import { getUser } from '~/utils/auth.server';
+import { json, redirect } from '@remix-run/node';
 import Logo from '../../../public/apple-touch-icon.png';
 
+type UserWithoutPassword = Omit<UserType, 'password'>;
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    const user = await getUser(request);
+
+    if (!user) {
+        throw redirect('/sign-in');
+    }
+
+    return json({ user });
+}
+
 export default function App() {
+    const { user } = useLoaderData<typeof loader>();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <main className='grid lg:grid-cols-sidebar-layout'>
+        <main className='grid xl:grid-cols-sidebar-layout'>
             <SidebarDesktop isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <div>
-                <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+                <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} user={user as unknown as UserWithoutPassword} />
                 <div>
-                    <Outlet />
+                    <Outlet context={user} />
                 </div>
             </div>
         </main>
@@ -23,18 +40,20 @@ export default function App() {
 export function Navbar({
     isSidebarOpen,
     setIsSidebarOpen,
+    user,
 }: {
     isSidebarOpen: boolean;
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    user: UserWithoutPassword;
 }) {
     return (
-        <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white shadow-sm'>
+        <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white px-6 shadow-sm xl:px-12'>
             <div className='flex items-center justify-between gap-4'>
                 <div className='flex w-full max-w-md items-center gap-4'>
-                    <button className='block cursor-pointer text-gray-600 lg:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    <button className='block cursor-pointer text-gray-600 xl:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <Menu />
                     </button>
-                    <div className='h-6 w-px bg-neutral-300 lg:hidden'></div>
+                    <div className='h-6 w-px bg-neutral-300 xl:hidden'></div>
                     <div className='relative flex w-full gap-2 rounded-full px-3 py-2 ring-1 ring-border sm:px-2 sm:py-2'>
                         <label htmlFor='search' className='ml-1 hidden text-gray-500 xs:flex xs:items-center'>
                             <div className='grid w-4 place-items-center'>
@@ -46,7 +65,7 @@ export function Navbar({
                         </div>
                     </div>
                 </div>
-                <button className='whitespace-nowrap'>User Button</button>
+                <button>{user.username}</button>
             </div>
         </nav>
     );
@@ -60,9 +79,9 @@ export function SidebarDesktop({
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        <aside className='sticky top-0 z-0 hidden h-screen w-72 border-r lg:block'>
-            <div className=''>
-                <div className='flex h-20 items-center gap-2 px-8 py-4'>
+        <aside className='shadow-sm-right sticky top-0 z-0 hidden h-screen w-72 border-r xl:block'>
+            <div>
+                <div className='flex h-16 items-center gap-2 px-6 py-4'>
                     <img src={Logo} alt='logo' className='h-10 w-10' />
                     <h1 className='text-xl font-semibold text-emerald-800'>PixelBug</h1>
                 </div>
@@ -84,15 +103,15 @@ export function SidebarMobile({
             <div
                 className={
                     isSidebarOpen
-                        ? 'fixed z-50 h-screen w-screen bg-gray-900/80 transition-opacity duration-700 lg:hidden'
-                        : 'fixed -z-50 -ml-96 h-screen w-screen opacity-0 transition-opacity duration-700 lg:hidden'
+                        ? 'fixed z-50 h-screen w-screen bg-gray-900/80 transition-opacity duration-700 xl:hidden'
+                        : 'fixed -z-50 -ml-96 h-screen w-screen opacity-0 transition-opacity duration-700 xl:hidden'
                 }
             ></div>
             <aside
                 className={
                     isSidebarOpen
-                        ? 'fixed inset-0 z-50 ml-0 min-h-screen w-64 bg-white transition-all duration-300 sm:w-72 lg:hidden'
-                        : 'fixed inset-0 z-50 -ml-96 min-h-screen w-64 bg-white transition-all duration-300 sm:w-72 lg:hidden'
+                        ? 'fixed inset-0 z-50 ml-0 min-h-screen w-64 bg-white transition-all duration-500 sm:w-72 xl:hidden'
+                        : 'fixed inset-0 z-50 -ml-96 min-h-screen w-64 bg-white transition-all duration-500 sm:w-72 xl:hidden'
                 }
             >
                 <button
@@ -100,23 +119,14 @@ export function SidebarMobile({
                     onClick={() => setIsSidebarOpen(false)}
                     className={
                         isSidebarOpen
-                            ? 'absolute -right-8 top-7 text-white opacity-100 transition-opacity duration-300'
-                            : 'absolute -right-8 top-7 text-white opacity-0 transition-opacity duration-300'
+                            ? 'absolute -right-8 top-5 text-white opacity-100 transition-opacity duration-500'
+                            : 'absolute -right-8 top-5 text-white opacity-0 transition-opacity duration-500'
                     }
                 >
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth='1.5'
-                        stroke='currentColor'
-                        className='h-6 w-6'
-                    >
-                        <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
-                    </svg>
+                    <Close />
                 </button>
                 <div>
-                    <div className='flex h-20 items-center gap-2 px-8 py-4'>
+                    <div className='flex h-16 items-center gap-2 px-6 py-4'>
                         <img src={Logo} alt='logo' className='h-10 w-10' />
                         <h1 className='text-xl font-semibold text-emerald-800'>PixelBug</h1>
                     </div>
@@ -139,6 +149,7 @@ const SidebarLinks = ({
             <ul className='grid gap-4'>
                 <li>
                     <NavLink
+                        prefetch='intent'
                         to='/dashboard'
                         className={({ isActive }) =>
                             isActive
@@ -153,6 +164,7 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
+                        prefetch='intent'
                         to='/projects'
                         className={({ isActive }) =>
                             isActive
@@ -167,6 +179,7 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
+                        prefetch='intent'
                         to='/tickets'
                         className={({ isActive }) =>
                             isActive
@@ -181,6 +194,7 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
+                        prefetch='intent'
                         to='/account'
                         className={({ isActive }) =>
                             isActive
@@ -195,6 +209,7 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
+                        prefetch='intent'
                         to='/developers'
                         className={({ isActive }) =>
                             isActive

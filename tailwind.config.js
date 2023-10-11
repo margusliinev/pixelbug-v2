@@ -46,6 +46,9 @@ module.exports = {
             minHeight: {
                 'screen-minus-nav': 'calc(100vh - 4rem)',
             },
+            boxShadow: {
+                'sm-right': '1px 0 2px 0 rgba(0,0,0,0.05)',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

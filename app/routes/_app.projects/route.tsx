@@ -24,5 +24,5 @@ export default function Projects() {
         throw redirect('/sign-in');
     }
 
-    return <section className='pattern min-h-screen-minus-nav'>Projects</section>;
+    return <section className='pattern min-h-screen-minus-nav px-6 py-6 xl:px-12 xl:py-10'>Projects</section>;
 }
