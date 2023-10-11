@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Link, Outlet } from '@remix-run/react';
+import { useState } from 'react';
 import Close from '~/components/icons/Close';
 import Menu from '~/components/icons/Menu';
 

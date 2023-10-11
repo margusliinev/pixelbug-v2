@@ -89,13 +89,19 @@ export function Navbar({
                             </span>
                         )}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 mt-2 xs:mr-0'>
-                        <DropdownMenuItem onClick={() => setOpen(false)}>
-                            <Link to={'/account'}>Your Account</Link>
+                    <DropdownMenuContent className='mr-6 mt-1 p-0 xs:mr-0'>
+                        <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
+                            <Link to={'/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
+                                Your Account
+                            </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem className='m-0 block p-0'>
                             <Form method='POST' action='/signout'>
-                                <button className='' onClick={() => setOpen(false)}>
+                                <button
+                                    className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'
+                                    type='submit'
+                                    onClick={() => setOpen(false)}
+                                >
                                     Sign out
                                 </button>
                             </Form>
@@ -115,7 +121,7 @@ export function SidebarDesktop({
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        <aside className='shadow-sm-right sticky top-0 z-0 hidden h-screen w-64 border-r xl:block'>
+        <aside className='sticky top-0 z-0 hidden h-screen w-64 border-r shadow-sm-right xl:block'>
             <div>
                 <div className='flex h-16 items-center gap-2 px-6 py-4'>
                     <img src={Logo} alt='logo' className='h-10 w-10' />
@@ -155,8 +161,8 @@ export function SidebarMobile({
                     onClick={() => setIsSidebarOpen(false)}
                     className={
                         isSidebarOpen
-                            ? 'absolute -right-8 top-7 text-white opacity-100 transition-opacity duration-500'
-                            : 'absolute -right-8 top-7 text-white opacity-0 transition-opacity duration-500'
+                            ? 'absolute -right-8 top-5 text-white opacity-100 transition-opacity duration-500'
+                            : 'absolute -right-8 top-5 text-white opacity-0 transition-opacity duration-500'
                     }
                 >
                     <Close />
@@ -181,7 +187,7 @@ const SidebarLinks = ({
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     return (
-        <div className='h-full px-4 py-8'>
+        <div className='h-full px-4 py-6 xl:py-10'>
             <ul className='grid gap-4'>
                 <li>
                     <NavLink

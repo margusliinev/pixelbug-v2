@@ -16,7 +16,9 @@ import {
     DropdownMenuRadioGroup,
 } from './dropdown-menu';
 import { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator } from './select';
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
 import { Avatar, AvatarImage, AvatarFallback } from './avatar';
 import { Button } from './button';
 import { Label } from './label';
@@ -58,4 +60,14 @@ export {
     Avatar,
     AvatarImage,
     AvatarFallback,
+    Tabs,
+    TabsList,
+    TabsTrigger,
+    TabsContent,
+    Card,
+    CardHeader,
+    CardFooter,
+    CardTitle,
+    CardDescription,
+    CardContent,
 };
