@@ -1,10 +1,12 @@
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import type { User as UserType } from '@prisma/client';
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react';
-import { useState } from 'react';
-import { Menu, Home, Folder, Ticket, User, Users, Search, Close } from '~/components/icons';
-import { getUser } from '~/utils/auth.server';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
+import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown } from '~/components/icons';
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import { Form, Link, NavLink, Outlet, useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
+import { getUser } from '~/utils/auth.server';
+import { useState } from 'react';
 import Logo from '../../../public/apple-touch-icon.png';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
@@ -20,9 +22,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function App() {
-    const { user } = useLoaderData<typeof loader>();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const { user } = useLoaderData<typeof loader>();
     return (
         <main className='grid xl:grid-cols-sidebar-layout'>
             <SidebarDesktop isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
@@ -46,6 +47,8 @@ export function Navbar({
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
     user: UserWithoutPassword;
 }) {
+    const [open, setOpen] = useState(false);
+
     return (
         <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white px-6 shadow-sm xl:px-12'>
             <div className='flex items-center justify-between gap-4'>
@@ -65,7 +68,40 @@ export function Navbar({
                         </div>
                     </div>
                 </div>
-                <button>{user.username}</button>
+                <DropdownMenu open={open} onOpenChange={setOpen}>
+                    <DropdownMenuTrigger className='flex max-w-fit items-center gap-2'>
+                        <Avatar className='rounded-full'>
+                            <AvatarImage src={user.photo ? user.photo : undefined} />
+                            <AvatarFallback className='bg-neutral-200'>
+                                {user.firstName ? user.firstName.charAt(0).toUpperCase() : user.username.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                        <span className='hidden whitespace-nowrap text-sm font-medium xs:block'>
+                            {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : `${user.username}`}
+                        </span>
+                        {open ? (
+                            <span className='hidden xs:block'>
+                                <ChevronUp />
+                            </span>
+                        ) : (
+                            <span className='hidden xs:block'>
+                                <ChevronDown />
+                            </span>
+                        )}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className='mr-6 mt-2 xs:mr-0'>
+                        <DropdownMenuItem onClick={() => setOpen(false)}>
+                            <Link to={'/account'}>Your Account</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Form method='POST' action='/signout'>
+                                <button className='' onClick={() => setOpen(false)}>
+                                    Sign out
+                                </button>
+                            </Form>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </nav>
     );
@@ -79,7 +115,7 @@ export function SidebarDesktop({
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        <aside className='shadow-sm-right sticky top-0 z-0 hidden h-screen w-72 border-r xl:block'>
+        <aside className='shadow-sm-right sticky top-0 z-0 hidden h-screen w-64 border-r xl:block'>
             <div>
                 <div className='flex h-16 items-center gap-2 px-6 py-4'>
                     <img src={Logo} alt='logo' className='h-10 w-10' />
@@ -110,8 +146,8 @@ export function SidebarMobile({
             <aside
                 className={
                     isSidebarOpen
-                        ? 'fixed inset-0 z-50 ml-0 min-h-screen w-64 bg-white transition-all duration-500 sm:w-72 xl:hidden'
-                        : 'fixed inset-0 z-50 -ml-96 min-h-screen w-64 bg-white transition-all duration-500 sm:w-72 xl:hidden'
+                        ? 'fixed inset-0 z-50 ml-0 min-h-screen w-64 bg-white transition-all duration-500 xl:hidden'
+                        : 'fixed inset-0 z-50 -ml-96 min-h-screen w-64 bg-white transition-all duration-500 xl:hidden'
                 }
             >
                 <button
@@ -119,8 +155,8 @@ export function SidebarMobile({
                     onClick={() => setIsSidebarOpen(false)}
                     className={
                         isSidebarOpen
-                            ? 'absolute -right-8 top-5 text-white opacity-100 transition-opacity duration-500'
-                            : 'absolute -right-8 top-5 text-white opacity-0 transition-opacity duration-500'
+                            ? 'absolute -right-8 top-7 text-white opacity-100 transition-opacity duration-500'
+                            : 'absolute -right-8 top-7 text-white opacity-0 transition-opacity duration-500'
                     }
                 >
                     <Close />

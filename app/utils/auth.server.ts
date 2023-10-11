@@ -55,7 +55,7 @@ export async function getUser(request: Request) {
         return userWithoutPassword;
     }
 
-    throw await logout(request);
+    throw await signout(request);
 }
 
 export async function requireUserId(request: Request) {
@@ -83,7 +83,7 @@ export async function handleSessionAndRedirect(request: Request, session: Sessio
     }
 }
 
-export async function logout(request: Request) {
+export async function signout(request: Request) {
     const session = await getSession(request);
     return redirect('/', {
         headers: {
