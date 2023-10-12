@@ -49,6 +49,9 @@ module.exports = {
             boxShadow: {
                 'sm-right': '1px 0 2px 0 rgba(0,0,0,0.05)',
             },
+            maxWidth: {
+                xxs: '16rem',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
