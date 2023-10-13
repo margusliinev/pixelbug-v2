@@ -6,7 +6,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-    const currentDate = new Date(Date.now()).toDateString().split(' ').slice(1, 3).join(' ');
+    const currentDate = new Date(Date.now()).toUTCString().split(' ').slice(1, 3).join(' ');
 
     return (
         <header className='z-10 mx-auto mb-32 mt-20 w-screen-90 max-w-4xl text-center'>
@@ -16,7 +16,8 @@ export default function Index() {
                 </div>
             </div>
             <h1 className='mb-2 flex flex-col text-4xl font-bold tracking-tight xs:text-5xl md:text-6xl lg:text-7xl'>
-                <span className='mb-2'>Experiences Perfected</span> <span>Bugs Rejected!</span>
+                <span className='xs:mb-2'>Experiences Perfected</span>
+                <span>Bugs Rejected!</span>
             </h1>
             <p className='text-md mx-auto mt-6 max-w-2xl leading-8 text-secondary-foreground md:text-lg'>
                 PixelBug is your ultimate companion for bug-free software development. With its robust tracking and comprehensive management tools,
