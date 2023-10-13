@@ -2,12 +2,12 @@ import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
-import { Label, Input, Button } from '~/components/ui';
-import { createUser, getUserByEmail, getUserByUsername } from '~/models/user.server';
-import { createSession } from '~/models/session.server';
-import { handleSessionAndRedirect } from '~/utils/auth.server';
+import { Label, Input, Button } from '@/components/ui';
+import { createUser, getUserByEmail, getUserByUsername } from '@/models/user.server';
+import { createSession } from '@/models/session.server';
+import { setCookieSessionAndRedirect } from '@/utils/auth.server';
 import { validateEmail, validatePassword, validateUsername } from './validation';
-import Spinner from '~/components/icons/Spinner';
+import Spinner from '@/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign up' }];
@@ -58,12 +58,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const newUser = await createUser(username.toLowerCase(), email.toLowerCase(), password);
     if (!newUser) {
-        return json({ success: false, message: 'Something went wrong, please try again later', field: 'password' });
+        return json({ success: false, message: 'Something went wrong, please try again later', field: 'all' });
     }
 
     const session = await createSession(newUser.id);
 
-    return handleSessionAndRedirect(request, session, '/dashboard');
+    return setCookieSessionAndRedirect(request, session, '/dashboard');
 };
 
 export default function SignUp() {

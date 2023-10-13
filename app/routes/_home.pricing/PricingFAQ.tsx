@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '~/components/ui';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui';
 
 export default function PricingFAQ() {
     return (

@@ -1,47 +1,42 @@
 import type { Session } from '@prisma/client';
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
-import { getUserById } from '~/models/user.server';
-import { prisma } from './db.server';
+import { getUserBySessionId } from '@/models/session.server';
+import { getUserById } from '@/models/user.server';
 import invariant from 'tiny-invariant';
 import bcrypt from 'bcryptjs';
 
-invariant(process.env.SESSION_SECRET, 'SESSION_SECRET environment variable must be set');
+const SESSION_SECRET = process.env.SESSION_SECRET;
+invariant(SESSION_SECRET, 'SESSION_SECRET environment variable must be set');
 
-export const sessionStorage = createCookieSessionStorage({
+export const authSessionStorage = createCookieSessionStorage({
     cookie: {
         name: '__session',
         httpOnly: true,
         path: '/',
         sameSite: 'strict',
-        secrets: [process.env.SESSION_SECRET],
+        secrets: [SESSION_SECRET],
         secure: process.env.NODE_ENV === 'production',
     },
 });
 
-export async function getSession(request: Request) {
-    const cookie = request.headers.get('Cookie');
-    return sessionStorage.getSession(cookie);
-}
-
 export async function getUserId(request: Request) {
-    const authSession = await getSession(request);
-    const sessionId = authSession.get('sessionId');
+    const cookie = request.headers.get('cookie');
+    const session = await authSessionStorage.getSession(cookie);
+
+    const sessionId = session.get('sessionId');
     if (!sessionId) return null;
 
-    const session = await prisma.session.findUnique({
-        select: { user: { select: { id: true } } },
-        where: { id: sessionId, expirationDate: { gt: new Date(Date.now()) } },
-    });
+    const user = await getUserBySessionId(sessionId);
 
-    if (!session?.user) {
+    if (!user) {
         throw redirect('/', {
             headers: {
-                'set-cookie': await sessionStorage.destroySession(authSession),
+                'set-cookie': await authSessionStorage.destroySession(session),
             },
         });
     }
 
-    return session.user.id;
+    return user.id;
 }
 
 export async function getUser(request: Request) {
@@ -66,28 +61,27 @@ export async function requireUserId(request: Request) {
     return userId;
 }
 
-export async function handleSessionAndRedirect(request: Request, session: Session, redirectTo: string) {
-    try {
-        const authSession = await sessionStorage.getSession(request.headers.get('Cookie'));
-        authSession.set('sessionId', session.id);
+export async function setCookieSessionAndRedirect(request: Request, session: Session, redirectTo: string) {
+    const cookie = request.headers.get('cookie');
+    const authSession = await authSessionStorage.getSession(cookie);
+    authSession.set('sessionId', session.id);
 
-        return redirect(redirectTo, {
-            headers: {
-                'set-cookie': await sessionStorage.commitSession(authSession, {
-                    expires: session.expirationDate,
-                }),
-            },
-        });
-    } catch (error) {
-        throw new Error('Failed to handle the session and redirect');
-    }
+    return redirect(redirectTo, {
+        headers: {
+            'set-cookie': await authSessionStorage.commitSession(authSession, {
+                expires: session.expirationDate,
+            }),
+        },
+    });
 }
 
 export async function signout(request: Request) {
-    const session = await getSession(request);
+    const cookie = request.headers.get('cookie');
+    const session = await authSessionStorage.getSession(cookie);
+
     return redirect('/', {
         headers: {
-            'Set-Cookie': await sessionStorage.destroySession(session),
+            'Set-Cookie': await authSessionStorage.destroySession(session),
         },
     });
 }

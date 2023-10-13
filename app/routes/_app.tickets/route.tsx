@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { redirect, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { requireUserId } from '~/utils/auth.server';
+import { requireUserId } from '@/utils/auth.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Tickets' }];

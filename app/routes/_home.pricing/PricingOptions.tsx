@@ -1,6 +1,6 @@
 import AddedFeature from './AddedFeature';
 import MissingFeature from './MissingFeature';
-import { Button } from '~/components/ui';
+import { Button } from '@/components/ui';
 import { Link } from '@remix-run/react';
 
 export default function PricingOptions() {

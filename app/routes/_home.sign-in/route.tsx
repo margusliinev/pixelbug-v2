@@ -2,11 +2,11 @@ import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
-import { Button, Input, Label } from '~/components/ui';
-import { handleSessionAndRedirect, verifyPassword } from '~/utils/auth.server';
-import { getUserByEmail } from '~/models/user.server';
-import { createSession } from '~/models/session.server';
-import Spinner from '~/components/icons/Spinner';
+import { Button, Input, Label } from '@/components/ui';
+import { setCookieSessionAndRedirect, verifyPassword } from '@/utils/auth.server';
+import { getUserByEmail } from '@/models/user.server';
+import { createSession } from '@/models/session.server';
+import Spinner from '@/components/icons/Spinner';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'PixelBug | Sign In' }];
@@ -39,7 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const session = await createSession(user.id);
 
-    return handleSessionAndRedirect(request, session, '/dashboard');
+    return setCookieSessionAndRedirect(request, session, '/dashboard');
 };
 
 export default function SignIn() {

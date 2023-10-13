@@ -16,10 +16,10 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '~/components/ui';
+} from '@/components/ui';
 import { redirect, json } from '@remix-run/node';
 import { Form, useLoaderData, useOutletContext } from '@remix-run/react';
-import { requireUserId } from '~/utils/auth.server';
+import { requireUserId } from '@/utils/auth.server';
 
 type UserWithoutPassword = Omit<User, 'password'>;
 

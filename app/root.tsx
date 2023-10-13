@@ -1,24 +1,8 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction } from '@remix-run/node';
 import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from '@remix-run/react';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import styles from './styles/index.css';
 import fonts from './styles/fonts.css';
-
-export const meta: MetaFunction = () => {
-    return [
-        {
-            name: 'description',
-            content:
-                'PixelBug is your ultimate companion for bug-free software development. Track and analyze bugs at every stage of your project with robust tracking and comprehensive management tools. Deliver flawless experiences to your users.',
-        },
-        {
-            name: 'keywords',
-            content:
-                'PixelBug, bug-free software development, bug tracking, bug analysis, software glitches, project management, flawless experiences',
-        },
-        { name: 'author', content: 'PixelBug' },
-    ];
-};
 
 export const links: LinksFunction = () => [
     { rel: 'preload', href: 'apple-touch-icon.png', as: 'image' },
@@ -89,10 +73,13 @@ export function ErrorBoundary() {
                                 to={'/'}
                                 className='rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-hover'
                             >
-                                Go back home
+                                Go Back Home
                             </Link>
-                            <Link to='/sign-in' className='text-sm font-semibold'>
-                                Sign In Page <span aria-hidden='true'>&rarr;</span>
+                            <Link to='/sign-in' className='group flex items-center gap-1 text-sm font-semibold'>
+                                Sign In Page
+                                <span aria-hidden='true' className='transition-colors group-hover:text-primary'>
+                                    &rarr;
+                                </span>
                             </Link>
                         </div>
                     </div>

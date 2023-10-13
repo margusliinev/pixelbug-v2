@@ -1,4 +1,4 @@
-import Check from '~/components/icons/Check';
+import Check from '@/components/icons/Check';
 
 export default function AddedFeature({ text }: { text: string }) {
     return (

@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
-import { hashPassword } from '~/utils/auth.server';
-import { prisma } from '~/utils/db.server';
+import { hashPassword } from '@/utils/auth.server';
+import { prisma } from '@/utils/db.server';
 
 export async function getUserById(id: User['id']) {
     return prisma.user.findUnique({ where: { id } });
@@ -22,7 +22,7 @@ export async function deleteUserByEmail(email: User['email']) {
     return prisma.user.delete({ where: { email } });
 }
 
-export async function createUser(username: User['username'], email: User['email'], password: string) {
+export async function createUser(username: User['username'], email: User['email'], password: User['password']) {
     const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({

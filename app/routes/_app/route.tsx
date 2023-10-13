@@ -1,11 +1,11 @@
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import type { User as UserType } from '@prisma/client';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
-import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown } from '~/components/icons';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown } from '@/components/icons';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Form, Link, NavLink, Outlet, useLoaderData } from '@remix-run/react';
 import { json, redirect } from '@remix-run/node';
-import { getUser } from '~/utils/auth.server';
+import { getUser } from '@/utils/auth.server';
 import { useState } from 'react';
 import Logo from '../../../public/apple-touch-icon.png';
 

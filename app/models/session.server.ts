@@ -1,5 +1,5 @@
-import { prisma } from '~/utils/db.server';
-import type { User } from '@prisma/client';
+import type { User, Session } from '@prisma/client';
+import { prisma } from '@/utils/db.server';
 
 export const SESSION_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
 
@@ -12,4 +12,13 @@ export async function createSession(userId: User['id']) {
     });
 
     return session;
+}
+
+export async function getUserBySessionId(sessionId: Session['id']) {
+    const session = await prisma.session.findUnique({
+        select: { user: { select: { id: true } } },
+        where: { id: sessionId, expirationDate: { gt: new Date(Date.now()) } },
+    });
+
+    return session?.user || null;
 }
