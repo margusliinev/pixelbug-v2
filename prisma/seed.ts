@@ -1,4 +1,4 @@
-import { prisma } from '~/utils/db.server';
+import { prisma } from '@/utils/db.server';
 import users from './users.json';
 import bcrypt from 'bcryptjs';
 
