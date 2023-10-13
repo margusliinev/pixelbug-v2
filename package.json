@@ -28,6 +28,7 @@
         "bcryptjs": "^2.4.3",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
+        "fontpie": "^0.3.0",
         "isbot": "^3.6.8",
         "lucide-react": "^0.279.0",
         "react": "^18.2.0",

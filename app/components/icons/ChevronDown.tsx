@@ -6,7 +6,7 @@ export default function ChevronDown() {
             viewBox='0 0 24 24'
             strokeWidth={2}
             stroke='currentColor'
-            className='h-3.5 w-3.5 text-gray-600'
+            className='h-3.5 w-3.5 text-secondary-foreground'
         >
             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
         </svg>

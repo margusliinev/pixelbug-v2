@@ -48,7 +48,7 @@ export default function Account() {
     return (
         <section className='pattern min-h-screen-minus-nav px-6 py-6 xl:px-12 xl:py-10'>
             <Tabs defaultValue='profile'>
-                <TabsList className='grid h-full w-full max-w-[800px] grid-cols-2 gap-4 p-0 xs:grid-cols-4'>
+                <TabsList className='grid h-full w-full max-w-[800px] grid-cols-2 gap-4 bg-transparent p-0 xs:grid-cols-4'>
                     <TabsTrigger value='profile'>Profile</TabsTrigger>
                     <TabsTrigger value='password'>Password</TabsTrigger>
                     <TabsTrigger value='security'>Security</TabsTrigger>
@@ -64,16 +64,16 @@ export default function Account() {
                             <Form className='grid gap-3'>
                                 <div className='mb-2 grid w-full items-center gap-4 xxs:flex'>
                                     <Avatar className='h-24 w-24 rounded-md'>
-                                        <AvatarImage src={user.photo ? user.photo : undefined} />
-                                        <AvatarFallback className='bg-neutral-200 text-2xl'>
+                                        <AvatarImage src={user.photo ? user.photo : undefined} className='rounded-md' />
+                                        <AvatarFallback className='rounded-md bg-neutral-200 text-2xl'>
                                             {user.firstName ? user.firstName.charAt(0).toUpperCase() : user.username.charAt(0).toUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
                                     <fieldset className='w-full space-y-1'>
-                                        <Label htmlFor='photo' className='mb-4 text-sm tracking-tight text-neutral-600'>
+                                        <Label htmlFor='photo' className='mb-4 text-sm tracking-tight text-secondary-foreground'>
                                             JPG or PNG. 0.5 MB max.
                                         </Label>
-                                        <Input type='file' name='photo' id='photo' accept='image/*' className='max-w-xxs w-full' />
+                                        <Input type='file' name='photo' id='photo' accept='image/*' className='w-full max-w-xxs' />
                                     </fieldset>
                                 </div>
                                 <div className='flex w-full items-center gap-4'>

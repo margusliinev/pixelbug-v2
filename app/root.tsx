@@ -73,7 +73,7 @@ export function ErrorBoundary() {
                         <h1 className='mt-4 text-4xl font-bold tracking-tight xxs:text-5xl'>
                             {isRouteErrorResponse(error) ? (error.status === 404 ? 'Page Not Found' : error.statusText) : 'Internal Server Error'}
                         </h1>
-                        <p className='mt-6 text-lg font-medium leading-7 text-neutral-600'>
+                        <p className='mt-6 text-lg font-medium leading-7 text-secondary-foreground'>
                             {isRouteErrorResponse(error)
                                 ? `${
                                       error.status === 404

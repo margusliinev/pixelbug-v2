@@ -42,7 +42,7 @@ export function Navbar() {
 
 export function Logo({ setisMobileMenuOpen }: Props) {
     return (
-        <Link prefetch='intent' to={'/'} className='flex items-center gap-2' onClick={() => setisMobileMenuOpen(false)}>
+        <Link to={'/'} className='flex items-center gap-2' onClick={() => setisMobileMenuOpen(false)}>
             <img src='apple-touch-icon.png' alt='logo' className='w-8 sm:hidden' />
             <span className='text-2xl font-bold text-emerald-700 sm:text-3xl'>PixelBug</span>
         </Link>
@@ -53,18 +53,17 @@ export function DesktopLinks() {
     return (
         <ul className='hidden items-center sm:flex'>
             <li>
-                <Link prefetch='intent' to={'/pricing'} className='px-6 py-2.5 text-sm font-medium'>
+                <Link to={'/pricing'} className='px-6 py-2.5 text-sm font-medium'>
                     Pricing
                 </Link>
             </li>
             <li>
-                <Link prefetch='intent' to={'/sign-in'} className='py-2.5 pl-6 pr-10 text-sm font-medium'>
+                <Link to={'/sign-in'} className='py-2.5 pl-6 pr-10 text-sm font-medium'>
                     Sign In
                 </Link>
             </li>
             <li>
                 <Link
-                    prefetch='intent'
                     to='/sign-up'
                     className='flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
                 >
@@ -92,7 +91,6 @@ export function MobileLinks({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
             <ul className='grid gap-4'>
                 <li className='border-b border-gray-300'>
                     <Link
-                        prefetch='intent'
                         to='/sign-up'
                         className='text-md flex items-center gap-2 py-6 font-semibold text-primary'
                         onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
@@ -104,22 +102,12 @@ export function MobileLinks({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
                     </Link>
                 </li>
                 <li className='border-b border-gray-300'>
-                    <Link
-                        prefetch='intent'
-                        to={'/sign-in'}
-                        className='text-md block py-6 font-semibold'
-                        onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
-                    >
+                    <Link to={'/sign-in'} className='text-md block py-6 font-semibold' onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}>
                         Sign In
                     </Link>
                 </li>
                 <li className='border-b border-gray-300'>
-                    <Link
-                        prefetch='intent'
-                        to={'/pricing'}
-                        className='text-md block py-6 font-semibold'
-                        onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}
-                    >
+                    <Link to={'/pricing'} className='text-md block py-6 font-semibold' onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)}>
                         Pricing
                     </Link>
                 </li>

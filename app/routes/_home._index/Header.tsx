@@ -18,13 +18,12 @@ export default function Header() {
             </p>
             <div className='mt-6 flex items-center justify-center gap-x-6 md:mt-10'>
                 <Link
-                    prefetch='intent'
                     to='/sign-up'
                     className='rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
                 >
                     Get Started
                 </Link>
-                <Link prefetch='intent' to={'/sign-in'} className='group flex items-center gap-1 text-sm font-semibold'>
+                <Link to={'/sign-in'} className='group flex items-center gap-1 text-sm font-semibold'>
                     <span>Want to demo?</span>
                     <span aria-hidden='true' className='transition-colors group-hover:text-primary'>
                         &rarr;

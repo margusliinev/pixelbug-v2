@@ -139,7 +139,7 @@ export default function SignIn() {
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
                 <p>Don't have an account?</p>
-                <Link prefetch='intent' to='/sign-up' className='font-medium text-primary'>
+                <Link to='/sign-up' className='font-medium text-primary'>
                     Sign up
                 </Link>
             </div>

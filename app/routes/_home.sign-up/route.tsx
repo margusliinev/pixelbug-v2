@@ -161,7 +161,7 @@ export default function SignUp() {
             </Form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>
                 <p>Already have an account?</p>
-                <Link prefetch='intent' to='/sign-in' className='font-medium text-primary'>
+                <Link to='/sign-in' className='font-medium text-primary'>
                     Sign In
                 </Link>
             </div>

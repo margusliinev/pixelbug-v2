@@ -53,7 +53,7 @@ export function Navbar({
         <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white px-6 shadow-sm xl:px-12'>
             <div className='flex items-center justify-between gap-4'>
                 <div className='flex w-full max-w-md items-center gap-4'>
-                    <button className='block cursor-pointer text-gray-600 xl:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    <button className='block cursor-pointer text-secondary-foreground xl:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <Menu />
                     </button>
                     <div className='h-6 w-px bg-neutral-300 xl:hidden'></div>
@@ -191,7 +191,6 @@ const SidebarLinks = ({
             <ul className='grid gap-4'>
                 <li>
                     <NavLink
-                        prefetch='intent'
                         to='/dashboard'
                         className={({ isActive }) =>
                             isActive
@@ -206,7 +205,6 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
-                        prefetch='intent'
                         to='/projects'
                         className={({ isActive }) =>
                             isActive
@@ -221,7 +219,6 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
-                        prefetch='intent'
                         to='/tickets'
                         className={({ isActive }) =>
                             isActive
@@ -236,7 +233,6 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
-                        prefetch='intent'
                         to='/account'
                         className={({ isActive }) =>
                             isActive
@@ -251,7 +247,6 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
-                        prefetch='intent'
                         to='/developers'
                         className={({ isActive }) =>
                             isActive

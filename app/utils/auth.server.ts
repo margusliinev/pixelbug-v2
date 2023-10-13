@@ -1,9 +1,9 @@
 import type { Session } from '@prisma/client';
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import { getUserById } from '~/models/user.server';
 import { prisma } from './db.server';
 import invariant from 'tiny-invariant';
 import bcrypt from 'bcryptjs';
-import { getUserById } from '~/models/user.server';
 
 invariant(process.env.SESSION_SECRET, 'SESSION_SECRET environment variable must be set');
 
