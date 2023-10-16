@@ -65,7 +65,7 @@ export default function SignIn() {
     }, [actionData]);
 
     return (
-        <div className='z-10 mb-32 mt-20 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
+        <div className='z-10 mb-36 mt-24 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
             <div className='place-items-cente grid place-items-center text-center'>
                 <img src='apple-touch-icon.png' alt='logo' className='mb-3 w-12' />
                 <h1 className='mb-1 text-2xl font-semibold'>Welcome back!</h1>
@@ -133,16 +133,28 @@ export default function SignIn() {
                         </p>
                     ) : null}
                 </fieldset>
-                <Button type='submit' size={'sm'} className='mb-4 mt-2'>
+                <Button type='submit' size={'sm'} className='mt-2'>
                     {submitting ? <Spinner /> : 'Sign In'}
                 </Button>
+                <div className='flex justify-center gap-2 text-sm sm:text-base'>
+                    <p>Don't have an account?</p>
+                    <Link to='/sign-up' className='font-medium text-primary'>
+                        Sign up
+                    </Link>
+                </div>
             </Form>
-            <div className='flex justify-center gap-2 text-sm sm:text-base'>
-                <p>Don't have an account?</p>
-                <Link to='/sign-up' className='font-medium text-primary'>
-                    Sign up
-                </Link>
-            </div>
+            <Form method='POST' action='/sign-in-demo'>
+                <div className='mt-6 flex items-center justify-between gap-4 text-center'>
+                    <div className='h-[2px] w-full bg-gray-200'></div>
+                    <p className='whitespace-nowrap tracking-tight text-gray-500'>Want to try the app?</p>
+                    <div className='h-[2px] w-full bg-gray-200'></div>
+                </div>
+                <div className='mt-4 grid place-items-center'>
+                    <Button type='submit' size={'sm'} className='w-28 bg-neutral-500 hover:bg-neutral-600'>
+                        Demo app
+                    </Button>
+                </div>
+            </Form>
         </div>
     );
 }

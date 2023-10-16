@@ -91,7 +91,7 @@ export default function SignUp() {
     }, [actionData]);
 
     return (
-        <div className='z-10 mb-32 mt-20 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
+        <div className='z-10 mb-36 mt-24 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
             <div className='place-items-cente grid place-items-center text-center'>
                 <img src='apple-touch-icon.png' alt='logo' className='mb-3 w-12' />
                 <h1 className='mb-1 text-2xl font-semibold'>Create an account</h1>
