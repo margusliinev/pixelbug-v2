@@ -1,6 +1,6 @@
-/node_modules
-/public/build
-/build
-/dist
-/.cache
+node_modules
+build
+dist
+.turbo
+.cache
 .env
