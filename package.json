@@ -5,7 +5,10 @@
     "scripts": {
         "dev": "turbo run dev",
         "build": "turbo run build",
-        "start": "node apps/server/dist/main"
+        "start": "node apps/server/dist/main",
+        "typecheck": "turbo run typecheck",
+        "format": "turbo run format",
+        "lint": "turbo run lint"
     },
     "workspaces": [
         "apps/*"
