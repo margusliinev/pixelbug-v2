@@ -20,11 +20,12 @@ jobs:
 
             - name: Install Dependencies
               run: |
+                  npm install --frozen-lockfile
                   cd apps/client
                   npm install --frozen-lockfile
                   cd ../server
                   npm install --frozen-lockfile
-                  cd ..
+                  cd ../..
 
     typecheck:
         name: Typecheck
