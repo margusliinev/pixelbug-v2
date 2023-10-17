@@ -18,6 +18,9 @@ jobs:
               with:
                   node-version: 18
 
+            - name: Install Turbo
+              run: npm install -g turbo@1.10.15
+
             - name: Install Dependencies
               run: |
                   npm install --frozen-lockfile
