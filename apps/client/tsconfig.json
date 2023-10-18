@@ -6,6 +6,10 @@
         "lib": ["ES2021", "DOM", "DOM.Iterable"],
         "moduleResolution": "bundler",
         "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
         "strict": true,
         "noEmit": true,
         "skipLibCheck": true,
@@ -15,11 +19,7 @@
         "noUnusedParameters": true,
         "useDefineForClassFields": true,
         "allowImportingTsExtensions": true,
-        "noFallthroughCasesInSwitch": true,
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "noFallthroughCasesInSwitch": true
     },
     "include": ["src"],
     "exclude": ["node_modules"],
