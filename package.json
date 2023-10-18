@@ -4,7 +4,7 @@
     },
     "scripts": {
         "dev": "turbo run dev",
-        "build": "turbo run build",
+        "build": "turbo run build && cd apps/server && npx prisma generate",
         "start": "node apps/server/dist/main",
         "typecheck": "turbo run typecheck",
         "format": "turbo run format",
