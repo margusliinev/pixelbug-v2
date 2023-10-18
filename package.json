@@ -8,7 +8,10 @@
         "start": "node apps/server/dist/main",
         "typecheck": "turbo run typecheck",
         "format": "turbo run format",
-        "lint": "turbo run lint"
+        "lint": "turbo run lint",
+        "seed": "cd apps/server && npx prisma db seed",
+        "migrate:dev": "cd apps/server && npx prisma migrate dev",
+        "migrate:deploy": "cd apps/server && npx prisma migrate deploy"
     },
     "workspaces": [
         "apps/*"
