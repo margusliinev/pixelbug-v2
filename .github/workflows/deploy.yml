@@ -75,7 +75,7 @@ jobs:
               run: npm run action:build
 
             - name: Apply all pending migrations to the database
-              run: npm run migrate:deploy
+              run: npx prisma migrate deploy
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
