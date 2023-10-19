@@ -17,7 +17,7 @@ jobs:
                   node-version: 18
 
             - name: Install dependencies
-              run: npm install --frozen-lockfile
+              run: cd client && npm install --frozen-lockfile && cd .. && npm install --frozen-lockfile
 
             - name: Typecheck
               run: npm run action:typecheck
@@ -34,7 +34,7 @@ jobs:
                   node-version: 18
 
             - name: Install dependencies
-              run: npm install --frozen-lockfile
+              run: cd client && npm install --frozen-lockfile && cd .. && npm install --frozen-lockfile
 
             - name: Format
               run: npm run action:format
@@ -51,7 +51,7 @@ jobs:
                   node-version: 18
 
             - name: Install dependencies
-              run: npm install --frozen-lockfile
+              run: cd client && npm install --frozen-lockfile && cd .. && npm install --frozen-lockfile
 
             - name: Lint
               run: npm run action:lint
