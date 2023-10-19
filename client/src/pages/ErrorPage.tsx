@@ -7,7 +7,7 @@ export default function ErrorPage() {
                 <div className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#059669] to-[#d4d4d4] opacity-30 md:left-[calc(50%-30rem)] md:w-[72.1875rem]'></div>
             </div>
             <div className='z-10 w-screen-90 text-center'>
-                <p className='text-5xl font-bold text-primary'>404</p>
+                <p className='text-6xl font-bold text-primary'>404</p>
                 <h1 className='mt-4 text-4xl font-bold tracking-tight xxs:text-5xl'>Page Not Found</h1>
                 <p className='mt-6 text-lg font-medium leading-7 text-secondary-foreground'>Sorry, the page you are looking for could not be found</p>
                 <div className='mt-8 flex items-center justify-center gap-x-6'>
