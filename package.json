@@ -6,22 +6,17 @@
     "private": true,
     "license": "MIT",
     "scripts": {
-        "dev": "nest start --watch --preserveWatchOutput",
-        "build": "nest build",
+        "dev": "concurrently \"nest start --watch --preserveWatchOutput\" \"cd client && npm run dev\"",
+        "build": "cd client && npm install && npm run build && cd .. && npm install && nest build",
         "start": "nest start",
-        "typecheck": "tsc",
-        "format": "prettier . --check",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-        "app": "concurrently \"npm run dev\" \"cd client && npm run dev\"",
+        "typecheck": "cd client && npm run typecheck && cd .. && tsc",
+        "format": "cd client && npm run format && cd .. && prettier . --check",
+        "lint": "cd client && npm run lint && cd .. && eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "jest --config ./test/jest-e2e.json",
-        "action:typecheck": "cd client && npm run typecheck && cd .. && npm run typecheck",
-        "action:format": "cd client && npm run format && cd .. && npm run format",
-        "action:lint": "cd client && npm run lint && cd .. && npm run lint",
-        "action:build": "cd client && npm install && npm run build && cd .. && npm install && npm run build"
+        "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "dependencies": {
         "@nestjs/common": "^10.0.0",
