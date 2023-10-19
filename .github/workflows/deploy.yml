@@ -68,6 +68,9 @@ jobs:
               with:
                   node-version: 18
 
+            - name: Install dependencies
+              run: npm install --frozen-lockfile
+
             - name: Install Railway
               run: npm install -g @railway/cli
 
@@ -80,6 +83,6 @@ jobs:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
             - name: Deploy
-              run: railway up PixelBug-V2
+              run: railway up
               env:
                   RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
