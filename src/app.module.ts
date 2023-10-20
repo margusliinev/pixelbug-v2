@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
 
 @Module({
@@ -11,8 +11,10 @@ import { join } from 'path';
             rootPath: join(__dirname, '..', 'client', 'dist'),
         }),
         PrismaModule,
+        UsersModule,
+        AuthModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}

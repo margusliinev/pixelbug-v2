@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
-    const currentDate = new Date(Date.now()).toUTCString().split(' ').slice(1, 3).join(' ');
+    const currentDate = new Date(Date.now()).toDateString().split(' ').slice(1, 3).join(' ');
     return (
         <header className='z-10 mx-auto mb-32 mt-20 w-screen-90 max-w-4xl text-center'>
             <div className='mb-6 flex justify-center'>
