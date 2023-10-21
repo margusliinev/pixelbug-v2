@@ -7,6 +7,12 @@ import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @Get()
+    getAllUsers() {
+        const { user } = this.usersService.getAllUsers();
+        return { success: true, data: user };
+    }
+
     @Get(':id')
     getUserById(@Param('id') id: string) {
         return this.usersService.getUserById(id);

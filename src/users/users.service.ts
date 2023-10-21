@@ -4,6 +4,15 @@ import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 
 @Injectable()
 export class UsersService {
+    getAllUsers() {
+        const user = {
+            username: 'test',
+            email: 'test@gmail.com',
+            password: '123456',
+        };
+        return { user };
+    }
+
     getUserById(id: string) {
         return `This action returns a #${id} user`;
     }

@@ -9,6 +9,18 @@ import bcrypt from 'bcrypt';
 export class AuthService {
     constructor(private readonly prisma: PrismaService) {}
 
+    private readonly SESSION_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
+
+    private async createSession(userId: User['id']) {
+        const session = await this.prisma.session.create({
+            data: {
+                expirationDate: new Date(Date.now() + this.SESSION_EXPIRATION_TIME),
+                userId,
+            },
+        });
+        return session;
+    }
+
     private exclude(user: User, key: keyof User) {
         delete user[key];
         return user;
@@ -38,7 +50,9 @@ export class AuthService {
 
         this.exclude(user, 'password');
 
-        return { user };
+        const session = await this.createSession(user.id);
+
+        return { user, session };
     }
 
     async signin(signinDto: SigninDto) {
@@ -50,6 +64,8 @@ export class AuthService {
 
         this.exclude(user, 'password');
 
-        return { user };
+        const session = await this.createSession(user.id);
+
+        return { user, session };
     }
 }
