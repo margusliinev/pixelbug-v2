@@ -1,7 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthenticatedRequest } from 'src/types';
 import { Reflector } from '@nestjs/core';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Session } from '@prisma/client';
 
 @Injectable()
@@ -27,7 +28,7 @@ export class AuthGuard implements CanActivate {
         if (allowUnauthorizedRequest) {
             return true;
         }
-        const request: Request = context.switchToHttp().getRequest();
+        const request: AuthenticatedRequest = context.switchToHttp().getRequest();
         const response: Response = context.switchToHttp().getResponse();
 
         const cookies = request.signedCookies as { [key: string]: string };
@@ -40,6 +41,8 @@ export class AuthGuard implements CanActivate {
             response.clearCookie('__session');
             throw new UnauthorizedException({ success: false, message: 'Unauthorized', fields: null });
         }
+
+        request.user = user;
 
         return user.id ? true : false;
     }
