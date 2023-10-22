@@ -13,7 +13,7 @@ export class AuthController {
     @Post('signup')
     @AllowUnauthorizedRequest()
     async signup(@Body() signupDto: SignupDto, @Res({ passthrough: true }) res: Response) {
-        const { user, session } = await this.authService.signup(signupDto);
+        const { session } = await this.authService.signup(signupDto);
         res.cookie('__session', session.id, {
             httpOnly: true,
             path: '/',
@@ -21,13 +21,13 @@ export class AuthController {
             secure: process.env.NODE_ENV === 'production',
             signed: true,
         });
-        return { success: true, data: user };
+        return { success: true, message: 'User created successfully' };
     }
 
     @Post('signin')
     @AllowUnauthorizedRequest()
     async signin(@Body() signinDto: SigninDto, @Res({ passthrough: true }) res: Response) {
-        const { user, session } = await this.authService.signin(signinDto);
+        const { session } = await this.authService.signin(signinDto);
         res.cookie('__session', session.id, {
             httpOnly: true,
             path: '/',
@@ -35,7 +35,7 @@ export class AuthController {
             secure: process.env.NODE_ENV === 'production',
             signed: true,
         });
-        return { success: true, data: user };
+        return { success: true, message: 'User signed in successfully' };
     }
 
     @Post('signout')

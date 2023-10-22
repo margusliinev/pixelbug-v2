@@ -52,7 +52,7 @@ export class AuthService {
 
         const session = await this.createSession(user.id);
 
-        return { user, session };
+        return { session };
     }
 
     async signin(signinDto: SigninDto) {
@@ -66,6 +66,6 @@ export class AuthService {
 
         const session = await this.createSession(user.id);
 
-        return { user, session };
+        return { session };
     }
 }
