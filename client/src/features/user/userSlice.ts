@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { DefaultError } from '@/types';
+import { DefaultAPIError } from '@/types';
 import { User } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
 
@@ -8,7 +8,7 @@ type UserWithoutPassword = Omit<User, 'password'>;
 type UserState = {
     isLoading: boolean;
     isError: boolean;
-    error: DefaultError | null;
+    error: DefaultAPIError | null;
     user: UserWithoutPassword | null;
 };
 
@@ -24,15 +24,15 @@ type UserAPIResponse = {
     data: UserWithoutPassword;
 };
 
-const getUser = createAsyncThunk<UserAPIResponse, void, { rejectValue: DefaultError }>('user/getUser', async (_, thunkAPI) => {
+const getUser = createAsyncThunk<UserAPIResponse, void, { rejectValue: DefaultAPIError }>('user/getUser', async (_, thunkAPI) => {
     try {
         const response = await axios.get<UserAPIResponse>('/api/v1/users/me');
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return thunkAPI.rejectWithValue(error.response.data as DefaultError);
+            return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
         }
-        const defaultError: DefaultError = { success: false, message: 'Something went wrong', fields: null };
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });

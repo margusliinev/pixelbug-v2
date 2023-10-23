@@ -15,7 +15,9 @@ export class UsersService {
 
     async getCurrentUser(userId: string) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
-        if (!user) throw new NotFoundException({ success: false, message: 'User not found', fields: null });
+        if (!user) {
+            throw new NotFoundException({ success: false, message: 'User not found', fields: null });
+        }
 
         this.exclude(user, 'password');
 

@@ -28,25 +28,29 @@ export class AuthService {
 
     async signup(signupDto: SignupDto) {
         const exisitingUsername = await this.prisma.user.findUnique({ where: { username: signupDto.username.toLowerCase() } });
-        if (exisitingUsername)
+        if (exisitingUsername) {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
                 fields: { username: 'Username is already in use' },
             });
+        }
 
         const existingEmail = await this.prisma.user.findUnique({ where: { email: signupDto.email.toLowerCase() } });
-        if (existingEmail)
+        if (existingEmail) {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
                 fields: { email: 'Email is already in use' },
             });
+        }
 
         const hash = await bcrypt.hash(signupDto.password, 10);
 
         const user = await this.prisma.user.create({ data: { ...signupDto, password: hash } });
-        if (!user) throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', fields: null });
+        if (!user) {
+            throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', fields: null });
+        }
 
         this.exclude(user, 'password');
 
@@ -57,10 +61,14 @@ export class AuthService {
 
     async signin(signinDto: SigninDto) {
         const user = await this.prisma.user.findUnique({ where: { email: signinDto.email.toLowerCase() } });
-        if (!user) throw new UnauthorizedException({ success: false, message: 'Email or password is incorrect', fields: null });
+        if (!user) {
+            throw new UnauthorizedException({ success: false, message: 'Validation failed', fields: { all: 'Email or password is incorrect' } });
+        }
 
         const passwordMatch = await bcrypt.compare(signinDto.password, user.password);
-        if (!passwordMatch) throw new UnauthorizedException({ success: false, message: 'Email or password is incorrect', fields: null });
+        if (!passwordMatch) {
+            throw new UnauthorizedException({ success: false, message: 'Validation failed', fields: { all: 'Email or password is incorrect' } });
+        }
 
         this.exclude(user, 'password');
 

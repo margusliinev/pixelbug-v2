@@ -1,22 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { DefaultError } from '@/types';
+import { DefaultAPIResponse, DefaultAPIError } from '@/types';
 import axios, { isAxiosError } from 'axios';
 
 type AuthState = {
-    isLoading: boolean;
-    isError: boolean;
-    error: DefaultError | null;
+    signupState: {
+        isLoading: boolean;
+        error: DefaultAPIError | null;
+    };
+    signinState: {
+        isLoading: boolean;
+        error: DefaultAPIError | null;
+    };
 };
 
 const initialState: AuthState = {
-    isLoading: false,
-    isError: false,
-    error: null,
-};
-
-type SignupAPIResponse = {
-    success: boolean;
-    message: string;
+    signupState: {
+        isLoading: false,
+        error: null,
+    },
+    signinState: {
+        isLoading: false,
+        error: null,
+    },
 };
 
 type SignupDto = {
@@ -25,16 +30,34 @@ type SignupDto = {
     password: string;
 };
 
-const signup = createAsyncThunk<SignupAPIResponse, SignupDto, { rejectValue: DefaultError }>('auth/signup', async (body, thunkAPI) => {
+type SigninDto = {
+    email: string;
+    password: string;
+};
+
+const signup = createAsyncThunk<DefaultAPIResponse, SignupDto, { rejectValue: DefaultAPIError }>('auth/signup', async (body, thunkAPI) => {
     try {
-        const response = await axios.post<SignupAPIResponse>('/api/v1/auth/signup', body);
+        const response = await axios.post<DefaultAPIResponse>('/api/v1/auth/signup', body);
         return response.data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return thunkAPI.rejectWithValue(error.response.data as DefaultError);
+            return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
         }
-        const defaultError: DefaultError = { success: false, message: 'Something went wrong', fields: null };
-        return thunkAPI.rejectWithValue(defaultError);
+        const defaultAPIError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        return thunkAPI.rejectWithValue(defaultAPIError);
+    }
+});
+
+const signin = createAsyncThunk<DefaultAPIResponse, SigninDto, { rejectValue: DefaultAPIError }>('auth/signin', async (body, thunkAPI) => {
+    try {
+        const response = await axios.post<DefaultAPIResponse>('/api/v1/auth/signin', body);
+        return response.data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+        }
+        const defaultAPIError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        return thunkAPI.rejectWithValue(defaultAPIError);
     }
 });
 
@@ -43,30 +66,39 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         resetError: (state) => {
-            state.isError = false;
-            state.error = null;
+            state.signupState.error = null;
+            state.signinState.error = null;
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(signup.pending, (state) => {
-                state.isLoading = true;
-                state.isError = false;
-                state.error = null;
+                state.signupState.isLoading = true;
+                state.signupState.error = null;
             })
             .addCase(signup.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.error = action.payload ?? null;
+                state.signupState.isLoading = false;
+                state.signupState.error = action.payload ?? null;
             })
             .addCase(signup.fulfilled, (state) => {
-                state.isLoading = false;
-                state.isError = false;
-                state.error = null;
+                state.signupState.isLoading = false;
+                state.signupState.error = null;
+            })
+            .addCase(signin.pending, (state) => {
+                state.signinState.isLoading = true;
+                state.signinState.error = null;
+            })
+            .addCase(signin.rejected, (state, action) => {
+                state.signinState.isLoading = false;
+                state.signinState.error = action.payload ?? null;
+            })
+            .addCase(signin.fulfilled, (state) => {
+                state.signinState.isLoading = false;
+                state.signinState.error = null;
             });
     },
 });
 
-export { signup };
+export { signup, signin };
 export const { resetError } = authSlice.actions;
 export default authSlice.reducer;
