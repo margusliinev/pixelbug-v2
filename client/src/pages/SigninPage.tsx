@@ -1,17 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button, Input, Label } from '@/components/ui';
-import { useAppSelector, useAppDispatch } from '@/hooks';
-import { resetError, signin } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/hooks';
+import { signin } from '@/features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { DefaultAPIError } from '@/types';
 import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SigninPage() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [allError, setAllError] = useState('');
     const [isEmailError, setIsEmailError] = useState(false);
     const [isPasswordError, setIsPasswordError] = useState(false);
     const [isAllError, setIsAllError] = useState(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const { signinState } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -20,6 +24,10 @@ export default function SigninPage() {
         const formData = new FormData(e.currentTarget);
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
+        setIsLoading(true);
+        setIsAllError(false);
+        setIsEmailError(false);
+        setIsPasswordError(false);
         dispatch(signin({ email, password }))
             .unwrap()
             .then((res) => {
@@ -27,29 +35,32 @@ export default function SigninPage() {
                     navigate('/app/dashboard');
                 }
             })
-            .catch(() => {
-                return;
+            .catch((error: DefaultAPIError) => {
+                if (error.fields?.all) {
+                    setIsAllError(true);
+                    setAllError(error.fields.all);
+                } else if (error.fields?.email) {
+                    setIsEmailError(true);
+                    setEmailError(error.fields.email);
+                } else if (error.fields?.password) {
+                    setIsPasswordError(true);
+                    setPasswordError(error.fields.password);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
     useEffect(() => {
-        dispatch(resetError());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (signinState.error?.fields?.all) {
-            setIsAllError(true);
+        if (isAllError) {
             emailRef.current?.focus();
-        } else if (signinState.error?.fields?.email) {
-            setIsEmailError(true);
+        } else if (isEmailError) {
             emailRef.current?.focus();
-        } else if (signinState.error?.fields?.password) {
-            setIsPasswordError(true);
+        } else if (isPasswordError) {
             passwordRef.current?.focus();
-        } else {
-            setIsAllError(false);
         }
-    }, [signinState.error?.fields?.all, signinState.error?.fields?.email, signinState.error?.fields?.password]);
+    }, [isEmailError, isPasswordError, isAllError]);
 
     return (
         <div className='z-10 mb-36 mt-24 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
@@ -59,7 +70,7 @@ export default function SigninPage() {
                 <p className='mb-8 text-sm text-secondary-foreground'>Please enter your credentials to sign in!</p>
             </div>
             <form className='grid gap-4' onSubmit={handleSubmit} noValidate>
-                <fieldset className='grid gap-1' disabled={signinState.isLoading}>
+                <fieldset className='grid gap-1' disabled={isLoading}>
                     <Label htmlFor='email' className='mb-2'>
                         Email
                     </Label>
@@ -68,25 +79,25 @@ export default function SigninPage() {
                         name='email'
                         type='email'
                         ref={emailRef}
-                        aria-invalid={isEmailError ? true : isAllError ? true : undefined}
+                        aria-invalid={emailError ? true : allError ? true : undefined}
                         aria-describedby='email-error'
                         onChange={() => {
-                            setIsEmailError(false);
-                            setIsAllError(false);
+                            setEmailError('');
+                            setAllError('');
                         }}
                     ></Input>
-                    {isEmailError ? (
+                    {emailError ? (
                         <p className='pt-1 text-sm text-destructive' id='email-error'>
-                            {signinState.error?.fields?.email}
+                            {emailError}
                         </p>
                     ) : null}
-                    {isAllError ? (
+                    {allError ? (
                         <p className='pt-1 text-sm text-destructive' id='email-password-error'>
-                            {signinState.error?.fields?.all}
+                            {allError}
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={signinState.isLoading}>
+                <fieldset className='grid gap-1' disabled={isLoading}>
                     <Label htmlFor='password' className='mb-2'>
                         Password
                     </Label>
@@ -95,21 +106,21 @@ export default function SigninPage() {
                         name='password'
                         type='password'
                         ref={passwordRef}
-                        aria-invalid={isPasswordError ? true : isAllError ? true : undefined}
+                        aria-invalid={passwordError ? true : allError ? true : undefined}
                         aria-describedby='password-error'
                         onChange={() => {
-                            setIsPasswordError(false);
-                            setIsAllError(false);
+                            setPasswordError('');
+                            setAllError('');
                         }}
                     ></Input>
-                    {isPasswordError ? (
+                    {passwordError ? (
                         <p className='pt-1 text-sm text-destructive' id='password-error'>
-                            {signinState.error?.fields?.password}
+                            {passwordError}
                         </p>
                     ) : null}
                 </fieldset>
-                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign in' disabled={signinState.isLoading}>
-                    {signinState.isLoading ? <ButtonSpinner /> : 'Sign In'}
+                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign in' disabled={isLoading}>
+                    {isLoading ? <ButtonSpinner /> : 'Sign In'}
                 </Button>
                 <div className='flex justify-center gap-2 text-sm sm:text-base'>
                     <p>Don&apos;t have an account?</p>

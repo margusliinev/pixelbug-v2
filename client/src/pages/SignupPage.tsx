@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Label } from '@/components/ui';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '@/hooks';
-import { resetError, signup } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/hooks';
+import { signup } from '@/features/auth/authSlice';
+import { DefaultAPIError } from '@/types';
 import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SignupPage() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [isUsernameError, setIsUsernameError] = useState(false);
     const [isEmailError, setIsEmailError] = useState(false);
     const [isPasswordError, setIsPasswordError] = useState(false);
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const { signupState } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -22,6 +26,10 @@ export default function SignupPage() {
         const username = formData.get('username') as string;
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
+        setIsLoading(true);
+        setIsUsernameError(false);
+        setIsEmailError(false);
+        setIsPasswordError(false);
         dispatch(signup({ username, email, password }))
             .unwrap()
             .then((res) => {
@@ -29,35 +37,34 @@ export default function SignupPage() {
                     navigate('/app/dashboard');
                 }
             })
-            .catch(() => {
-                return;
+            .catch((error: DefaultAPIError) => {
+                if (error.fields?.username) {
+                    setIsUsernameError(true);
+                    setUsernameError(error.fields.username);
+                }
+                if (error.fields?.email) {
+                    setIsEmailError(true);
+                    setEmailError(error.fields.email);
+                }
+                if (error.fields?.password) {
+                    setIsPasswordError(true);
+                    setPasswordError(error.fields.password);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
     useEffect(() => {
-        dispatch(resetError());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (signupState.error?.fields?.password) {
-            setIsPasswordError(true);
-            passwordRef.current?.focus();
-        } else {
-            setIsPasswordError(false);
-        }
-        if (signupState.error?.fields?.email) {
-            setIsEmailError(true);
-            emailRef.current?.focus();
-        } else {
-            setIsEmailError(false);
-        }
-        if (signupState.error?.fields?.username) {
-            setIsUsernameError(true);
+        if (isUsernameError) {
             usernameRef.current?.focus();
-        } else {
-            setIsUsernameError(false);
+        } else if (isEmailError) {
+            emailRef.current?.focus();
+        } else if (isPasswordError) {
+            passwordRef.current?.focus();
         }
-    }, [dispatch, signupState.error?.fields?.email, signupState.error?.fields?.password, signupState.error?.fields?.username, navigate]);
+    }, [isPasswordError, isEmailError, isUsernameError]);
 
     return (
         <div className='z-10 mb-36 mt-24 w-screen-90 max-w-md rounded-lg border bg-white px-6 py-8 shadow-sm'>
@@ -67,7 +74,7 @@ export default function SignupPage() {
                 <p className='mb-8 text-sm text-secondary-foreground'>And lets get you started with your free trial</p>
             </div>
             <form className='grid gap-4' onSubmit={handleSubmit} noValidate>
-                <fieldset className='grid gap-1' disabled={signupState.isLoading}>
+                <fieldset className='grid gap-1' disabled={isLoading}>
                     <Label htmlFor='username' className='mb-2'>
                         Username
                     </Label>
@@ -76,17 +83,17 @@ export default function SignupPage() {
                         name='username'
                         type='text'
                         ref={usernameRef}
-                        aria-invalid={isUsernameError ? true : undefined}
+                        aria-invalid={usernameError ? true : undefined}
                         aria-describedby='username-error'
-                        onChange={() => setIsUsernameError(false)}
+                        onChange={() => setUsernameError('')}
                     ></Input>
-                    {isUsernameError ? (
+                    {usernameError ? (
                         <p className='pt-1 text-sm text-destructive' id='username-error'>
-                            {signupState.error?.fields?.username}
+                            {usernameError}
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={signupState.isLoading}>
+                <fieldset className='grid gap-1' disabled={isLoading}>
                     <Label htmlFor='email' className='mb-2'>
                         Email
                     </Label>
@@ -95,17 +102,17 @@ export default function SignupPage() {
                         name='email'
                         type='email'
                         ref={emailRef}
-                        aria-invalid={isEmailError ? true : undefined}
+                        aria-invalid={emailError ? true : undefined}
                         aria-describedby='email-error'
-                        onChange={() => setIsEmailError(false)}
+                        onChange={() => setEmailError('')}
                     ></Input>
-                    {isEmailError ? (
+                    {emailError ? (
                         <p className='pt-1 text-sm text-destructive' id='email-error'>
-                            {signupState.error?.fields?.email}
+                            {emailError}
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={signupState.isLoading}>
+                <fieldset className='grid gap-1' disabled={isLoading}>
                     <Label htmlFor='password' className='mb-2'>
                         Password
                     </Label>
@@ -114,18 +121,18 @@ export default function SignupPage() {
                         name='password'
                         type='password'
                         ref={passwordRef}
-                        aria-invalid={isPasswordError ? true : undefined}
+                        aria-invalid={passwordError ? true : undefined}
                         aria-describedby='password-error'
-                        onChange={() => setIsPasswordError(false)}
+                        onChange={() => setPasswordError('')}
                     ></Input>
-                    {isPasswordError ? (
+                    {passwordError ? (
                         <p className='pt-1 text-sm text-destructive' id='password-error'>
-                            {signupState.error?.fields?.password}
+                            {passwordError}
                         </p>
                     ) : null}
                 </fieldset>
-                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign up' disabled={signupState.isLoading}>
-                    {signupState.isLoading ? <ButtonSpinner /> : 'Sign up'}
+                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign up' disabled={isLoading}>
+                    {isLoading ? <ButtonSpinner /> : 'Sign up'}
                 </Button>
             </form>
             <div className='flex justify-center gap-2 text-sm sm:text-base'>

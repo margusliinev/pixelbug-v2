@@ -7,14 +7,12 @@ type UserWithoutPassword = Omit<User, 'password'>;
 
 type UserState = {
     isLoading: boolean;
-    isError: boolean;
     error: DefaultAPIError | null;
     user: UserWithoutPassword | null;
 };
 
 const initialState: UserState = {
     isLoading: false,
-    isError: false,
     error: null,
     user: null,
 };
@@ -45,15 +43,14 @@ const userSlice = createSlice({
         builder
             .addCase(getUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(getUser.rejected, (state, action) => {
                 state.isLoading = false;
-                state.isError = true;
                 state.error = action.payload ?? null;
             })
             .addCase(getUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isError = false;
                 state.error = null;
                 state.user = action.payload.data;
             });
