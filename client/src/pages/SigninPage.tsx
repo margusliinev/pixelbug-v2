@@ -70,10 +70,8 @@ export default function SigninPage() {
                 <p className='mb-8 text-sm text-secondary-foreground'>Please enter your credentials to sign in!</p>
             </div>
             <form className='grid gap-4' onSubmit={handleSubmit} noValidate>
-                <fieldset className='grid gap-1' disabled={isLoading}>
-                    <Label htmlFor='email' className='mb-2'>
-                        Email
-                    </Label>
+                <fieldset className='space-y-1' disabled={isLoading}>
+                    <Label htmlFor='email'>Email</Label>
                     <Input
                         id='email'
                         name='email'
@@ -97,10 +95,8 @@ export default function SigninPage() {
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={isLoading}>
-                    <Label htmlFor='password' className='mb-2'>
-                        Password
-                    </Label>
+                <fieldset className='space-y-1' disabled={isLoading}>
+                    <Label htmlFor='password'>Password</Label>
                     <Input
                         id='password'
                         name='password'
@@ -119,7 +115,7 @@ export default function SigninPage() {
                         </p>
                     ) : null}
                 </fieldset>
-                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign in' disabled={isLoading}>
+                <Button type='submit' size={'sm'} className='mt-2' aria-label='Sign in' disabled={isLoading}>
                     {isLoading ? <ButtonSpinner /> : 'Sign In'}
                 </Button>
                 <div className='flex justify-center gap-2 text-sm sm:text-base'>

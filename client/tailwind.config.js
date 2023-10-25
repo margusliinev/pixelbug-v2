@@ -3,9 +3,6 @@ module.exports = {
     darkMode: ['class'],
     content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
     theme: {
-        fontFamily: {
-            Inter: ['Inter', 'Inter Fallback'],
-        },
         container: {
             center: true,
             padding: '2rem',
@@ -14,6 +11,9 @@ module.exports = {
             },
         },
         extend: {
+            fontFamily: {
+                Inter: ['Inter', 'Inter Fallback'],
+            },
             backgroundImage: {
                 pattern: "url('/background.png')",
             },

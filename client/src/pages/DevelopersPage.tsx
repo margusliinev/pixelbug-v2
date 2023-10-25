@@ -1,3 +1,3 @@
 export default function DevelopersPage() {
-    return <h1>Developers</h1>;
+    return <section>Developers</section>;
 }

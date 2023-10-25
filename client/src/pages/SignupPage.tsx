@@ -74,10 +74,8 @@ export default function SignupPage() {
                 <p className='mb-8 text-sm text-secondary-foreground'>And lets get you started with your free trial</p>
             </div>
             <form className='grid gap-4' onSubmit={handleSubmit} noValidate>
-                <fieldset className='grid gap-1' disabled={isLoading}>
-                    <Label htmlFor='username' className='mb-2'>
-                        Username
-                    </Label>
+                <fieldset className='space-y-1' disabled={isLoading}>
+                    <Label htmlFor='username'>Username</Label>
                     <Input
                         id='username'
                         name='username'
@@ -93,10 +91,8 @@ export default function SignupPage() {
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={isLoading}>
-                    <Label htmlFor='email' className='mb-2'>
-                        Email
-                    </Label>
+                <fieldset className='space-y-1' disabled={isLoading}>
+                    <Label htmlFor='email'>Email</Label>
                     <Input
                         id='email'
                         name='email'
@@ -112,10 +108,8 @@ export default function SignupPage() {
                         </p>
                     ) : null}
                 </fieldset>
-                <fieldset className='grid gap-1' disabled={isLoading}>
-                    <Label htmlFor='password' className='mb-2'>
-                        Password
-                    </Label>
+                <fieldset className='space-y-1' disabled={isLoading}>
+                    <Label htmlFor='password'>Password</Label>
                     <Input
                         id='password'
                         name='password'
@@ -131,16 +125,16 @@ export default function SignupPage() {
                         </p>
                     ) : null}
                 </fieldset>
-                <Button type='submit' size={'sm'} className='mb-4 mt-2' aria-label='Sign up' disabled={isLoading}>
+                <Button type='submit' size={'sm'} className='mt-2' aria-label='Sign up' disabled={isLoading}>
                     {isLoading ? <ButtonSpinner /> : 'Sign up'}
                 </Button>
+                <div className='flex justify-center gap-2 text-sm sm:text-base'>
+                    <p>Already have an account?</p>
+                    <Link to='/sign-in' className='font-medium text-primary'>
+                        Sign In
+                    </Link>
+                </div>
             </form>
-            <div className='flex justify-center gap-2 text-sm sm:text-base'>
-                <p>Already have an account?</p>
-                <Link to='/sign-in' className='font-medium text-primary'>
-                    Sign In
-                </Link>
-            </div>
         </div>
     );
 }

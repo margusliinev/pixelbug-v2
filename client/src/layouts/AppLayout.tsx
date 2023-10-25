@@ -41,7 +41,9 @@ export default function AppLayout() {
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <div>
                 <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} user={user} />
-                <Outlet />
+                <div className='min-h-screen-minus-nav px-6 py-6 xl:px-12 xl:py-10'>
+                    <Outlet />
+                </div>
             </div>
         </main>
     );
@@ -107,7 +109,7 @@ export function Navbar({
                             </span>
                         )}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 mt-1 p-0 xs:mr-0'>
+                    <DropdownMenuContent className='mr-6 mt-2 p-0 xs:mr-0'>
                         <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
                             <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
                                 Your Account
@@ -115,7 +117,7 @@ export function Navbar({
                         </DropdownMenuItem>
                         <DropdownMenuItem className='m-0 block p-0'>
                             <form onSubmit={handleLogout}>
-                                <button className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100' type='submit'>
+                                <button type='submit' className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
                                     Sign out
                                 </button>
                             </form>

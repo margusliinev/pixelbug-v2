@@ -30,7 +30,7 @@ export default function AccountPage() {
     const { user } = useAppSelector((store) => store.user);
 
     return (
-        <section className='pattern min-h-screen-minus-nav px-6 py-6 xl:px-12 xl:py-10'>
+        <section>
             <Tabs defaultValue='profile'>
                 <TabsList className='grid h-full w-full max-w-[800px] grid-cols-2 gap-4 bg-transparent p-0 xs:grid-cols-4'>
                     <TabsTrigger value='profile' className='bg-white/50'>
@@ -53,8 +53,8 @@ export default function AccountPage() {
                             <CardDescription>Make changes to your profile here. Click save when you&apos;re done.</CardDescription>
                         </CardHeader>
                         <CardContent className='max-w-2xl'>
-                            <form className='grid gap-3'>
-                                <div className='mb-2 grid w-full items-center gap-4 xxs:flex'>
+                            <form className='grid gap-4'>
+                                <div className='grid w-full items-center gap-4 xxs:flex'>
                                     <Avatar className='h-24 w-24 rounded-md'>
                                         <AvatarImage src={user?.photo ? user?.photo : undefined} className='rounded-md' />
                                         <AvatarFallback className='rounded-md bg-gray-200 text-2xl'>
@@ -90,7 +90,7 @@ export default function AccountPage() {
                                     <Label htmlFor='jobTitle'>Job Title</Label>
                                     <Input id='jobTitle' name='jobTitle' defaultValue={user?.jobTitle ? user?.jobTitle : ''} />
                                 </fieldset>
-                                <Button type='submit' className='mt-6 w-32'>
+                                <Button type='submit' className='mt-2 w-32'>
                                     Save changes
                                 </Button>
                             </form>
@@ -104,7 +104,7 @@ export default function AccountPage() {
                             <CardDescription>Change your password here. After saving, you&apos;ll be logged out.</CardDescription>
                         </CardHeader>
                         <CardContent className='max-w-2xl'>
-                            <form className='grid gap-3'>
+                            <form className='grid gap-4'>
                                 <fieldset className='space-y-1'>
                                     <Label htmlFor='current'>Current password</Label>
                                     <Input type='password' id='current' name='current' />
@@ -114,10 +114,10 @@ export default function AccountPage() {
                                     <Input type='password' id='new' name='new' />
                                 </fieldset>
                                 <fieldset className='space-y-1'>
-                                    <Label htmlFor='confirm'>Confirm New password</Label>
+                                    <Label htmlFor='confirm'>Confirm new password</Label>
                                     <Input type='password' id='confirm' name='confirm' />
                                 </fieldset>
-                                <Button type='submit' className='mt-6 w-36'>
+                                <Button type='submit' className='mt-2 w-36'>
                                     Save password
                                 </Button>
                             </form>
