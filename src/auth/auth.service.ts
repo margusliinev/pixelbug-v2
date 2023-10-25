@@ -47,7 +47,9 @@ export class AuthService {
 
         const hash = await bcrypt.hash(signupDto.password, 10);
 
-        const user = await this.prisma.user.create({ data: { ...signupDto, password: hash } });
+        const user = await this.prisma.user.create({
+            data: { username: signupDto.username.toLowerCase(), email: signupDto.email.toLowerCase(), password: hash },
+        });
         if (!user) {
             throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', fields: null });
         }

@@ -36,7 +36,7 @@ export default function AppLayout() {
     if (isAuth === false) return <Navigate to='/' />;
 
     return (
-        <main className='grid xl:grid-cols-sidebar-layout'>
+        <main className='grid xl:grid-cols-sidebar-layout bg-[#059669] bg-opacity-5'>
             <SidebarDesktop isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <div>

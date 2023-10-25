@@ -24,6 +24,19 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuRadioGroup,
 } from './dropdown-menu';
+import {
+    AlertDialog,
+    AlertDialogPortal,
+    AlertDialogOverlay,
+    AlertDialogTrigger,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogFooter,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogAction,
+    AlertDialogCancel,
+} from './alert-dialog';
 
 export {
     Select,
@@ -70,4 +83,15 @@ export {
     CardTitle,
     CardDescription,
     CardContent,
+    AlertDialog,
+    AlertDialogPortal,
+    AlertDialogOverlay,
+    AlertDialogTrigger,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogFooter,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogAction,
+    AlertDialogCancel,
 };
