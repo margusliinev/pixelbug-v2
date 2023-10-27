@@ -21,11 +21,6 @@ export class AuthService {
         return session;
     }
 
-    private exclude(user: User, key: keyof User) {
-        delete user[key];
-        return user;
-    }
-
     async signup(signupDto: SignupDto) {
         const exisitingUsername = await this.prisma.user.findUnique({ where: { username: signupDto.username.toLowerCase() } });
         if (exisitingUsername) {
@@ -54,8 +49,6 @@ export class AuthService {
             throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', fields: null });
         }
 
-        this.exclude(user, 'password');
-
         const session = await this.createSession(user.id);
 
         return { session };
@@ -71,8 +64,6 @@ export class AuthService {
         if (!passwordMatch) {
             throw new UnauthorizedException({ success: false, message: 'Validation failed', fields: { all: 'Email or password is incorrect' } });
         }
-
-        this.exclude(user, 'password');
 
         const session = await this.createSession(user.id);
 
