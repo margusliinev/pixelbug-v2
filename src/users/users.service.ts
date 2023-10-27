@@ -1,9 +1,10 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { User } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -29,9 +30,11 @@ export class UsersService {
     }
 
     async updateUserProfile(userId: string, updateUserProfileDto: UpdateUserProfileDto) {
+        const { username, email, firstName, lastName, jobTitle, photo } = updateUserProfileDto;
+
         const exisitingUsername = await this.prisma.user.findUnique({
             where: {
-                username: updateUserProfileDto.username.toLowerCase(),
+                username: username.toLowerCase(),
                 NOT: {
                     id: userId,
                 },
@@ -47,7 +50,7 @@ export class UsersService {
 
         const existingEmail = await this.prisma.user.findUnique({
             where: {
-                email: updateUserProfileDto.email.toLowerCase(),
+                email: email.toLowerCase(),
                 NOT: {
                     id: userId,
                 },
@@ -62,21 +65,21 @@ export class UsersService {
         }
 
         const updateData: Partial<User> = {
-            username: updateUserProfileDto.username.toLowerCase(),
-            email: updateUserProfileDto.email.toLowerCase(),
+            username: username.toLowerCase(),
+            email: email.toLowerCase(),
         };
 
-        if (updateUserProfileDto.firstName) {
-            updateData.firstName = updateUserProfileDto.firstName;
+        if (firstName) {
+            updateData.firstName = firstName;
         }
-        if (updateUserProfileDto.lastName) {
-            updateData.lastName = updateUserProfileDto.lastName;
+        if (lastName) {
+            updateData.lastName = lastName;
         }
-        if (updateUserProfileDto.jobTitle) {
-            updateData.jobTitle = updateUserProfileDto.jobTitle;
+        if (jobTitle) {
+            updateData.jobTitle = jobTitle;
         }
-        if (updateUserProfileDto.photo) {
-            const url = await this.cloudinary.uploadPhoto(updateUserProfileDto.photo);
+        if (photo) {
+            const url = await this.cloudinary.uploadPhoto(photo);
             updateData.photo = url;
         }
         const updatedUser = await this.prisma.user.update({
@@ -89,9 +92,38 @@ export class UsersService {
         return { user: updatedUser };
     }
 
-    updateUserPassword(id: string, updateUserPasswordDto: UpdateUserPasswordDto) {
-        console.log(updateUserPasswordDto);
-        return `This action updates a #${id} user`;
+    async updateUserPassword(userId: string, updateUserPasswordDto: UpdateUserPasswordDto) {
+        const { currentPassword, newPassword, confirmNewPassword } = updateUserPasswordDto;
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', fields: null });
+        }
+
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordValid) {
+            throw new ConflictException({
+                success: false,
+                message: 'Validation failed',
+                fields: { currentPassword: 'Current password is incorrect' },
+            });
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            throw new ConflictException({
+                success: false,
+                message: 'Validation failed',
+                fields: { confirmNewPassword: 'Passwords do not match' },
+            });
+        }
+
+        const hash = await bcrypt.hash(newPassword, 10);
+
+        const updatedUser = await this.prisma.user.update({ where: { id: userId }, data: { password: hash } });
+        if (!updatedUser) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', fields: null });
+        }
+
+        return { success: true, message: 'Password updated successfully' };
     }
 
     deleteUserById(id: string) {

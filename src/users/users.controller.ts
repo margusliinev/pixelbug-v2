@@ -24,8 +24,7 @@ export class UsersController {
 
     @Put('me')
     updateUserPassword(@Req() req: AuthenticatedRequest, @Body() updateUserPasswordDto: UpdateUserPasswordDto) {
-        console.log(updateUserPasswordDto);
-        // return this.usersService.updateUserProfile(req.user.id, updateUserPasswordDto);
+        return this.usersService.updateUserPassword(req.user.id, updateUserPasswordDto);
     }
 
     @Delete('me')

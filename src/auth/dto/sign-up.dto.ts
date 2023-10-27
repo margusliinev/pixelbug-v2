@@ -13,7 +13,7 @@ export class SignupDto {
     @IsNotEmpty({ message: 'Email is required' })
     email: string;
 
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%&*,.?]{8,}$/, {
+    @Matches(/^[A-Za-z\d!@#$%&*,.?]+$/, {
         message: 'Password can only contain the following special characters: !@#$%&*,.?',
     })
     @Matches(/.*[A-Za-z].*/, { message: 'Password must contain at least one letter' })
