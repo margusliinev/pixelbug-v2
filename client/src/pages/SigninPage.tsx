@@ -63,8 +63,8 @@ export default function SigninPage() {
                     navigate('/app/dashboard');
                 }
             })
-            .catch((error: DefaultAPIError) => {
-                console.log(error);
+            .catch(() => {
+                return;
             })
             .finally(() => {
                 setIsDemoLoading(false);
@@ -151,7 +151,13 @@ export default function SigninPage() {
                     <div className='h-[2px] w-full bg-gray-200'></div>
                 </div>
                 <div className='mt-4 grid place-items-center'>
-                    <Button type='submit' size={'sm'} className='w-28 bg-neutral-500 hover:bg-neutral-600'>
+                    <Button
+                        type='submit'
+                        size={'sm'}
+                        className='w-28 bg-neutral-500 hover:bg-neutral-600'
+                        aria-label='Demo app'
+                        disabled={isDemoLoading}
+                    >
                         {isDemoLoading ? <ButtonSpinner /> : 'Demo app'}
                     </Button>
                 </div>

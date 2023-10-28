@@ -35,6 +35,22 @@ const getUser = createAsyncThunk<UserAPIResponse, void, { rejectValue: DefaultAP
     }
 });
 
+const updateUserProfile = createAsyncThunk<UserAPIResponse, FormData, { rejectValue: DefaultAPIError }>(
+    'user/updateUserProfile',
+    async (body, thunkAPI) => {
+        try {
+            const response = await axios.patch<UserAPIResponse>('/api/v1/users/me', body);
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -53,9 +69,22 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.user = action.payload.data;
+            })
+            .addCase(updateUserProfile.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateUserProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload ?? null;
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.user = action.payload.data;
             });
     },
 });
 
-export { getUser };
+export { getUser, updateUserProfile };
 export default userSlice.reducer;
