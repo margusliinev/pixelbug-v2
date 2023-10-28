@@ -73,12 +73,25 @@ const updateUserPassword = createAsyncThunk<DefaultAPIResponse, UpdatePasswordDt
     },
 );
 
+const deleteUser = createAsyncThunk<DefaultAPIResponse, void, { rejectValue: DefaultAPIError }>('user/deleteUser', async (_, thunkAPI) => {
+    try {
+        const response = await axios.delete<DefaultAPIResponse>('/api/v1/users/me');
+        return response.data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+        }
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        return thunkAPI.rejectWithValue(defaultError);
+    }
+});
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        [getUser, updateUserProfile, updateUserPassword].forEach((thunk) => {
+        [getUser, updateUserProfile, updateUserPassword, deleteUser].forEach((thunk) => {
             builder
                 .addCase(thunk.pending, (state) => {
                     state.isLoading = true;
@@ -103,9 +116,14 @@ const userSlice = createSlice({
             .addCase(updateUserPassword.fulfilled, (state) => {
                 state.isLoading = false;
                 state.error = null;
+            })
+            .addCase(deleteUser.fulfilled, (state) => {
+                state.isLoading = false;
+                state.error = null;
+                state.user = null;
             });
     },
 });
 
-export { getUser, updateUserProfile, updateUserPassword };
+export { getUser, updateUserProfile, updateUserPassword, deleteUser };
 export default userSlice.reducer;

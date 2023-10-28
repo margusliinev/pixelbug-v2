@@ -122,8 +122,6 @@ export class UsersService {
         if (!updatedUser) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to change password', fields: null });
         }
-
-        return { success: true, message: 'Password updated successfully' };
     }
 
     async deleteUserById(userId: string) {
@@ -131,6 +129,5 @@ export class UsersService {
         if (!deletedUser) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to delete user', fields: null });
         }
-        return { success: true, message: 'User deleted successfully' };
     }
 }

@@ -24,13 +24,15 @@ export class UsersController {
     }
 
     @Put('me')
-    updateUserPassword(@Req() req: AuthenticatedRequest, @Body() updateUserPasswordDto: UpdateUserPasswordDto) {
-        return this.usersService.updateUserPassword(req.user.id, updateUserPasswordDto);
+    async updateUserPassword(@Req() req: AuthenticatedRequest, @Body() updateUserPasswordDto: UpdateUserPasswordDto) {
+        await this.usersService.updateUserPassword(req.user.id, updateUserPasswordDto);
+        return { success: true, message: 'Password updated successfully' };
     }
 
     @Delete('me')
-    deleteUserById(@Req() req: AuthenticatedRequest, @Res({ passthrough: true }) res: Response) {
+    async deleteUserById(@Req() req: AuthenticatedRequest, @Res({ passthrough: true }) res: Response) {
         res.clearCookie('__session');
-        return this.usersService.deleteUserById(req.user.id);
+        await this.usersService.deleteUserById(req.user.id);
+        return { success: true, message: 'User deleted successfully' };
     }
 }
