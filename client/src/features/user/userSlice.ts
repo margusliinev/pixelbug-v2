@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { DefaultAPIError } from '@/types';
+import { DefaultAPIError, DefaultAPIResponse } from '@/types';
 import { User } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
 
@@ -22,6 +22,12 @@ type UserAPIResponse = {
     data: UserWithoutPassword;
 };
 
+type UpdatePasswordDto = {
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+};
+
 const getUser = createAsyncThunk<UserAPIResponse, void, { rejectValue: DefaultAPIError }>('user/getUser', async (_, thunkAPI) => {
     try {
         const response = await axios.get<UserAPIResponse>('/api/v1/users/me');
@@ -40,6 +46,22 @@ const updateUserProfile = createAsyncThunk<UserAPIResponse, FormData, { rejectVa
     async (body, thunkAPI) => {
         try {
             const response = await axios.patch<UserAPIResponse>('/api/v1/users/me', body);
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
+const updateUserPassword = createAsyncThunk<DefaultAPIResponse, UpdatePasswordDto, { rejectValue: DefaultAPIError }>(
+    'user/updateUserPassword',
+    async (body, thunkAPI) => {
+        try {
+            const response = await axios.put<DefaultAPIResponse>('/api/v1/users/me', body);
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
@@ -86,5 +108,5 @@ const userSlice = createSlice({
     },
 });
 
-export { getUser, updateUserProfile };
+export { getUser, updateUserProfile, updateUserPassword };
 export default userSlice.reducer;

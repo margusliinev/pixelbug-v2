@@ -33,8 +33,8 @@ export class UpdateUserProfileDto {
     jobTitle: string;
 
     @IsOptional()
-    @MaxFileSize(500000, { message: 'Photo should be less than 0.5MB.' })
-    @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { message: 'Photo should be in jpeg, jpg or png format.' })
-    @IsFile({ message: 'Image is invalid.' })
+    @MaxFileSize(500000, { message: 'Photo should be less than 0.5MB' })
+    @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'], { message: 'Photo should be in jpeg, jpg or png format' })
+    @IsFile({ message: 'Image is invalid' })
     photo: Express.Multer.File;
 }

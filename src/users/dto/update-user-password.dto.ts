@@ -10,7 +10,7 @@ export class UpdateUserPasswordDto {
     })
     @Matches(/.*[A-Za-z].*/, { message: 'Password must contain at least one letter' })
     @Matches(/.*\d.*/, { message: 'Password must contain at least one number' })
-    @MinLength(8, { message: 'New password must be at least 8 characters long' })
+    @MinLength(8, { message: 'Password must be at least 8 characters long' })
     @IsString({ message: 'Password must be a string' })
     @IsNotEmpty({ message: 'Please choose a new password' })
     newPassword: string;
