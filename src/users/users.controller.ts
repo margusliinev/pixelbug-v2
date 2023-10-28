@@ -1,9 +1,10 @@
-import { Controller, Get, Body, Patch, Put, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Put, Delete, Req, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { AuthenticatedRequest } from 'src/types';
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
+import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -28,7 +29,8 @@ export class UsersController {
     }
 
     @Delete('me')
-    deleteUserById(@Req() req: AuthenticatedRequest) {
+    deleteUserById(@Req() req: AuthenticatedRequest, @Res({ passthrough: true }) res: Response) {
+        res.clearCookie('__session');
         return this.usersService.deleteUserById(req.user.id);
     }
 }

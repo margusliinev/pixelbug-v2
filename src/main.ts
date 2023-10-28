@@ -2,11 +2,13 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 import helmet from 'helmet';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.setGlobalPrefix('/api/v1');
+    app.use(compression());
     app.use(cookieParser(process.env.SESSION_SECRET));
     app.use(
         helmet({

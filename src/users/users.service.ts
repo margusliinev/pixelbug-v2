@@ -126,7 +126,11 @@ export class UsersService {
         return { success: true, message: 'Password updated successfully' };
     }
 
-    deleteUserById(id: string) {
-        return `This action removes a #${id} user`;
+    async deleteUserById(userId: string) {
+        const deletedUser = await this.prisma.user.delete({ where: { id: userId } });
+        if (!deletedUser) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete user', fields: null });
+        }
+        return { success: true, message: 'User deleted successfully' };
     }
 }

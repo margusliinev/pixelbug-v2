@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Res, SetMetadata } from '@nestjs/common';
+import { Controller, Post, Body, Res, SetMetadata, Req, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dto/sign-up.dto';
 import { SigninDto } from './dto/sign-in.dto';
+import { AuthenticatedRequest } from 'src/types';
 import { Response } from 'express';
 
 const AllowUnauthorizedRequest = () => SetMetadata('allowUnauthorizedRequest', true);
@@ -42,5 +43,11 @@ export class AuthController {
     @AllowUnauthorizedRequest()
     signout(@Res({ passthrough: true }) res: Response) {
         res.clearCookie('__session');
+    }
+
+    @Delete('revoke')
+    revoke(@Req() req: AuthenticatedRequest, @Res({ passthrough: true }) res: Response) {
+        res.clearCookie('__session');
+        return this.authService.revoke(req.user.id);
     }
 }

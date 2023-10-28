@@ -69,4 +69,13 @@ export class AuthService {
 
         return { session };
     }
+
+    async revoke(userId: string) {
+        try {
+            await this.prisma.session.deleteMany({ where: { userId } });
+        } catch (error) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete sessions', fields: null });
+        }
+        return { success: true, message: 'Successfully deleted all user sessions' };
+    }
 }

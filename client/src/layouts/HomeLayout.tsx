@@ -42,7 +42,7 @@ export function Navbar() {
 export function Logo({ setisMobileMenuOpen }: Props) {
     return (
         <Link to={'/'} className='flex items-center gap-2' onClick={() => setisMobileMenuOpen(false)}>
-            <img src='apple-touch-icon.png' alt='logo' className='w-8 sm:hidden' />
+            <img src='/apple-touch-icon.png' alt='logo' className='w-8 h-8 sm:hidden' />
             <span className='text-2xl font-bold text-emerald-700 sm:text-3xl'>PixelBug</span>
         </Link>
     );
@@ -52,19 +52,19 @@ export function DesktopLinks() {
     return (
         <ul className='hidden items-center sm:flex'>
             <li>
-                <Link to={'/pricing'} className='px-6 py-2.5 text-sm font-medium'>
+                <Link to={'/pricing'} className='px-6 py-3 text-sm font-medium'>
                     Pricing
                 </Link>
             </li>
             <li>
-                <Link to={'/sign-in'} className='py-2.5 pl-6 pr-10 text-sm font-medium'>
+                <Link to={'/sign-in'} className='py-3 pl-6 pr-10 text-sm font-medium'>
                     Sign In
                 </Link>
             </li>
             <li>
                 <Link
                     to='/sign-up'
-                    className='flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
+                    className='flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-hover'
                 >
                     Get Started
                     <span aria-hidden='true' className='font-semibold'>
@@ -78,7 +78,7 @@ export function DesktopLinks() {
 
 export function MobileMenu({ isMobileMenuOpen, setisMobileMenuOpen }: Props) {
     return (
-        <button onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)} className='block sm:hidden'>
+        <button onClick={() => setisMobileMenuOpen(!isMobileMenuOpen)} className='block sm:hidden' aria-label='menu'>
             {isMobileMenuOpen ? <Close /> : <Menu />}
         </button>
     );

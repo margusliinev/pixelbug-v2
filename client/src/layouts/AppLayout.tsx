@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { signout } from '@/features/auth/authSlice';
 import { getUser } from '@/features/user/userSlice';
-import Logo from '/apple-touch-icon.png';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
 
@@ -73,7 +72,11 @@ export function Navbar({
         <nav className='sticky top-0 z-40 grid h-16 w-full border-b bg-white px-6 shadow-sm xl:px-12'>
             <div className='flex items-center justify-between gap-4'>
                 <div className='flex w-full max-w-md items-center gap-4'>
-                    <button className='block cursor-pointer text-secondary-foreground xl:hidden' onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    <button
+                        className='block cursor-pointer text-secondary-foreground xl:hidden'
+                        aria-label='menu'
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    >
                         <Menu />
                     </button>
                     <div className='h-6 w-px bg-neutral-300 xl:hidden'></div>
@@ -140,7 +143,7 @@ export function SidebarDesktop({
         <aside className='sticky top-0 z-0 hidden h-screen w-64 border-r bg-white shadow-sm-right xl:block'>
             <div>
                 <div className='flex h-16 items-center gap-2 px-6 py-4'>
-                    <img src={Logo} alt='logo' className='h-10 w-10' />
+                    <img src='/apple-touch-icon.png' alt='logo' className='h-10 w-10' />
                     <h1 className='text-xl font-semibold text-emerald-800'>PixelBug</h1>
                 </div>
                 <SidebarLinks isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
@@ -175,6 +178,7 @@ export function SidebarMobile({
                 <button
                     type='button'
                     onClick={() => setIsSidebarOpen(false)}
+                    aria-label='close menu'
                     className={
                         isSidebarOpen
                             ? 'absolute -right-8 top-5 text-white opacity-100 transition-opacity duration-500'
@@ -185,7 +189,7 @@ export function SidebarMobile({
                 </button>
                 <div>
                     <div className='flex h-16 items-center gap-2 px-6 py-4'>
-                        <img src={Logo} alt='logo' className='h-10 w-10' />
+                        <img src='/apple-touch-icon.png' alt='logo' className='h-10 w-10' />
                         <h1 className='text-xl font-semibold text-emerald-800'>PixelBug</h1>
                     </div>
                     <SidebarLinks isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />

@@ -20,7 +20,7 @@ export default function HomePage() {
             <div className='mt-6 flex items-center justify-center gap-x-6 md:mt-10'>
                 <Link
                     to='/sign-up'
-                    className='rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover'
+                    className='rounded-full bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-hover'
                 >
                     Get Started
                 </Link>
