@@ -8,6 +8,7 @@ import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SigninPage() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isDemoLoading, setIsDemoLoading] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [allError, setAllError] = useState('');
@@ -49,6 +50,24 @@ export default function SigninPage() {
             })
             .finally(() => {
                 setIsLoading(false);
+            });
+    };
+
+    const handleTestUserSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsDemoLoading(true);
+        dispatch(signin({ email: 'johndoe@gmail.com', password: 'johndoe123' }))
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    navigate('/app/dashboard');
+                }
+            })
+            .catch((error: DefaultAPIError) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setIsDemoLoading(false);
             });
     };
 
@@ -125,7 +144,7 @@ export default function SigninPage() {
                     </Link>
                 </div>
             </form>
-            <form noValidate>
+            <form onSubmit={handleTestUserSubmit} noValidate>
                 <div className='mt-6 flex items-center justify-between gap-4 text-center'>
                     <div className='h-[2px] w-full bg-gray-200'></div>
                     <p className='whitespace-nowrap tracking-tight text-gray-500'>Want to try the app?</p>
@@ -133,7 +152,7 @@ export default function SigninPage() {
                 </div>
                 <div className='mt-4 grid place-items-center'>
                     <Button type='submit' size={'sm'} className='w-28 bg-neutral-500 hover:bg-neutral-600'>
-                        Demo app
+                        {isDemoLoading ? <ButtonSpinner /> : 'Demo app'}
                     </Button>
                 </div>
             </form>

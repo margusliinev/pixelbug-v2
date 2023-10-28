@@ -92,7 +92,7 @@ export function Navbar({
                     </div>
                 </div>
                 <DropdownMenu open={open} onOpenChange={setOpen}>
-                    <DropdownMenuTrigger className='flex max-w-fit items-center gap-2'>
+                    <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
                         <Avatar className='rounded-full'>
                             <AvatarImage src={user?.photo ? user?.photo : undefined} />
                             <AvatarFallback className='bg-neutral-200'>
@@ -112,7 +112,7 @@ export function Navbar({
                             </span>
                         )}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 mt-2 p-0 xs:mr-0'>
+                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
                         <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
                             <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
                                 Your Account
@@ -214,7 +214,7 @@ const SidebarLinks = ({
                         to='/app/dashboard'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-primary-foreground px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
                                 : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -228,7 +228,7 @@ const SidebarLinks = ({
                         to='/app/projects'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-primary-foreground px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
                                 : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -242,7 +242,7 @@ const SidebarLinks = ({
                         to='/app/tickets'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-primary-foreground px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
                                 : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -256,7 +256,7 @@ const SidebarLinks = ({
                         to='/app/account'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-primary-foreground px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
                                 : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -270,7 +270,7 @@ const SidebarLinks = ({
                         to='/app/developers'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-primary-foreground px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
                                 : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}

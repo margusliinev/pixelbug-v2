@@ -21,7 +21,7 @@ async function bootstrap() {
                     baseUri: ["'none'"],
                     frameAncestors: ["'none'"],
                     fontSrc: ["'self'"],
-                    imgSrc: ["'self'"],
+                    imgSrc: ["'self'", 'https://res.cloudinary.com'],
                     connectSrc: ["'self'"],
                     mediaSrc: ["'none'"],
                     frameSrc: ["'none'"],
