@@ -78,32 +78,31 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+        [getUser, updateUserProfile, updateUserPassword].forEach((thunk) => {
+            builder
+                .addCase(thunk.pending, (state) => {
+                    state.isLoading = true;
+                    state.error = null;
+                })
+                .addCase(thunk.rejected, (state, action) => {
+                    state.isLoading = false;
+                    state.error = action.payload ?? null;
+                });
+        });
         builder
-            .addCase(getUser.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(getUser.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload ?? null;
-            })
             .addCase(getUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = null;
                 state.user = action.payload.data;
             })
-            .addCase(updateUserProfile.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(updateUserProfile.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload ?? null;
-            })
             .addCase(updateUserProfile.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = null;
                 state.user = action.payload.data;
+            })
+            .addCase(updateUserPassword.fulfilled, (state) => {
+                state.isLoading = false;
+                state.error = null;
             });
     },
 });

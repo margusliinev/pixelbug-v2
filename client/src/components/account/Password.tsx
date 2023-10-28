@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { updateUserPassword } from '@/features/user/userSlice';
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, TabsContent } from '../ui';
-import { useAppDispatch } from '@/hooks';
+import { useAppSelector, useAppDispatch } from '@/hooks';
 import { DefaultAPIError } from '@/types';
 import ButtonSpinner from '../ButtonSpinner';
 
 export default function Password() {
-    const [isLoading, setIsLoading] = useState(false);
     const [isCurrentPasswordError, setIsCurrentPasswordError] = useState(false);
     const [isNewPasswordError, setIsNewPasswordError] = useState(false);
     const [isConfirmNewPasswordError, setIsConfirmNewPasswordError] = useState(false);
@@ -16,6 +15,7 @@ export default function Password() {
     const currentPasswordRef = useRef<HTMLInputElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
     const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
+    const { isLoading } = useAppSelector((store) => store.user);
     const dispatch = useAppDispatch();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +24,6 @@ export default function Password() {
         const currentPassword = formData.get('current') as string;
         const newPassword = formData.get('new') as string;
         const confirmNewPassword = formData.get('confirm') as string;
-        setIsLoading(true);
         setIsCurrentPasswordError(false);
         setIsNewPasswordError(false);
         setIsConfirmNewPasswordError(false);
@@ -49,9 +48,6 @@ export default function Password() {
                     setIsConfirmNewPasswordError(true);
                     setConfirmNewPasswordError(error.fields.confirmNewPassword);
                 }
-            })
-            .finally(() => {
-                setIsLoading(false);
             });
     };
 

@@ -19,7 +19,6 @@ import {
 import ButtonSpinner from '../ButtonSpinner';
 
 export default function Profile() {
-    const [isLoading, setIsLoading] = useState(false);
     const [photoError, setPhotoError] = useState('');
     const [firstNameError, setFirstNameError] = useState('');
     const [lastNameError, setLastNameError] = useState('');
@@ -38,13 +37,12 @@ export default function Profile() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const jobTitleRef = useRef<HTMLInputElement>(null);
-    const { user } = useAppSelector((store) => store.user);
+    const { isLoading, user } = useAppSelector((store) => store.user);
     const dispatch = useAppDispatch();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        setIsLoading(true);
         setIsPhotoError(false);
         setIsFirstNameError(false);
         setIsLastNameError(false);
@@ -83,9 +81,6 @@ export default function Profile() {
                     setIsJobTitleError(true);
                     setJobTitleError(error.fields.jobTitle);
                 }
-            })
-            .finally(() => {
-                setIsLoading(false);
             });
     };
 

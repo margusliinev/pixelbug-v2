@@ -1,3 +1,7 @@
+import { revokeSessions } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/hooks';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,6 +21,26 @@ import {
 } from '../ui';
 
 export default function Security() {
+    const [open, setOpen] = useState(false);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleRevokeSessions = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setOpen(false);
+        navigate('/');
+        dispatch(revokeSessions())
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    console.log('success');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     return (
         <TabsContent value='security' className='mt-4'>
             <Card>
@@ -28,7 +52,7 @@ export default function Security() {
                 </CardHeader>
                 <CardContent className='max-w-2xl'>
                     <form className='grid gap-4 mt-2 rounded-md bg-white'>
-                        <AlertDialog>
+                        <AlertDialog open={open} onOpenChange={setOpen}>
                             <AlertDialogTrigger className='bg-sky-600 hover:bg-sky-700 text-white max-w-fit text-sm py-3 px-4 rounded-md'>
                                 Revoke all sessions
                             </AlertDialogTrigger>
@@ -42,7 +66,9 @@ export default function Security() {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction className='bg-sky-600 hover:bg-sky-700'>Revoke sessions</AlertDialogAction>
+                                    <AlertDialogAction className='bg-sky-600 hover:bg-sky-700' onClick={handleRevokeSessions}>
+                                        Revoke sessions
+                                    </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

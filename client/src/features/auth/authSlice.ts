@@ -51,11 +51,24 @@ const signout = createAsyncThunk('auth/signout', async (_, thunkAPI) => {
     }
 });
 
+const revokeSessions = createAsyncThunk<DefaultAPIResponse, void, { rejectValue: DefaultAPIError }>('auth/revokeSessions', async (_, thunkAPI) => {
+    try {
+        const response = await axios.delete<DefaultAPIResponse>('/api/v1/auth/revoke');
+        return response.data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+        }
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        return thunkAPI.rejectWithValue(defaultError);
+    }
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {},
     reducers: {},
 });
 
-export { signup, signin, signout };
+export { signup, signin, signout, revokeSessions };
 export default authSlice.reducer;
