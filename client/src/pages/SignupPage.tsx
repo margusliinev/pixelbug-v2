@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks';
 import { signup } from '@/features/auth/authSlice';
 import { DefaultAPIError } from '@/types';
+import { toast } from 'sonner';
 import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SignupPage() {
@@ -35,6 +36,9 @@ export default function SignupPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
+                    toast.success('Your account has been created', {
+                        className: 'success-toast',
+                    });
                 }
             })
             .catch((error: DefaultAPIError) => {

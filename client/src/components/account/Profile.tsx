@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { updateUserProfile } from '@/features/user/userSlice';
 import { DefaultAPIError } from '@/types';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import {
     Avatar,
     AvatarFallback,
@@ -39,6 +41,7 @@ export default function Profile() {
     const jobTitleRef = useRef<HTMLInputElement>(null);
     const { isLoading, user } = useAppSelector((store) => store.user);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -54,9 +57,15 @@ export default function Profile() {
             .then((res) => {
                 if (res.success) {
                     (e.target as HTMLFormElement).reset();
+                    toast.success('Profile successfully updated', {
+                        className: 'success-toast',
+                    });
                 }
             })
             .catch((error: DefaultAPIError) => {
+                if (error.status === 401) {
+                    navigate('/');
+                }
                 if (error.fields?.photo) {
                     setIsPhotoError(true);
                     setPhotoError(error.fields.photo);

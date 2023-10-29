@@ -21,7 +21,7 @@ export class UsersService {
     async getCurrentUser(userId: string) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
-            throw new NotFoundException({ success: false, message: 'User not found', fields: null });
+            throw new NotFoundException({ success: false, message: 'User not found', status: 404, fields: null });
         }
 
         this.exclude(user, 'password');
@@ -44,6 +44,7 @@ export class UsersService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { email: 'Username is already in use' },
             });
         }
@@ -60,6 +61,7 @@ export class UsersService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { email: 'Email is already in use' },
             });
         }
@@ -96,7 +98,7 @@ export class UsersService {
         const { currentPassword, newPassword, confirmNewPassword } = updateUserPasswordDto;
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', fields: null });
+            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', status: 500, fields: null });
         }
 
         const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
@@ -104,6 +106,7 @@ export class UsersService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { currentPassword: 'Current password is incorrect' },
             });
         }
@@ -112,6 +115,7 @@ export class UsersService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { confirmNewPassword: 'Passwords do not match' },
             });
         }
@@ -120,14 +124,14 @@ export class UsersService {
 
         const updatedUser = await this.prisma.user.update({ where: { id: userId }, data: { password: hash } });
         if (!updatedUser) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', fields: null });
+            throw new InternalServerErrorException({ success: false, message: 'Failed to change password', status: 500, fields: null });
         }
     }
 
     async deleteUserById(userId: string) {
         const deletedUser = await this.prisma.user.delete({ where: { id: userId } });
         if (!deletedUser) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to delete user', fields: null });
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete user', status: 500, fields: null });
         }
     }
 }

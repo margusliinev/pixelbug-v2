@@ -13,26 +13,26 @@ export class UsersController {
     @Get('me')
     async getCurrentUser(@Req() req: AuthenticatedRequest) {
         const { user } = await this.usersService.getCurrentUser(req.user.id);
-        return { success: true, data: user };
+        return { success: true, message: 'User successfully retrieved', data: user };
     }
 
     @Patch('me')
     @FormDataRequest({ storage: FileSystemStoredFile, fileSystemStoragePath: './uploads' })
     async updateUserProfile(@Req() req: AuthenticatedRequest, @Body() updateUserProfileDto: UpdateUserProfileDto) {
         const { user } = await this.usersService.updateUserProfile(req.user.id, updateUserProfileDto);
-        return { success: true, data: user };
+        return { success: true, message: 'Profile successfully updated', data: user };
     }
 
     @Put('me')
     async updateUserPassword(@Req() req: AuthenticatedRequest, @Body() updateUserPasswordDto: UpdateUserPasswordDto) {
         await this.usersService.updateUserPassword(req.user.id, updateUserPasswordDto);
-        return { success: true, message: 'Password updated successfully' };
+        return { success: true, message: 'Password successfully updated' };
     }
 
     @Delete('me')
     async deleteUserById(@Req() req: AuthenticatedRequest, @Res({ passthrough: true }) res: Response) {
         res.clearCookie('__session');
         await this.usersService.deleteUserById(req.user.id);
-        return { success: true, message: 'User deleted successfully' };
+        return { success: true, message: 'Your account was successfully deleted' };
     }
 }

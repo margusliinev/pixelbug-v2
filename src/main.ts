@@ -44,6 +44,7 @@ async function bootstrap() {
                 return new BadRequestException({
                     success: false,
                     message: 'Validation failed',
+                    status: 400,
                     fields: fields,
                 });
             },

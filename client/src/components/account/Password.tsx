@@ -3,6 +3,8 @@ import { updateUserPassword } from '@/features/user/userSlice';
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, TabsContent } from '../ui';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { DefaultAPIError } from '@/types';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import ButtonSpinner from '../ButtonSpinner';
 
 export default function Password() {
@@ -17,6 +19,7 @@ export default function Password() {
     const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
     const { isLoading } = useAppSelector((store) => store.user);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -32,10 +35,15 @@ export default function Password() {
             .then((res) => {
                 if (res.success) {
                     (e.target as HTMLFormElement).reset();
+                    toast.success('Password successfully updated', {
+                        className: 'success-toast',
+                    });
                 }
             })
             .catch((error: DefaultAPIError) => {
-                console.log(error);
+                if (error.status === 401) {
+                    navigate('/');
+                }
                 if (error.fields?.currentPassword) {
                     setIsCurrentPasswordError(true);
                     setCurrentPasswordError(error.fields.currentPassword);

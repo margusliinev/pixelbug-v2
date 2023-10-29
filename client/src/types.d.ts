@@ -6,6 +6,7 @@ export type DefaultAPIResponse = {
 export type DefaultAPIError = {
     success: boolean;
     message: string;
+    status: number;
     fields: {
         [key: string]: string;
     } | null;

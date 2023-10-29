@@ -8,7 +8,12 @@ export class CloudinaryService {
             transformation: [{ width: 100, height: 100, crop: 'fit', quality: 'auto' }],
         });
         if (!response.secure_url) {
-            throw new InternalServerErrorException({ success: false, message: 'Error uploading image', fields: { photo: 'Error uploading image' } });
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'Error uploading image',
+                status: 500,
+                fields: { photo: 'Error uploading image' },
+            });
         }
         return response.secure_url;
     }

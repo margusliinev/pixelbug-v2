@@ -21,7 +21,7 @@ const signup = createAsyncThunk<DefaultAPIResponse, SignupDto>('auth/signup', as
         if (isAxiosError(error) && error.response) {
             return thunkAPI.rejectWithValue(error.response.data);
         }
-        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });
@@ -34,7 +34,7 @@ const signin = createAsyncThunk<DefaultAPIResponse, SigninDto>('auth/signin', as
         if (isAxiosError(error) && error.response) {
             return thunkAPI.rejectWithValue(error.response.data);
         }
-        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });
@@ -46,7 +46,7 @@ const signout = createAsyncThunk('auth/signout', async (_, thunkAPI) => {
         if (isAxiosError(error) && error.response) {
             return thunkAPI.rejectWithValue(error.response.data);
         }
-        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });
@@ -59,7 +59,7 @@ const revokeSessions = createAsyncThunk<DefaultAPIResponse, void, { rejectValue:
         if (isAxiosError(error) && error.response) {
             return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
         }
-        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', fields: null };
+        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });

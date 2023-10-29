@@ -27,6 +27,7 @@ export class AuthService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { username: 'Username is already in use' },
             });
         }
@@ -36,6 +37,7 @@ export class AuthService {
             throw new ConflictException({
                 success: false,
                 message: 'Validation failed',
+                status: 409,
                 fields: { email: 'Email is already in use' },
             });
         }
@@ -46,7 +48,7 @@ export class AuthService {
             data: { username: signupDto.username.toLowerCase(), email: signupDto.email.toLowerCase(), password: hash },
         });
         if (!user) {
-            throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', fields: null });
+            throw new InternalServerErrorException({ success: false, message: 'Internal Server Error', status: 500, fields: null });
         }
 
         const session = await this.createSession(user.id);
@@ -57,12 +59,22 @@ export class AuthService {
     async signin(signinDto: SigninDto) {
         const user = await this.prisma.user.findUnique({ where: { email: signinDto.email.toLowerCase() } });
         if (!user) {
-            throw new UnauthorizedException({ success: false, message: 'Validation failed', fields: { all: 'Email or password is incorrect' } });
+            throw new UnauthorizedException({
+                success: false,
+                message: 'Unauthorized',
+                status: 401,
+                fields: { all: 'Email or password is incorrect' },
+            });
         }
 
         const passwordMatch = await bcrypt.compare(signinDto.password, user.password);
         if (!passwordMatch) {
-            throw new UnauthorizedException({ success: false, message: 'Validation failed', fields: { all: 'Email or password is incorrect' } });
+            throw new UnauthorizedException({
+                success: false,
+                message: 'Unauthorized',
+                status: 401,
+                fields: { all: 'Email or password is incorrect' },
+            });
         }
 
         const session = await this.createSession(user.id);
@@ -74,7 +86,7 @@ export class AuthService {
         try {
             await this.prisma.session.deleteMany({ where: { userId } });
         } catch (error) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to delete sessions', fields: null });
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete sessions', status: 500, fields: null });
         }
         return { success: true, message: 'Successfully deleted all user sessions' };
     }

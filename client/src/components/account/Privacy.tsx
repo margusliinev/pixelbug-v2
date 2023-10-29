@@ -2,6 +2,7 @@ import { deleteUser } from '@/features/user/userSlice';
 import { useAppDispatch } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -33,11 +34,15 @@ export default function Privacy() {
             .unwrap()
             .then((res) => {
                 if (res.success) {
-                    console.log('success');
+                    toast.success('Your account has been deleted', {
+                        className: 'success-toast',
+                    });
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                toast.success('Failed to delete your account', {
+                    className: 'error-toast',
+                });
             });
     };
 

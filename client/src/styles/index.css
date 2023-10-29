@@ -43,3 +43,11 @@
         @apply bg-repeat;
     }
 }
+
+.success-toast {
+    @apply bg-emerald-50 text-primary font-Inter font-medium !important;
+}
+
+.error-toast {
+    @apply bg-red-50 text-destructive font-Inter font-medium !important;
+}

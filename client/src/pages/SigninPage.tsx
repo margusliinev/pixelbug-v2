@@ -4,6 +4,7 @@ import { useAppDispatch } from '@/hooks';
 import { signin } from '@/features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { DefaultAPIError } from '@/types';
+import { toast } from 'sonner';
 import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SigninPage() {
@@ -34,6 +35,9 @@ export default function SigninPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
+                    toast.success('Welcome Back!', {
+                        className: 'success-toast',
+                    });
                 }
             })
             .catch((error: DefaultAPIError) => {

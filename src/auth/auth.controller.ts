@@ -22,7 +22,7 @@ export class AuthController {
             secure: process.env.NODE_ENV === 'production',
             signed: true,
         });
-        return { success: true, message: 'User created successfully' };
+        return { success: true, message: 'User successfully created' };
     }
 
     @Post('signin')
@@ -36,7 +36,7 @@ export class AuthController {
             secure: process.env.NODE_ENV === 'production',
             signed: true,
         });
-        return { success: true, message: 'User signed in successfully' };
+        return { success: true, message: 'User successfully signed in' };
     }
 
     @Post('signout')
