@@ -40,7 +40,7 @@ async function bootstrap() {
                         const errorProperty = validationProperties[index] || 'error';
                         return { [errorProperty]: message[0] };
                     })
-                    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+                    .reduce((acc, curr) => ({ ...acc, ...curr }));
                 return new BadRequestException({
                     success: false,
                     message: 'Validation failed',

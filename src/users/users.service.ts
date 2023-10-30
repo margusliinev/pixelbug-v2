@@ -45,7 +45,7 @@ export class UsersService {
                 success: false,
                 message: 'Validation failed',
                 status: 409,
-                fields: { email: 'Username is already in use' },
+                fields: { username: 'Username is already in use' },
             });
         }
 
