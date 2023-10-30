@@ -2,7 +2,6 @@ import { revokeSessions } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,12 +18,14 @@ import {
     CardHeader,
     CardTitle,
     TabsContent,
+    useToast,
 } from '../ui';
 
 export default function Security() {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     const handleRevokeSessions = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -34,14 +35,16 @@ export default function Security() {
             .unwrap()
             .then((res) => {
                 if (res.success) {
-                    toast.success('Logged out from all devices', {
-                        className: 'success-toast',
+                    toast({
+                        title: 'Logged out from all devices',
+                        variant: 'default',
                     });
                 }
             })
             .catch(() => {
-                toast.success('Failed to revoke sessions', {
-                    className: 'error-toast',
+                toast({
+                    title: 'Failed to revoke sessions',
+                    variant: 'destructive',
                 });
             });
     };

@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '@/hooks';
 import { updateUserProfile } from '@/features/user/userSlice';
 import { DefaultAPIError } from '@/types';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import {
     Avatar,
     AvatarFallback,
@@ -17,6 +16,7 @@ import {
     Input,
     Label,
     TabsContent,
+    useToast,
 } from '../ui';
 import ButtonSpinner from '../ButtonSpinner';
 
@@ -40,6 +40,7 @@ export default function Profile() {
     const emailRef = useRef<HTMLInputElement>(null);
     const jobTitleRef = useRef<HTMLInputElement>(null);
     const { isLoading, user } = useAppSelector((store) => store.user);
+    const { toast } = useToast();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -57,8 +58,9 @@ export default function Profile() {
             .then((res) => {
                 if (res.success) {
                     (e.target as HTMLFormElement).reset();
-                    toast.success('Profile successfully updated', {
-                        className: 'success-toast',
+                    toast({
+                        title: 'Profile successfully updated',
+                        variant: 'default',
                     });
                 }
             })

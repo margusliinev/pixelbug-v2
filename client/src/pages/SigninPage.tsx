@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button, Input, Label } from '@/components/ui';
+import { Button, Input, Label, useToast } from '@/components/ui';
 import { useAppDispatch } from '@/hooks';
 import { signin } from '@/features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { DefaultAPIError } from '@/types';
-import { toast } from 'sonner';
 import ButtonSpinner from '@/components/ButtonSpinner';
 
 export default function SigninPage() {
@@ -20,6 +19,7 @@ export default function SigninPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -35,8 +35,9 @@ export default function SigninPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
-                    toast.success('Welcome Back!', {
-                        className: 'success-toast',
+                    toast({
+                        title: 'Welcome back!',
+                        variant: 'default',
                     });
                 }
             })
@@ -65,10 +66,17 @@ export default function SigninPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
+                    toast({
+                        title: 'Welcome to PixelBug!',
+                        variant: 'default',
+                    });
                 }
             })
             .catch(() => {
-                return;
+                toast({
+                    title: 'Demo user login failed',
+                    variant: 'destructive',
+                });
             })
             .finally(() => {
                 setIsDemoLoading(false);

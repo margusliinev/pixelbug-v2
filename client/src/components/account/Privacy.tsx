@@ -2,7 +2,6 @@ import { deleteUser } from '@/features/user/userSlice';
 import { useAppDispatch } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,12 +18,14 @@ import {
     CardHeader,
     CardTitle,
     TabsContent,
+    useToast,
 } from '../ui';
 
 export default function Privacy() {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -34,14 +35,16 @@ export default function Privacy() {
             .unwrap()
             .then((res) => {
                 if (res.success) {
-                    toast.success('Your account has been deleted', {
-                        className: 'success-toast',
+                    toast({
+                        title: 'Your account has been deleted',
+                        variant: 'default',
                     });
                 }
             })
             .catch(() => {
-                toast.success('Failed to delete your account', {
-                    className: 'error-toast',
+                toast({
+                    title: 'Failed to delete your account',
+                    variant: 'destructive',
                 });
             });
     };
