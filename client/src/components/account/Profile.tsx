@@ -115,7 +115,16 @@ export default function Profile() {
         <TabsContent value='profile' className='mt-4'>
             <Card>
                 <CardHeader>
-                    <CardTitle>Profile</CardTitle>
+                    <div className='grid xxxs:flex gap-2'>
+                        <CardTitle>Profile</CardTitle>
+                        {user?.createdAt === user?.updatedAt ? (
+                            <p className='text-sm self-end text-destructive italic font-medium'>(Your profile is incomplete)</p>
+                        ) : (
+                            <p className='text-sm self-end text-secondary-foreground italic font-medium'>
+                                Last updated: {user?.updatedAt && new Date(user?.updatedAt).toDateString().split(' ').slice(1, 4).join(' ')}
+                            </p>
+                        )}
+                    </div>
                     <CardDescription>Make changes to your profile here. Click save when you&apos;re done.</CardDescription>
                 </CardHeader>
                 <CardContent className='max-w-2xl'>

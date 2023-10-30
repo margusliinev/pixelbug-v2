@@ -1,4 +1,4 @@
-import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown } from '@/assets/icons';
+import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { User as UserType } from '@prisma/client';
 import { useAppSelector, useAppDispatch } from '@/hooks';
@@ -206,6 +206,7 @@ const SidebarLinks = ({
     isSidebarOpen: boolean;
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+    const { user } = useAppSelector((store) => store.user);
     return (
         <div className='h-full px-4 py-6 xl:py-10'>
             <ul className='grid gap-4'>
@@ -256,13 +257,18 @@ const SidebarLinks = ({
                         to='/app/account'
                         className={({ isActive }) =>
                             isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
-                                : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
+                                ? 'relative flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                : 'relative flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
                         <User />
                         Account
+                        {user?.createdAt === user?.updatedAt && (
+                            <span className='absolute right-14 bottom-2 animate-bounce'>
+                                <ErrorTriangle />
+                            </span>
+                        )}
                     </NavLink>
                 </li>
                 <li>

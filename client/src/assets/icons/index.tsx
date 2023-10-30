@@ -11,4 +11,5 @@ import Users from './Users';
 import Search from './Search';
 import ChevronDown from './ChevronDown';
 import ChevronUp from './ChevronUp';
-export { Check, Close, Folder, Home, Menu, Minus, Spinner, Ticket, User, Users, Search, ChevronDown, ChevronUp };
+import ErrorTriangle from './ErrorTriangle';
+export { Check, Close, Folder, Home, Menu, Minus, Spinner, Ticket, User, Users, Search, ChevronDown, ChevronUp, ErrorTriangle };
