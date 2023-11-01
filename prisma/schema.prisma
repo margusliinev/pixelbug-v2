@@ -14,19 +14,21 @@ enum Role {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  username   String    @unique
-  email      String    @unique
-  password   String
-  firstName  String?
-  lastName   String?
-  jobTitle   String?
-  photo      String?
-  role       Role      @default(USER)
-  isVerified Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  sessions   Session[]
+  id              String    @id @default(cuid())
+  username        String    @unique
+  email           String    @unique
+  password        String
+  firstName       String?
+  lastName        String?
+  jobTitle        String?
+  photo           String?
+  role            Role      @default(USER)
+  isVerified      Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  sessions        Session[]
+  managedProjects Project[]
+  projects        Project[] @relation("UserProjects")
 
   @@map("users")
 }
@@ -52,6 +54,9 @@ model Project {
   startDate   DateTime
   endDate     DateTime
   isArchived  Boolean  @default(false)
+  managerId   String?
+  manager     User?    @relation(fields: [managerId], references: [id])
+  members     User[]   @relation("UserProjects")
 
   @@map("projects")
 }
