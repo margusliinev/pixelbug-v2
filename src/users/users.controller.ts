@@ -10,6 +10,12 @@ import { Response } from 'express';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @Get()
+    async getAllUsers(@Req() req: AuthenticatedRequest) {
+        const { users } = await this.usersService.getAllUsers(req.user.id);
+        return { success: true, message: 'Users successfully retrieved', data: users };
+    }
+
     @Get('me')
     async getCurrentUser(@Req() req: AuthenticatedRequest) {
         const { user } = await this.usersService.getCurrentUser(req.user.id);

@@ -18,6 +18,17 @@ export class UsersService {
         return user;
     }
 
+    async getAllUsers(userId: string) {
+        const users = await this.prisma.user.findMany({ where: { NOT: { id: userId } } });
+        if (!users) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to retrieve users', status: 500, fields: null });
+        }
+
+        users.forEach((user) => this.exclude(user, 'password'));
+
+        return { users };
+    }
+
     async getCurrentUser(userId: string) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
