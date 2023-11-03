@@ -30,7 +30,7 @@ export class UsersService {
     }
 
     async updateUserProfile(userId: string, updateUserProfileDto: UpdateUserProfileDto) {
-        const { username, email, firstName, lastName, jobTitle, photo } = updateUserProfileDto;
+        const { username, email, firstName, lastName, phone, jobTitle, photo } = updateUserProfileDto;
 
         const exisitingUsername = await this.prisma.user.findUnique({
             where: {
@@ -69,21 +69,31 @@ export class UsersService {
         const updateData: Partial<User> = {
             username: username.toLowerCase(),
             email: email.toLowerCase(),
+            firstName: firstName || null,
+            lastName: lastName || null,
+            jobTitle: jobTitle || null,
         };
 
-        if (firstName) {
-            updateData.firstName = firstName;
+        if (phone) {
+            const existingPhone = await this.prisma.user.findUnique({ where: { phone: phone, NOT: { id: userId } } });
+            if (existingPhone) {
+                throw new ConflictException({
+                    success: false,
+                    message: 'Validation failed',
+                    status: 409,
+                    fields: { phone: 'Phone number is already in use' },
+                });
+            }
+            updateData.phone = phone;
+        } else {
+            updateData.phone = null;
         }
-        if (lastName) {
-            updateData.lastName = lastName;
-        }
-        if (jobTitle) {
-            updateData.jobTitle = jobTitle;
-        }
+
         if (photo) {
             const url = await this.cloudinary.uploadPhoto(photo);
             updateData.photo = url;
         }
+
         const updatedUser = await this.prisma.user.update({
             where: { id: userId },
             data: updateData,

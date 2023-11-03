@@ -17,6 +17,7 @@ async function seed() {
                 lastName: user.lastName,
                 jobTitle: user.jobTitle,
                 photo: user.photo,
+                phone: user.phone,
             },
         });
     }

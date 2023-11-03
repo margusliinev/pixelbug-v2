@@ -7,6 +7,6 @@ import DashboardPage from './DashboardPage';
 import ProjectsPage from './ProjectsPage';
 import TicketsPage from './TicketsPage';
 import AccountPage from './AccountPage';
-import DevelopersPage from './DevelopersPage';
+import UsersPage from './UsersPage';
 
-export { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, DevelopersPage };
+export { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage };

@@ -5,6 +5,7 @@
         "password": "johndoe123",
         "firstName": "John",
         "lastName": "Doe",
+        "phone": "2125551234",
         "jobTitle": "Full Stack Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1692081328/thconr32kzyg2nwv4gy4.jpg"
     },
@@ -14,6 +15,7 @@
         "password": "mariaglenn123",
         "firstName": "Maria",
         "lastName": "Glenn",
+        "phone": "4155555678",
         "jobTitle": "Front End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774123/nmvtpdfjrsa02dxxgrmw.jpg"
     },
@@ -23,6 +25,7 @@
         "password": "shawntray123",
         "firstName": "Shawn",
         "lastName": "Tray",
+        "phone": "7135559876",
         "jobTitle": "Back End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774179/vaoxagyw0prvrv9bp5w4.jpg"
     },
@@ -32,6 +35,7 @@
         "password": "mikebrown123",
         "firstName": "Mike",
         "lastName": "Brown",
+        "phone": "3055558765",
         "jobTitle": "DevOps Engineer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774298/jf1bmqvh9gvowbaasomd.jpg"
     },
@@ -41,6 +45,7 @@
         "password": "larrysmith123",
         "firstName": "Larry",
         "lastName": "Smith",
+        "phone": "6175554321",
         "jobTitle": "UI/UX Designer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774353/ogpvgu2yzsuyfijh4lzz.jpg"
     },
@@ -50,6 +55,7 @@
         "password": "joeduffy123",
         "firstName": "Joe",
         "lastName": "Duffy",
+        "phone": "4045556789",
         "jobTitle": "Web Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774401/jb3hpmihc7c4mnthy6ys.jpg"
     },
@@ -59,6 +65,7 @@
         "password": "chrismiller123",
         "firstName": "Chris",
         "lastName": "Miller",
+        "phone": "6195552345",
         "jobTitle": "Software Engineer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774465/jwo6j5jfb7zcyuyhtn1p.jpg"
     },
@@ -68,6 +75,7 @@
         "password": "changlee123",
         "firstName": "Chang",
         "lastName": "Lee",
+        "phone": "8325557890",
         "jobTitle": "Data Scientist",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774524/qh3gx3yqq3iyah6hiwja.jpg"
     },
@@ -77,6 +85,7 @@
         "password": "andreamoore123",
         "firstName": "Andrea",
         "lastName": "Moore",
+        "phone": "9175553456",
         "jobTitle": "Full Stack Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774582/e1fzj0zz9thump1iyw1k.jpg"
     },
@@ -86,6 +95,7 @@
         "password": "davidcooper123",
         "firstName": "David",
         "lastName": "Cooper",
+        "phone": "3125558901",
         "jobTitle": "Front End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774716/e9hxdpanb0agkrzjf8ml.jpg"
     },
@@ -95,6 +105,7 @@
         "password": "juanmartinez123",
         "firstName": "Juan",
         "lastName": "Martinez",
+        "phone": "4805556543",
         "jobTitle": "Back End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1689774862/t1yaou6bi67qzbfg3yxv.jpg"
     },
@@ -104,6 +115,7 @@
         "password": "jacobcrook123",
         "firstName": "Jacob",
         "lastName": "Crook",
+        "phone": "2065553210",
         "jobTitle": "DevOps Engineer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340340/lzge60tlsaholwwj6qdr.jpg"
     },
@@ -113,6 +125,7 @@
         "password": "dennisamber123",
         "firstName": "Dennis",
         "lastName": "Amber",
+        "phone": "2145558765",
         "jobTitle": "UI/UX Designer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340399/ctdwkpnnq1ae3heixgyk.jpg"
     },
@@ -122,6 +135,7 @@
         "password": "estherhoward123",
         "firstName": "Esther",
         "lastName": "Howard",
+        "phone": "5105552345",
         "jobTitle": "Web Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340498/rfypu2saajh6ohyb1s8f.jpg"
     },
@@ -131,6 +145,7 @@
         "password": "courtneyhenry123",
         "firstName": "Courtney",
         "lastName": "Henry",
+        "phone": "8135555678",
         "jobTitle": "Software Engineer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340548/gw2sezbrtehggbvmd8b2.jpg"
     },
@@ -140,6 +155,7 @@
         "password": "codyfisher123",
         "firstName": "Cody",
         "lastName": "Fisher",
+        "phone": "7025554321",
         "jobTitle": "Data Scientist",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340638/uc7xy4ob3evcxibyus9h.jpg"
     },
@@ -149,6 +165,7 @@
         "password": "cameronwill123",
         "firstName": "Cameron",
         "lastName": "Will",
+        "phone": "4155559876",
         "jobTitle": "Full Stack Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340718/vibzmjo5mifjoxicwocx.jpg"
     },
@@ -158,6 +175,7 @@
         "password": "theresawebb123",
         "firstName": "Theresa",
         "lastName": "Webb",
+        "phone": "5035557890",
         "jobTitle": "Front End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340821/t7bkpeyzew4d7nwcfoan.jpg"
     },
@@ -167,6 +185,7 @@
         "password": "kristinwatson123",
         "firstName": "Kristin",
         "lastName": "Watson",
+        "phone": "3055551234",
         "jobTitle": "Back End Developer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340911/jna2borq61rbumzzllq7.jpg"
     },
@@ -176,6 +195,7 @@
         "password": "jennywilson123",
         "firstName": "Jenny",
         "lastName": "Wilson",
+        "phone": "6785556543",
         "jobTitle": "DevOps Engineer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691340946/ufouyjjll2sooczozl46.jpg"
     },
@@ -185,6 +205,7 @@
         "password": "janecooper123",
         "firstName": "Jane",
         "lastName": "Cooper",
+        "phone": "2025553456",
         "jobTitle": "UI/UX Designer",
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1691341059/ntyohizoo5hpdpz6nqvz.jpg"
     }

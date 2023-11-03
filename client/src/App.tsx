@@ -1,17 +1,6 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { HomeLayout, AppLayout } from './layouts';
-import {
-    ErrorPage,
-    HomePage,
-    PricingPage,
-    SignupPage,
-    SigninPage,
-    DashboardPage,
-    ProjectsPage,
-    TicketsPage,
-    AccountPage,
-    DevelopersPage,
-} from './pages';
+import { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage } from './pages';
 
 function App() {
     const router = createBrowserRouter([
@@ -59,12 +48,12 @@ function App() {
                     element: <TicketsPage />,
                 },
                 {
-                    path: 'account',
-                    element: <AccountPage />,
+                    path: 'users',
+                    element: <UsersPage />,
                 },
                 {
-                    path: 'developers',
-                    element: <DevelopersPage />,
+                    path: 'account',
+                    element: <AccountPage />,
                 },
             ],
         },

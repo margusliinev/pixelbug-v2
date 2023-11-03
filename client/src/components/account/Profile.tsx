@@ -26,18 +26,21 @@ export default function Profile() {
     const [lastNameError, setLastNameError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
     const [jobTitleError, setJobTitleError] = useState('');
     const [isPhotoError, setIsPhotoError] = useState(false);
     const [isFirstNameError, setIsFirstNameError] = useState(false);
     const [isLastNameError, setIsLastNameError] = useState(false);
     const [isUsernameError, setIsUsernameError] = useState(false);
     const [isEmailError, setIsEmailError] = useState(false);
+    const [isPhoneError, setIsPhoneError] = useState(false);
     const [isJobTitleError, setIsJobTitleError] = useState(false);
     const photoRef = useRef<HTMLInputElement>(null);
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
     const jobTitleRef = useRef<HTMLInputElement>(null);
     const { isLoading, user } = useAppSelector((store) => store.user);
     const { toast } = useToast();
@@ -47,11 +50,27 @@ export default function Profile() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        if (formData.get('photo') === '') {
+            formData.delete('photo');
+        }
+        if (formData.get('firstName') === '') {
+            formData.delete('firstName');
+        }
+        if (formData.get('lastName') === '') {
+            formData.delete('lastName');
+        }
+        if (formData.get('jobTitle') === '') {
+            formData.delete('jobTitle');
+        }
+        if (formData.get('phone') === '') {
+            formData.delete('phone');
+        }
         setIsPhotoError(false);
         setIsFirstNameError(false);
         setIsLastNameError(false);
         setIsUsernameError(false);
         setIsEmailError(false);
+        setIsPhoneError(false);
         setIsJobTitleError(false);
         dispatch(updateUserProfile(formData))
             .unwrap()
@@ -88,6 +107,10 @@ export default function Profile() {
                     setIsEmailError(true);
                     setEmailError(error.fields.email);
                 }
+                if (error.fields?.phone) {
+                    setIsPhoneError(true);
+                    setPhoneError(error.fields.phone);
+                }
                 if (error.fields?.jobTitle) {
                     setIsJobTitleError(true);
                     setJobTitleError(error.fields.jobTitle);
@@ -106,10 +129,12 @@ export default function Profile() {
             usernameRef.current?.focus();
         } else if (isEmailError) {
             emailRef.current?.focus();
+        } else if (isPhoneError) {
+            phoneRef.current?.focus();
         } else if (isJobTitleError) {
             jobTitleRef.current?.focus();
         }
-    }, [isPhotoError, isFirstNameError, isLastNameError, isEmailError, isUsernameError, isJobTitleError]);
+    }, [isFirstNameError, isLastNameError, isUsernameError, isEmailError, isPhoneError, isPhotoError, isJobTitleError]);
 
     return (
         <TabsContent value='profile' className='mt-4'>
@@ -118,6 +143,8 @@ export default function Profile() {
                     <div className='grid xxxs:flex gap-2'>
                         <CardTitle>Profile</CardTitle>
                         {user?.createdAt === user?.updatedAt ? (
+                            <p className='text-sm self-end text-destructive italic font-medium'>(Please complete your profile)</p>
+                        ) : !user?.firstName || !user?.lastName || !user?.username || !user?.email || !user?.phone || !user?.jobTitle ? (
                             <p className='text-sm self-end text-destructive italic font-medium'>(Your profile is incomplete)</p>
                         ) : (
                             <p className='text-sm self-end text-secondary-foreground italic font-medium'>
@@ -136,7 +163,7 @@ export default function Profile() {
                                     {user?.firstName ? user?.firstName.charAt(0).toUpperCase() : user?.username.charAt(0).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
-                            <fieldset className='w-full space-y-1' disabled={isLoading}>
+                            <fieldset className='w-full space-y-1'>
                                 <Label htmlFor='photo' className='mb-4 text-sm tracking-tight text-secondary-foreground'>
                                     JPG or PNG. 0.5 MB max.
                                 </Label>
@@ -159,7 +186,7 @@ export default function Profile() {
                             </fieldset>
                         </div>
                         <div className='grid gap-3 xxs:flex w-full items-center xxs:gap-4 xxs:items-start'>
-                            <fieldset className='w-full space-y-1' disabled={isLoading}>
+                            <fieldset className='w-full space-y-1'>
                                 <Label htmlFor='firstName'>First Name</Label>
                                 <Input
                                     type='text'
@@ -177,7 +204,7 @@ export default function Profile() {
                                     </p>
                                 ) : null}
                             </fieldset>
-                            <fieldset className='w-full space-y-1' disabled={isLoading}>
+                            <fieldset className='w-full space-y-1'>
                                 <Label htmlFor='lastName'>Last Name</Label>
                                 <Input
                                     type='text'
@@ -196,7 +223,7 @@ export default function Profile() {
                                 ) : null}
                             </fieldset>
                         </div>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='username'>Username</Label>
                             <Input
                                 type='text'
@@ -214,7 +241,7 @@ export default function Profile() {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='email'>Email</Label>
                             <Input
                                 type='text'
@@ -232,7 +259,25 @@ export default function Profile() {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
+                            <Label htmlFor='phone'>Phone</Label>
+                            <Input
+                                type='text'
+                                id='phone'
+                                name='phone'
+                                defaultValue={user?.phone ? user?.phone : ''}
+                                ref={phoneRef}
+                                aria-invalid={phoneError ? true : undefined}
+                                aria-describedby='phone-error'
+                                onChange={() => setPhoneError('')}
+                            />
+                            {phoneError ? (
+                                <p className='pt-1 text-sm text-destructive' id='phone-error'>
+                                    {phoneError}
+                                </p>
+                            ) : null}
+                        </fieldset>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='jobTitle'>Job Title</Label>
                             <Input
                                 type='text'

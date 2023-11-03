@@ -254,6 +254,20 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
+                        to='/app/users'
+                        className={({ isActive }) =>
+                            isActive
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
+                        }
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    >
+                        <Users />
+                        Users
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
                         to='/app/account'
                         className={({ isActive }) =>
                             isActive
@@ -269,20 +283,6 @@ const SidebarLinks = ({
                                 <ErrorTriangle />
                             </span>
                         )}
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        to='/app/developers'
-                        className={({ isActive }) =>
-                            isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
-                                : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
-                        }
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    >
-                        <Users />
-                        Developers
                     </NavLink>
                 </li>
             </ul>

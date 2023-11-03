@@ -27,6 +27,12 @@ export class UpdateUserProfileDto {
     email: string;
 
     @IsOptional()
+    @Matches(/^[0-9]+$/, { message: 'Phone number can only contain numbers (0-9)' })
+    @Length(6, 14, { message: 'Phone number must be between 6 and 14 characters' })
+    @IsString({ message: 'Phone number must be a string' })
+    phone: string;
+
+    @IsOptional()
     @Matches(/^[A-Za-z /-]+$/, { message: 'Job title can only contain letters (A-Z), hyphens (-) and forward slashes (/)' })
     @Length(3, 39, { message: 'Job Title must be between 3 and 39 characters' })
     @IsString({ message: 'Job title must be a string' })

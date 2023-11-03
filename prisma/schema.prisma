@@ -8,9 +8,18 @@ datasource db {
 }
 
 enum Role {
-  ADMIN
+  TESTER
   USER
-  TEST
+  DEVELOPER
+  ADMIN
+}
+
+enum ProjectStatus {
+  PLANNING
+  DEVELOPMENT
+  ON_HOLD
+  MAINTENANCE
+  COMPLETED
 }
 
 model User {
@@ -22,10 +31,11 @@ model User {
   lastName   String?
   jobTitle   String?
   photo      String?
-  role       Role          @default(USER)
-  isVerified Boolean       @default(false)
+  phone      String?       @unique
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
+  isVerified Boolean       @default(false)
+  role       Role          @default(USER)
   sessions   Session[]
   projects   UserProject[]
 
@@ -41,6 +51,7 @@ model Project {
   startDate   DateTime
   endDate     DateTime
   isArchived  Boolean       @default(false)
+  status      ProjectStatus @default(PLANNING)
   users       UserProject[]
 
   @@map("projects")
