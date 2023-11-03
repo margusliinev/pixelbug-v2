@@ -8,10 +8,9 @@ datasource db {
 }
 
 enum Role {
-  TESTER
-  USER
-  DEVELOPER
   ADMIN
+  DEVELOPER
+  USER
 }
 
 enum ProjectStatus {

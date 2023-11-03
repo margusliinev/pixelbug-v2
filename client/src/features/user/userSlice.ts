@@ -19,6 +19,7 @@ const initialState: UserState = {
 
 type UserAPIResponse = {
     success: boolean;
+    message: string;
     data: UserWithoutPassword;
 };
 

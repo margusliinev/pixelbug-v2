@@ -18,6 +18,8 @@ module.exports = {
                 pattern: "url('/background.png')",
             },
             screens: {
+                '4xl': '1800px',
+                '3xl': '1600px',
                 xs: '600px',
                 xxs: '500px',
                 xxxs: '400px',

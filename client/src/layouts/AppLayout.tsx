@@ -112,7 +112,7 @@ export function Navbar({
                             </span>
                         )}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
+                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-12'>
                         <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
                             <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
                                 Your Account

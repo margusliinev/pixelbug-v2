@@ -24,6 +24,14 @@ export class UsersService {
             throw new InternalServerErrorException({ success: false, message: 'Failed to retrieve users', status: 500, fields: null });
         }
 
+        const roleValues = {
+            ADMIN: 3,
+            DEVELOPER: 2,
+            USER: 1,
+        };
+
+        users.sort((a, b) => roleValues[b.role] - roleValues[a.role]);
+
         users.forEach((user) => this.exclude(user, 'password'));
 
         return { users };
