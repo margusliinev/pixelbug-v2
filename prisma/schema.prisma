@@ -13,30 +13,48 @@ enum Role {
   USER
 }
 
+enum Priority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
 enum ProjectStatus {
-  PLANNING
-  DEVELOPMENT
-  ON_HOLD
-  MAINTENANCE
   COMPLETED
+  MAINTENANCE
+  ON_HOLD
+  DEVELOPMENT
+  PLANNING
+}
+
+enum TicketStatus {
+  RESOLVED
+  ON_HOLD
+  IN_DEVELOPMENT
+  ASSIGNED
+  UNASSIGNED
 }
 
 model User {
-  id         String        @id @default(cuid())
-  username   String        @unique
-  email      String        @unique
-  password   String
-  firstName  String?
-  lastName   String?
-  jobTitle   String?
-  photo      String?
-  phone      String?       @unique
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  isVerified Boolean       @default(false)
-  role       Role          @default(USER)
-  sessions   Session[]
-  projects   UserProject[]
+  id              String        @id @default(cuid())
+  username        String        @unique
+  email           String        @unique
+  password        String
+  firstName       String?
+  lastName        String?
+  jobTitle        String?
+  photo           String?
+  phone           String?       @unique
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  isVerified      Boolean       @default(false)
+  role            Role          @default(USER)
+  sessions        Session[]
+  projects        UserProject[]
+  leadProjects    Project[]
+  assignedTickets Ticket[]      @relation("assignee")
+  reportedTickets Ticket[]      @relation("reporter")
 
   @@map("users")
 }
@@ -48,10 +66,14 @@ model Project {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   startDate   DateTime
-  endDate     DateTime
+  dueDate     DateTime
+  endDate     DateTime?
   isArchived  Boolean       @default(false)
+  leadId      String?
+  lead        User?         @relation(fields: [leadId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   status      ProjectStatus @default(PLANNING)
   users       UserProject[]
+  tickets     Ticket[]
 
   @@map("projects")
 }
@@ -59,11 +81,30 @@ model Project {
 model UserProject {
   userId    String
   projectId String
-  user      User    @relation(fields: [userId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, projectId])
   @@map("users_projects")
+}
+
+model Ticket {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  resolvedAt  DateTime?
+  priority    Priority     @default(LOW)
+  status      TicketStatus @default(UNASSIGNED)
+  assigneeId  String?
+  assignee    User?        @relation("assignee", fields: [assigneeId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  reporterId  String?
+  reporter    User?        @relation("reporter", fields: [reporterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("tickets")
 }
 
 model Session {

@@ -79,7 +79,7 @@ export default function Password() {
                 </CardHeader>
                 <CardContent className='max-w-2xl'>
                     <form className='grid gap-4' onSubmit={handleSubmit} noValidate>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='current'>Current password</Label>
                             <Input
                                 type='password'
@@ -96,7 +96,7 @@ export default function Password() {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='new'>New password</Label>
                             <Input
                                 type='password'
@@ -113,7 +113,7 @@ export default function Password() {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <fieldset className='space-y-1' disabled={isLoading}>
+                        <fieldset className='space-y-1'>
                             <Label htmlFor='confirm'>Confirm new password</Label>
                             <Input
                                 type='password'

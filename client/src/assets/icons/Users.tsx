@@ -1,4 +1,4 @@
-export default function Users() {
+export default function Users({ height, width }: { height: number; width: number }) {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -6,7 +6,7 @@ export default function Users() {
             viewBox='0 0 24 24'
             strokeWidth='1.5'
             stroke='currentColor'
-            className='h-6 w-6 text-secondary-foreground'
+            className={`h-${height} w-${width} text-secondary-foreground`}
         >
             <path
                 strokeLinecap='round'

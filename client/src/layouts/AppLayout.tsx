@@ -40,7 +40,7 @@ export default function AppLayout() {
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <div>
                 <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} user={user} />
-                <div className='min-h-screen-minus-nav px-6 py-6 xl:px-12 xl:py-10'>
+                <div className='min-h-screen-minus-nav grid px-6 py-6 xl:px-12 xl:py-10'>
                     <Outlet />
                 </div>
             </div>
@@ -254,20 +254,6 @@ const SidebarLinks = ({
                 </li>
                 <li>
                     <NavLink
-                        to='/app/users'
-                        className={({ isActive }) =>
-                            isActive
-                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
-                                : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
-                        }
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    >
-                        <Users />
-                        Users
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
                         to='/app/account'
                         className={({ isActive }) =>
                             isActive
@@ -283,6 +269,20 @@ const SidebarLinks = ({
                                 <ErrorTriangle />
                             </span>
                         )}
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to='/app/users'
+                        className={({ isActive }) =>
+                            isActive
+                                ? 'flex cursor-pointer items-center gap-3 rounded-md bg-emerald-50 px-4 py-2 text-sm font-semibold text-primary transition-colors'
+                                : 'flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 text-sm font-semibold transition-colors'
+                        }
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    >
+                        <Users height={6} width={6} />
+                        Users
                     </NavLink>
                 </li>
             </ul>
