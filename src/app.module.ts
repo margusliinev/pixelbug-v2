@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ProjectsModule } from './projects/projects.module';
 import { join } from 'path';
 
 @Module({
@@ -17,6 +18,7 @@ import { join } from 'path';
         UsersModule,
         AuthModule,
         CloudinaryModule,
+        ProjectsModule,
     ],
     controllers: [],
     providers: [

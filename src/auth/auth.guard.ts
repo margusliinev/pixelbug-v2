@@ -34,12 +34,12 @@ export class AuthGuard implements CanActivate {
         const cookies = request.signedCookies as { [key: string]: string };
         const sessionId = cookies['__session'];
 
-        if (!sessionId) throw new UnauthorizedException({ success: false, message: 'Unauthorized', status: 401, fields: null });
+        if (!sessionId) throw new UnauthorizedException({ success: false, message: 'Unauthenticated', status: 401, fields: null });
         const user = await this.getUserBySessionId(sessionId);
 
         if (!user) {
             response.clearCookie('__session');
-            throw new UnauthorizedException({ success: false, message: 'Unauthorized', status: 401, fields: null });
+            throw new UnauthorizedException({ success: false, message: 'Unauthenticated', status: 401, fields: null });
         }
 
         request.user = user;

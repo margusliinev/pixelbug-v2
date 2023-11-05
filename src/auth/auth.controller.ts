@@ -11,6 +11,8 @@ const AllowUnauthorizedRequest = () => SetMetadata('allowUnauthorizedRequest', t
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
+    private readonly COOKIE_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
+
     @Post('signup')
     @AllowUnauthorizedRequest()
     async signup(@Body() signupDto: SignupDto, @Res({ passthrough: true }) res: Response) {
@@ -20,6 +22,7 @@ export class AuthController {
             path: '/',
             sameSite: 'strict',
             secure: process.env.NODE_ENV === 'production',
+            expires: new Date(Date.now() + this.COOKIE_EXPIRATION_TIME),
             signed: true,
         });
         return { success: true, message: 'User successfully created' };
@@ -34,6 +37,7 @@ export class AuthController {
             path: '/',
             sameSite: 'strict',
             secure: process.env.NODE_ENV === 'production',
+            expires: new Date(Date.now() + this.COOKIE_EXPIRATION_TIME),
             signed: true,
         });
         return { success: true, message: 'User successfully signed in' };

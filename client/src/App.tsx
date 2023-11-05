@@ -1,6 +1,18 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { HomeLayout, AppLayout } from './layouts';
-import { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage } from './pages';
+import {
+    ErrorPage,
+    HomePage,
+    PricingPage,
+    SignupPage,
+    SigninPage,
+    DashboardPage,
+    ProjectsPage,
+    TicketsPage,
+    AccountPage,
+    UsersPage,
+    NewProjectPage,
+} from './pages';
 
 function App() {
     const router = createBrowserRouter([
@@ -42,6 +54,10 @@ function App() {
                 {
                     path: 'projects',
                     element: <ProjectsPage />,
+                },
+                {
+                    path: 'projects/new',
+                    element: <NewProjectPage />,
                 },
                 {
                     path: 'tickets',

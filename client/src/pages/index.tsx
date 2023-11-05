@@ -8,5 +8,6 @@ import ProjectsPage from './ProjectsPage';
 import TicketsPage from './TicketsPage';
 import AccountPage from './AccountPage';
 import UsersPage from './UsersPage';
+import NewProjectPage from './NewProjectPage';
 
-export { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage };
+export { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage, NewProjectPage };

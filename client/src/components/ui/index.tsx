@@ -3,12 +3,14 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
 import { Avatar, AvatarImage, AvatarFallback } from './avatar';
+import { Popover, PopoverTrigger, PopoverContent } from './popover';
 import { Button } from './button';
 import { Label } from './label';
 import { Input } from './input';
 import { Textarea } from './textarea';
 import { useToast, toast } from './use-toast';
 import { Toaster } from './toaster';
+import { Calendar } from './calendar';
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -96,6 +98,10 @@ export {
     AlertDialogDescription,
     AlertDialogAction,
     AlertDialogCancel,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    Calendar,
     Toaster,
     useToast,
     toast,

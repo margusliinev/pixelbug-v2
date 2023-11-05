@@ -26,7 +26,7 @@ export class AuthService {
         if (exisitingUsername) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { username: 'Username is already in use' },
             });
@@ -36,7 +36,7 @@ export class AuthService {
         if (existingEmail) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { email: 'Email is already in use' },
             });
@@ -61,7 +61,7 @@ export class AuthService {
         if (!user) {
             throw new UnauthorizedException({
                 success: false,
-                message: 'Unauthorized',
+                message: 'Unauthenticated',
                 status: 401,
                 fields: { all: 'Email or password is incorrect' },
             });
@@ -71,7 +71,7 @@ export class AuthService {
         if (!passwordMatch) {
             throw new UnauthorizedException({
                 success: false,
-                message: 'Unauthorized',
+                message: 'Unauthenticated',
                 status: 401,
                 fields: { all: 'Email or password is incorrect' },
             });

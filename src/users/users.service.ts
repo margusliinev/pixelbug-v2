@@ -62,7 +62,7 @@ export class UsersService {
         if (exisitingUsername) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { username: 'Username is already in use' },
             });
@@ -79,7 +79,7 @@ export class UsersService {
         if (existingEmail) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { email: 'Email is already in use' },
             });
@@ -98,7 +98,7 @@ export class UsersService {
             if (existingPhone) {
                 throw new ConflictException({
                     success: false,
-                    message: 'Validation failed',
+                    message: 'Conflict Error',
                     status: 409,
                     fields: { phone: 'Phone number is already in use' },
                 });
@@ -134,7 +134,7 @@ export class UsersService {
         if (!isPasswordValid) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { currentPassword: 'Current password is incorrect' },
             });
@@ -143,7 +143,7 @@ export class UsersService {
         if (newPassword !== confirmNewPassword) {
             throw new ConflictException({
                 success: false,
-                message: 'Validation failed',
+                message: 'Conflict Error',
                 status: 409,
                 fields: { confirmNewPassword: 'Passwords do not match' },
             });
