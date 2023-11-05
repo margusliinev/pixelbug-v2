@@ -40,7 +40,7 @@ export default function AppLayout() {
             <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             <div>
                 <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} user={user} />
-                <div className='min-h-screen-minus-nav grid px-6 py-6 xl:px-12 xl:py-10'>
+                <div className='min-h-screen-minus-nav grid px-6 py-6 xl:px-12 xl:py-10 relative'>
                     <Outlet />
                 </div>
             </div>
