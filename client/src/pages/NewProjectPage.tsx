@@ -14,19 +14,19 @@ import {
     SelectValue,
     Textarea,
 } from '@/components/ui';
+import type { ProjectStatus } from '@prisma/client';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { createProject } from '@/features/projects/projectsSlice';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { ProjectStatus } from '@prisma/client';
 
 export default function NewProjectPage() {
     const { isLoading } = useAppSelector((store) => store.projects);
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [status, setStatus] = useState<ProjectStatus>(ProjectStatus.PLANNING);
+    const [status, setStatus] = useState<ProjectStatus>('PLANNING');
     const [startDate, setStartDate] = useState<Date>();
     const [dueDate, setDueDate] = useState<Date>();
     const dispatch = useAppDispatch();

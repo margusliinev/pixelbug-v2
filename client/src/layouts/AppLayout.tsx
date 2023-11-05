@@ -1,6 +1,6 @@
+import type { User as UserType } from '@prisma/client';
 import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
-import { User as UserType } from '@prisma/client';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
