@@ -1,13 +1,14 @@
 import type { ProjectStatus } from '@prisma/client';
-import ButtonSpinner from '@/components/ButtonSpinner';
+import { avatarOptions } from '@/assets/avatars/AvatarOptions';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { createProject } from '@/features/projects/projectsSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { DefaultAPIError } from '@/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import ButtonSpinner from '@/components/ButtonSpinner';
 import {
     Button,
     Calendar,
@@ -25,8 +26,15 @@ import {
     useToast,
 } from '@/components/ui';
 
+interface AvatarOption {
+    value: string;
+    name: string;
+    icon: ReactElement;
+}
+
 export default function NewProjectPage() {
     const { isLoading } = useAppSelector((store) => store.projects);
+    const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(avatarOptions[0]);
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [statusError, setStatusError] = useState<string>('');
@@ -96,6 +104,10 @@ export default function NewProjectPage() {
             });
     };
 
+    const handleAvatarClick = (avatar: AvatarOption) => {
+        setSelectedAvatar(avatar);
+    };
+
     useEffect(() => {
         if (isTitleError) {
             titleRef.current?.focus();
@@ -126,7 +138,35 @@ export default function NewProjectPage() {
                 <form className='grid gap-4 w-full max-w-2xl' onSubmit={handleSubmit} noValidate>
                     <h1 className='text-xl font-semibold'>Create Project</h1>
                     <fieldset className='space-y-1'>
-                        <Label htmlFor='title'>Project Title</Label>
+                        <Label htmlFor='avatar'>Avatar</Label>
+                        <div className='flex items-center'>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant='ghost' className='p-0 flex gap-3'>
+                                        <div>{selectedAvatar.icon}</div>
+                                        Select Image
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className='w-80 translate-y-2' onOpenAutoFocus={(e) => e.preventDefault()}>
+                                    <div className='grid gap-4'>
+                                        <div className='space-y-2'>
+                                            <h4 className='font-medium leading-none'>Select Image</h4>
+                                            <p className='text-sm text-muted-foreground'>Choose an avatar for your project.</p>
+                                        </div>
+                                        <div className='grid grid-cols-5 gap-2 py-4 w-64'>
+                                            {avatarOptions.map((avatar) => (
+                                                <div key={avatar.name} onClick={() => handleAvatarClick(avatar)}>
+                                                    {avatar.icon}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </fieldset>
+                    <fieldset className='space-y-1'>
+                        <Label htmlFor='title'>Title</Label>
                         <Input
                             id='title'
                             name='title'

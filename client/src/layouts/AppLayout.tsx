@@ -1,11 +1,11 @@
 import type { User as UserType } from '@prisma/client';
 import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
-import { useAppSelector, useAppDispatch } from '@/hooks';
-import { useEffect, useState } from 'react';
 import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '@/hooks';
 import { signout } from '@/features/auth/authSlice';
 import { getUser } from '@/features/user/userSlice';
+import { useEffect, useState } from 'react';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
 
@@ -112,7 +112,7 @@ export function Navbar({
                             </span>
                         )}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-12'>
+                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
                         <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
                             <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
                                 Your Account
