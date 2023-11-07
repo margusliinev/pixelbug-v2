@@ -18,6 +18,10 @@ export class CreateProjectDto {
     @IsNotEmpty({ message: 'Due date is required' })
     dueDate: Date;
 
+    @IsString({ message: 'Avatar must be a string' })
+    @IsNotEmpty({ message: 'Avatar is required' })
+    avatar: string;
+
     @IsEnum(ProjectStatus, { message: 'Status must be a valid project status' })
     status: ProjectStatus;
 }

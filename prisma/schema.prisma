@@ -69,6 +69,7 @@ model Project {
   startDate   DateTime
   dueDate     DateTime
   endDate     DateTime?
+  avatar      String
   isArchived  Boolean       @default(false)
   leadId      String?
   lead        User?         @relation(fields: [leadId], references: [id], onDelete: SetNull, onUpdate: Cascade)

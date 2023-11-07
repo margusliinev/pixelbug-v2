@@ -22,6 +22,7 @@ type ProjectsAPIResponse = {
 };
 
 type ProjectDto = {
+    avatar: string;
     title: string;
     description: string;
     status: ProjectStatus;

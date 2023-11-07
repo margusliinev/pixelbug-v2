@@ -34,22 +34,25 @@ interface AvatarOption {
 
 export default function NewProjectPage() {
     const { isLoading } = useAppSelector((store) => store.projects);
-    const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(avatarOptions[0]);
+    const [avatarError, setAvatarError] = useState<string>('');
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [statusError, setStatusError] = useState<string>('');
     const [startDateError, setStartDateError] = useState<string>('');
     const [dueDateError, setDueDateError] = useState<string>('');
+    const [isAvatarError, setIsAvatarError] = useState<boolean>(false);
     const [isTitleError, setIsTitleError] = useState<boolean>(false);
     const [isDescriptionError, setIsDescriptionError] = useState<boolean>(false);
     const [isStatusError, setIsStatusError] = useState<boolean>(false);
     const [isStartDateError, setIsStartDateError] = useState<boolean>(false);
     const [isDueDateError, setIsDueDateError] = useState<boolean>(false);
+    const avatarRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
     const statusRef = useRef<HTMLSelectElement>(null);
     const startDateRef = useRef<HTMLButtonElement>(null);
     const dueDateRef = useRef<HTMLButtonElement>(null);
+    const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(avatarOptions[0]);
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [status, setStatus] = useState<ProjectStatus>('PLANNING');
@@ -66,7 +69,7 @@ export default function NewProjectPage() {
         setIsStatusError(false);
         setIsStartDateError(false);
         setIsDueDateError(false);
-        void dispatch(createProject({ title, description, status, startDate, dueDate }))
+        void dispatch(createProject({ avatar: selectedAvatar.value, title, description, status, startDate, dueDate }))
             .unwrap()
             .then((res) => {
                 if (res.success) {
@@ -80,6 +83,10 @@ export default function NewProjectPage() {
             .catch((error: DefaultAPIError) => {
                 if (error.status === 401) {
                     navigate('/');
+                }
+                if (error.fields?.avatar) {
+                    setAvatarError(error.fields.avatar);
+                    setIsAvatarError(true);
                 }
                 if (error.fields?.title) {
                     setTitleError(error.fields.title);
@@ -105,11 +112,14 @@ export default function NewProjectPage() {
     };
 
     const handleAvatarClick = (avatar: AvatarOption) => {
+        setAvatarError('');
         setSelectedAvatar(avatar);
     };
 
     useEffect(() => {
-        if (isTitleError) {
+        if (isAvatarError) {
+            avatarRef.current?.focus();
+        } else if (isTitleError) {
             titleRef.current?.focus();
         } else if (isDescriptionError) {
             descriptionRef.current?.focus();
@@ -120,7 +130,7 @@ export default function NewProjectPage() {
         } else if (isDueDateError) {
             dueDateRef.current?.focus();
         }
-    }, [isTitleError, isDescriptionError, isStatusError, isStartDateError, isDueDateError]);
+    }, [isAvatarError, isTitleError, isDescriptionError, isStatusError, isStartDateError, isDueDateError]);
 
     return (
         <section>
@@ -139,13 +149,18 @@ export default function NewProjectPage() {
                     <h1 className='text-xl font-semibold'>Create Project</h1>
                     <fieldset className='space-y-1'>
                         <Label htmlFor='avatar'>Avatar</Label>
-                        <div className='flex items-center'>
+                        <div className='grid'>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button variant='ghost' className='p-0 flex gap-3'>
+                                    <div
+                                        className='p-0 flex items-center text-sm gap-3 cursor-pointer'
+                                        ref={avatarRef}
+                                        aria-invalid={avatarError ? true : undefined}
+                                        aria-describedby='avatar-error'
+                                    >
                                         <div>{selectedAvatar.icon}</div>
-                                        Select Image
-                                    </Button>
+                                        <p>Select Image</p>
+                                    </div>
                                 </PopoverTrigger>
                                 <PopoverContent className='w-80 translate-y-2' onOpenAutoFocus={(e) => e.preventDefault()}>
                                     <div className='grid gap-4'>
@@ -163,6 +178,11 @@ export default function NewProjectPage() {
                                     </div>
                                 </PopoverContent>
                             </Popover>
+                            {avatarError ? (
+                                <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                                    {avatarError}
+                                </p>
+                            ) : null}
                         </div>
                     </fieldset>
                     <fieldset className='space-y-1'>
