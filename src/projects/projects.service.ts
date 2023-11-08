@@ -6,13 +6,102 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ProjectsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createProject(userId: string, createProjectDto: CreateProjectDto) {
-        const project = await this.prisma.project.create({
-            data: { ...createProjectDto, leadId: userId },
+    async getProjects() {
+        const data = await this.prisma.project.findMany({
+            select: {
+                avatar: true,
+                title: true,
+                startDate: true,
+                dueDate: true,
+                status: true,
+                lead: {
+                    select: {
+                        username: true,
+                        firstName: true,
+                        lastName: true,
+                        photo: true,
+                    },
+                },
+            },
         });
-        if (!project) {
+
+        if (!data) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
+        }
+
+        const projects = data.map((project) => {
+            return {
+                title: {
+                    text: project.title,
+                    avatar: project.avatar,
+                },
+                name: project.title,
+                startDate: project.startDate,
+                dueDate: project.dueDate,
+                status: project.status,
+                lead: {
+                    photo: project?.lead?.photo ? project.lead.photo : undefined,
+                    name: project?.lead
+                        ? project.lead?.firstName && project.lead?.lastName
+                            ? `${project.lead.firstName} ${project.lead.lastName}`
+                            : project.lead.username
+                        : 'Deleted User',
+                },
+            };
+        });
+
+        if (!projects) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
+        }
+
+        return { projects };
+    }
+
+    async createProject(userId: string, createProjectDto: CreateProjectDto) {
+        const startDate = new Date(createProjectDto.startDate);
+        const dueDate = new Date(createProjectDto.dueDate);
+
+        const newProject = await this.prisma.project.create({
+            data: { ...createProjectDto, startDate: startDate, dueDate: dueDate, leadId: userId },
+            select: {
+                avatar: true,
+                title: true,
+                startDate: true,
+                dueDate: true,
+                status: true,
+                lead: {
+                    select: {
+                        username: true,
+                        firstName: true,
+                        lastName: true,
+                        photo: true,
+                    },
+                },
+            },
+        });
+
+        if (!newProject) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to create project', status: 500, fields: null });
         }
+
+        const project = {
+            title: {
+                text: newProject.title,
+                avatar: newProject.avatar,
+            },
+            name: newProject.title,
+            startDate: newProject.startDate,
+            dueDate: newProject.dueDate,
+            status: newProject.status,
+            lead: {
+                photo: newProject?.lead?.photo ? newProject.lead.photo : undefined,
+                name: newProject?.lead
+                    ? newProject.lead?.firstName && newProject.lead?.lastName
+                        ? `${newProject.lead.firstName} ${newProject.lead.lastName}`
+                        : newProject.lead.username
+                    : 'Deleted User',
+            },
+        };
 
         return { project };
     }

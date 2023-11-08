@@ -151,7 +151,7 @@ export default function NewProjectPage() {
                         <Label htmlFor='avatar'>Avatar</Label>
                         <div className='grid'>
                             <Popover>
-                                <PopoverTrigger asChild>
+                                <PopoverTrigger asChild id='avatar'>
                                     <div
                                         className='p-0 flex items-center text-sm gap-3 cursor-pointer'
                                         ref={avatarRef}

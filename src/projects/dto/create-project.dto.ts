@@ -10,11 +10,11 @@ export class CreateProjectDto {
     @IsNotEmpty({ message: 'Description is required' })
     description: string;
 
-    @IsISO8601({ strict: true }, { message: 'Start date must be a date' })
+    @IsISO8601({ strict: true, strictSeparator: true }, { message: 'Start date must be a date' })
     @IsNotEmpty({ message: 'Start date is required' })
     startDate: Date;
 
-    @IsISO8601({ strict: true }, { message: 'Due date must be a date' })
+    @IsISO8601({ strict: true, strictSeparator: true }, { message: 'Due date must be a date' })
     @IsNotEmpty({ message: 'Due date is required' })
     dueDate: Date;
 

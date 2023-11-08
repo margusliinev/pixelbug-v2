@@ -3,18 +3,25 @@ import { getUsers } from '@/features/users/usersSlice';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { useEffect } from 'react';
 import { Email, Phone, Users } from '@/assets/icons';
+import PageSpinner from '@/components/PageSpinner';
 
 export default function UsersPage() {
-    const { users } = useAppSelector((store) => store.users);
+    const { isLoading, users } = useAppSelector((store) => store.users);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        void dispatch(getUsers());
-    }, [dispatch]);
+        if (!users || users.length === 0) {
+            void dispatch(getUsers());
+        }
+    }, [dispatch, users]);
+
+    if (isLoading) {
+        return <PageSpinner />;
+    }
 
     if (!users || users.length < 1) {
         return (
-            <div className='grid place-items-center w-full'>
+            <div className='grid place-items-center w-full text-center'>
                 <div className='flex flex-col items-center gap-2'>
                     <Users height={10} width={10} />
                     <h1 className='font-semibold text-lg mb-1'>No Users Found</h1>

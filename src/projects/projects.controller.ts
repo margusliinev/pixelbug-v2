@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { AuthenticatedRequest } from 'src/types';
@@ -6,6 +6,12 @@ import { AuthenticatedRequest } from 'src/types';
 @Controller('projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}
+
+    @Get()
+    async getProjects() {
+        const { projects } = await this.projectsService.getProjects();
+        return { success: true, message: 'Projects successfully retrieved', data: projects };
+    }
 
     @Post()
     async createProject(@Req() req: AuthenticatedRequest, @Body() createProjectDto: CreateProjectDto) {
