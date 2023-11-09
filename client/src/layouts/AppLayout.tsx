@@ -234,7 +234,7 @@ const SidebarLinks = ({
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
-                        <Folder />
+                        <Folder height={6} width={6} />
                         Projects
                     </NavLink>
                 </li>

@@ -1,23 +1,27 @@
 import { ProjectWithLead } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui';
+import StatusCell from './StatusCell';
 
 export const columns: ColumnDef<ProjectWithLead>[] = [
     {
         accessorKey: 'name',
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant='ghost'
-                    className='px-2 group hover:bg-transparent'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
-                    Name
-                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
-                </Button>
-            );
+        header: () => {
+            return;
+        },
+        cell: () => {
+            return;
         },
     },
     {
@@ -26,7 +30,7 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
             return (
                 <Button
                     variant='ghost'
-                    className='px-2 group hover:bg-transparent'
+                    className='group hover:bg-transparent px-0'
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                 >
                     Title
@@ -34,16 +38,26 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
                 </Button>
             );
         },
+        cell: (project) => {
+            return (
+                <div className='flex items-center gap-2 w-fit'>
+                    <Avatar className='h-8 w-8 rounded-none'>
+                        <AvatarImage
+                            src={project.row.original.title.avatar ? project.row.original.title.avatar : undefined}
+                            className='rounded-none'
+                        />
+                        <AvatarFallback className='rounded-none bg-gray-200'>{project.row.original.title.text[0].toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <p>{project.row.original.title.text}</p>
+                </div>
+            );
+        },
     },
     {
         accessorKey: 'startDate',
         header: ({ column }) => {
             return (
-                <Button
-                    variant='ghost'
-                    className='px-2 group hover:bg-transparent'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
+                <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
                     Start Date
                     <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
                 </Button>
@@ -52,14 +66,47 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
         cell: (project) => format(new Date(project.row.original.startDate), 'PPP'),
     },
     {
+        accessorKey: 'lead',
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Lead
+                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
+                </Button>
+            );
+        },
+        cell: (project) => {
+            return (
+                <div className='flex items-center gap-2'>
+                    <Avatar className='h-8 w-8 rounded-full'>
+                        <AvatarImage src={project.row.original.lead.photo ? project.row.original.lead.photo : undefined} className='rounded-full' />
+                        <AvatarFallback className='rounded-full bg-gray-200'>{project.row.original.lead.name[0].toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <p>{project.row.original.lead.name}</p>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: 'status',
+        header: ({ column }) => {
+            return (
+                <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Status
+                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
+                </Button>
+            );
+        },
+        cell: (project) => {
+            const projectStatus = project.row.original.status;
+            return <StatusCell status={projectStatus} />;
+        },
+    },
+    {
         accessorKey: 'dueDate',
         header: ({ column }) => {
             return (
-                <Button
-                    variant='ghost'
-                    className='px-2 group hover:bg-transparent'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
+                <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
                     Due Date
                     <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
                 </Button>
@@ -68,34 +115,29 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
         cell: (project) => format(new Date(project.row.original.dueDate), 'PPP'),
     },
     {
-        accessorKey: 'lead',
-        header: ({ column }) => {
+        accessorKey: 'actions',
+        header: () => {
             return (
-                <Button
-                    variant='ghost'
-                    className='px-2 group hover:bg-transparent'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
-                    Lead
-                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
+                <Button variant='ghost' className='cursor-default group hover:bg-transparent capitalize px-0 pb-4'>
+                    actions
                 </Button>
             );
         },
-    },
-    {
-        accessorKey: 'status',
-        header: ({ column }) => {
+        cell: () => {
             return (
-                <Button
-                    variant='ghost'
-                    className='px-2 group hover:bg-transparent'
-                    onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-                >
-                    Status
-                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant='ghost' className='h-8 w-8 p-0'>
+                            <span className='sr-only'>Open menu</span>
+                            <MoreHorizontal className='h-4 w-4' />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='end'>
+                        <DropdownMenuItem className='text-sm font-medium'>Archive</DropdownMenuItem>
+                        <DropdownMenuItem className='text-sm font-medium text-destructive'>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             );
         },
-        cell: (project) => project.row.original.status.replace(/_/g, ' '),
     },
 ];

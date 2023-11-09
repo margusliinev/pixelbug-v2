@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Avatar, AvatarFallback, AvatarImage, Button, Input } from '../ui';
+import { Button, Input } from '../ui';
 import { ProjectWithLead } from '@/types';
 import { Link } from 'react-router-dom';
 import {
@@ -14,7 +14,6 @@ import {
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
-import StatusCell from './StatusCell';
 
 interface DataTableProps<ProjectWithLead, TValue> {
     columns: ColumnDef<ProjectWithLead, TValue>[];
@@ -41,9 +40,9 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
 
     return (
         <>
-            <div className='flex items-center justify-between gap-2 py-2'>
+            <div className='flex items-center justify-between gap-2 pb-4'>
                 <Input
-                    placeholder='Find projects by title...'
+                    placeholder='Search by title...'
                     value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
                     onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
                     className='w-full xs:w-96'
@@ -52,21 +51,57 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                     <Button type='button'>New Project</Button>
                 </Link>
             </div>
-            <div className='rounded-lg border my-2 bg-white p-6 h-fit mt-3'>
+            <div className='rounded-lg border bg-white px-6 py-4'>
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => {
                             return (
                                 <TableRow key={headerGroup.id} className='hover:bg-transparent'>
                                     {headerGroup.headers.map((header) => {
-                                        if (header.column.id === 'name') {
-                                            return;
+                                        if (header.id === 'name') return;
+                                        if (header.id === 'title') {
+                                            return (
+                                                <TableHead key={header.id} className='px-0 xxxs:px-4'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
                                         }
-                                        return (
-                                            <TableHead key={header.id}>
-                                                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                                            </TableHead>
-                                        );
+                                        if (header.id === 'startDate') {
+                                            return (
+                                                <TableHead key={header.id} className='hidden lg:table-cell'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
+                                        }
+                                        if (header.id === 'lead') {
+                                            return (
+                                                <TableHead key={header.id} className='hidden xs:table-cell'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
+                                        }
+                                        if (header.id === 'status') {
+                                            return (
+                                                <TableHead key={header.id} className='hidden md:table-cell'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
+                                        }
+                                        if (header.id === 'dueDate') {
+                                            return (
+                                                <TableHead key={header.id} className='hidden 2xl:table-cell'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
+                                        }
+                                        if (header.id === 'actions') {
+                                            return (
+                                                <TableHead key={header.id} className='grid place-items-end px-0 xxxs:px-4'>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                </TableHead>
+                                            );
+                                        }
+                                        return;
                                     })}
                                 </TableRow>
                             );
@@ -81,45 +116,50 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                                     className='cursor-pointer capitalize hover:bg-gray-100'
                                 >
                                     {row.getVisibleCells().map((cell) => {
-                                        if (cell.column.id === 'name') {
-                                            return;
-                                        }
+                                        if (cell.column.id === 'name') return;
                                         if (cell.column.id === 'title') {
                                             return (
-                                                <TableCell key={cell.id}>
-                                                    <div className='flex items-center gap-2'>
-                                                        <img src={cell.row.original.title.avatar} className='w-8 h-8' />
-                                                        <p>{cell.row.original.title.text}</p>
-                                                    </div>
+                                                <TableCell key={cell.id} className='px-0 xxxs:px-4 max-w-[200px] overflow-hidden'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            );
+                                        }
+                                        if (cell.column.id === 'startDate') {
+                                            return (
+                                                <TableCell key={cell.id} className='hidden lg:table-cell'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
                                         }
                                         if (cell.column.id === 'lead') {
                                             return (
-                                                <TableCell key={cell.id}>
-                                                    <div className='flex items-center gap-2'>
-                                                        <Avatar className='h-8 w-8 rounded-full'>
-                                                            <AvatarImage
-                                                                src={cell.row.original.lead.photo ? cell.row.original.lead.photo : undefined}
-                                                                className='rounded-full'
-                                                            />
-                                                            <AvatarFallback className='rounded-full bg-gray-200'>
-                                                                {cell.row.original.lead.name[0].toUpperCase()}
-                                                            </AvatarFallback>
-                                                        </Avatar>
-                                                        <p>{cell.row.original.lead.name}</p>
-                                                    </div>
+                                                <TableCell key={cell.id} className='hidden xs:table-cell'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
                                         }
                                         if (cell.column.id === 'status') {
                                             return (
-                                                <TableCell key={cell.id}>
-                                                    <StatusCell status={cell.row.original.status} />
+                                                <TableCell key={cell.id} className='hidden md:table-cell'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
                                         }
-                                        return <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>;
+                                        if (cell.column.id === 'dueDate') {
+                                            return (
+                                                <TableCell key={cell.id} className='hidden 2xl:table-cell'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            );
+                                        }
+                                        if (cell.column.id === 'actions') {
+                                            return (
+                                                <TableCell key={cell.id} className='px-0 xxxs:px-4 w-12 text-center'>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            );
+                                        }
+                                        return;
                                     })}
                                 </TableRow>
                             ))
@@ -130,7 +170,7 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                         )}
                     </TableBody>
                 </Table>
-                <div className='hidden md:flex items-center justify-start space-x-2 py-4 pl-4'>
+                <div className='flex items-center justify-start space-x-2 py-4'>
                     <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                         Previous
                     </Button>
@@ -138,14 +178,6 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                         Next
                     </Button>
                 </div>
-            </div>
-            <div className='flex md:hidden items-center justify-start space-x-2 py-4'>
-                <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                    Previous
-                </Button>
-                <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                    Next
-                </Button>
             </div>
         </>
     );
