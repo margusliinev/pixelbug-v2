@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button, Input } from '../ui';
+import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui';
 import { ProjectWithLead } from '@/types';
 import { Link } from 'react-router-dom';
 import {
@@ -41,12 +41,28 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
     return (
         <>
             <div className='flex items-center justify-between gap-2 pb-4'>
-                <Input
-                    placeholder='Search by title...'
-                    value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-                    onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-                    className='w-full xs:w-96'
-                />
+                <div className='flex items-center gap-4'>
+                    <Input
+                        placeholder='Search by title...'
+                        value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+                        className='w-full xs:w-96'
+                    />
+                    <div className='hidden md:block'>
+                        <Select value={`${table.getState().pagination.pageSize}`} onValueChange={(value) => table.setPageSize(Number(value))}>
+                            <SelectTrigger className='w-[150px]'>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {[5, 10, 20, 30].map((pageSize) => (
+                                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        {pageSize} Entries
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
                 <Link to={'/app/projects/new'} className='whitespace-nowrap'>
                     <Button type='button'>New Project</Button>
                 </Link>
@@ -177,6 +193,12 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                     <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                         Next
                     </Button>
+                    <span className='flex items-center gap-1'>
+                        <p>Page</p>
+                        <strong>
+                            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                        </strong>
+                    </span>
                 </div>
             </div>
         </>
