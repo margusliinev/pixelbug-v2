@@ -13,8 +13,9 @@ export default function ProjectsPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (projects.length > 0) return;
         void dispatch(getProjects());
-    }, [dispatch]);
+    }, [dispatch, projects.length]);
 
     if (isLoading) {
         return <PageSpinner />;

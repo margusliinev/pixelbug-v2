@@ -181,18 +181,22 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length}>No results.</TableCell>
+                                <TableCell colSpan={columns.length} className='capitalize'>
+                                    No projects found
+                                </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
-                <div className='flex items-center justify-start space-x-2 py-4'>
-                    <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                        Previous
-                    </Button>
-                    <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                        Next
-                    </Button>
+                <div className='grid xxxs:flex items-center justify-start space-x-2 py-4'>
+                    <div className='flex items-center jusify-start space-x-2 py-4'>
+                        <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                            Previous
+                        </Button>
+                        <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                            Next
+                        </Button>
+                    </div>
                     <span className='flex items-center gap-1'>
                         <p>Page</p>
                         <strong>

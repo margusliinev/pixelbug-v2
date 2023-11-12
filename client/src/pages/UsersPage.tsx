@@ -10,8 +10,9 @@ export default function UsersPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (users && users.length > 1) return;
         void dispatch(getUsers());
-    }, [dispatch]);
+    }, [dispatch, users]);
 
     if (isLoading) {
         return <PageSpinner />;
