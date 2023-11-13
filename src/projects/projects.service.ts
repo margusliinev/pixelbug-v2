@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -104,5 +104,31 @@ export class ProjectsService {
         };
 
         return { project };
+    }
+
+    async deleteProject(projectId: string, userId: string) {
+        const project = await this.prisma.project.findUnique({
+            where: { id: projectId },
+            select: {
+                id: true,
+                leadId: true,
+            },
+        });
+
+        if (!project) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete project', status: 500, fields: null });
+        }
+
+        if (project.leadId !== userId) {
+            throw new UnauthorizedException({ success: false, message: 'Unauthorized', status: 403, fields: null });
+        }
+
+        try {
+            await this.prisma.project.delete({ where: { id: projectId } });
+        } catch (error) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete project', status: 500, fields: null });
+        }
+
+        return { success: true, message: 'Project successfully deleted' };
     }
 }
