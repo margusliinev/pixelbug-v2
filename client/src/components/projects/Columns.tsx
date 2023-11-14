@@ -1,18 +1,10 @@
 import { ProjectWithLead } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-    Button,
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui';
+import { ArrowUpDown } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
 import StatusCell from './StatusCell';
+import ActionButton from './ActionsButton';
 
 export const columns: ColumnDef<ProjectWithLead>[] = [
     {
@@ -123,21 +115,6 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
                 </Button>
             );
         },
-        cell: () => {
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant='ghost' className='h-8 w-8 p-0'>
-                            <span className='sr-only'>Open menu</span>
-                            <MoreHorizontal className='h-4 w-4' />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                        <DropdownMenuItem className='text-sm font-medium'>Archive</DropdownMenuItem>
-                        <DropdownMenuItem className='text-sm font-medium text-destructive'>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        cell: (project) => <ActionButton project={project.row.original} />,
     },
 ];

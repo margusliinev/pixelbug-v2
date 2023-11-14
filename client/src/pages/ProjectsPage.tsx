@@ -13,11 +13,14 @@ export default function ProjectsPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (projects.length > 0) return;
-        void dispatch(getProjects());
+        if (projects.length > 0) {
+            return;
+        } else {
+            void dispatch(getProjects());
+        }
     }, [dispatch, projects.length]);
 
-    if (isLoading) {
+    if (isLoading && projects.length < 1) {
         return <PageSpinner />;
     }
 

@@ -54,7 +54,7 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {[5, 10, 20, 30].map((pageSize) => (
+                                {[10, 20, 30].map((pageSize) => (
                                     <SelectItem key={pageSize} value={`${pageSize}`}>
                                         {pageSize} Entries
                                     </SelectItem>
@@ -189,7 +189,7 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                     </TableBody>
                 </Table>
                 <div className='grid xxxs:flex items-center justify-start space-x-2 py-4'>
-                    <div className='flex items-center jusify-start space-x-2 py-4'>
+                    <div className='flex items-center jusify-start space-x-2 py-4 xxxs:py-0'>
                         <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                             Previous
                         </Button>

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -9,6 +9,7 @@ export class ProjectsService {
     async getProjects() {
         const data = await this.prisma.project.findMany({
             select: {
+                id: true,
                 avatar: true,
                 title: true,
                 startDate: true,
@@ -35,6 +36,7 @@ export class ProjectsService {
                     text: project.title,
                     avatar: project.avatar,
                 },
+                id: project.id,
                 name: project.title,
                 startDate: project.startDate,
                 dueDate: project.dueDate,
@@ -64,6 +66,7 @@ export class ProjectsService {
         const newProject = await this.prisma.project.create({
             data: { ...createProjectDto, startDate: startDate, dueDate: dueDate, leadId: userId },
             select: {
+                id: true,
                 avatar: true,
                 title: true,
                 startDate: true,
@@ -89,6 +92,7 @@ export class ProjectsService {
                 text: newProject.title,
                 avatar: newProject.avatar,
             },
+            id: newProject.id,
             name: newProject.title,
             startDate: newProject.startDate,
             dueDate: newProject.dueDate,
@@ -120,7 +124,7 @@ export class ProjectsService {
         }
 
         if (project.leadId !== userId) {
-            throw new UnauthorizedException({ success: false, message: 'Unauthorized', status: 403, fields: null });
+            throw new ForbiddenException({ success: false, message: 'Forbidden', status: 403, fields: null });
         }
 
         try {
@@ -129,6 +133,6 @@ export class ProjectsService {
             throw new InternalServerErrorException({ success: false, message: 'Failed to delete project', status: 500, fields: null });
         }
 
-        return { success: true, message: 'Project successfully deleted' };
+        return { success: true, message: 'Project successfully deleted', data: projectId };
     }
 }

@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Req, Get, Delete, Param } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get, Delete } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { AuthenticatedRequest } from 'src/types';
+import { DeleteProjectDto } from './dto/delete-project.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -19,9 +20,8 @@ export class ProjectsController {
         return { success: true, message: 'Project successfully created', data: project };
     }
 
-    @Delete(':id')
-    async deleteProject(@Param('id') projectId: string, @Req() req: AuthenticatedRequest) {
-        const userId = req.user.id;
-        return this.projectsService.deleteProject(projectId, userId);
+    @Delete()
+    deleteProject(@Body() deleteProjectDto: DeleteProjectDto, @Req() req: AuthenticatedRequest) {
+        return this.projectsService.deleteProject(deleteProjectDto.projectId, req.user.id);
     }
 }

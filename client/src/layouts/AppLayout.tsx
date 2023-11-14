@@ -91,7 +91,7 @@ export function Navbar({
                         </div>
                     </div>
                 </div>
-                <DropdownMenu open={open} onOpenChange={setOpen}>
+                <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
                     <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
                         <Avatar className='rounded-full'>
                             <AvatarImage src={user?.photo ? user?.photo : undefined} />

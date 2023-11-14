@@ -150,10 +150,10 @@ export default function NewProjectPage() {
                     <fieldset className='space-y-1'>
                         <Label htmlFor='avatar'>Avatar</Label>
                         <div className='grid'>
-                            <Popover>
+                            <Popover modal={false}>
                                 <PopoverTrigger asChild id='avatar'>
                                     <div
-                                        className='p-0 flex items-center text-sm gap-3 cursor-pointer'
+                                        className='p-0 flex items-center text-sm gap-3 cursor-pointer w-fit'
                                         ref={avatarRef}
                                         aria-invalid={avatarError ? true : undefined}
                                         aria-describedby='avatar-error'

@@ -61,7 +61,7 @@ export class AuthService {
         if (!user) {
             throw new UnauthorizedException({
                 success: false,
-                message: 'Unauthenticated',
+                message: 'Unauthorized',
                 status: 401,
                 fields: { all: 'Email or password is incorrect' },
             });
@@ -71,7 +71,7 @@ export class AuthService {
         if (!passwordMatch) {
             throw new UnauthorizedException({
                 success: false,
-                message: 'Unauthenticated',
+                message: 'Unauthorized',
                 status: 401,
                 fields: { all: 'Email or password is incorrect' },
             });

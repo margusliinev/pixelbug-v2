@@ -19,6 +19,7 @@ interface ProjectWithLead {
         text: string;
         avatar: string;
     };
+    id: string;
     name: string;
     startDate: Date;
     dueDate: Date;

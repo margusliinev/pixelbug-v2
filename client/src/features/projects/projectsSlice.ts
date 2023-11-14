@@ -15,6 +15,12 @@ const initialState: ProjectsState = {
     projects: [],
 };
 
+type DeleteProjectAPIResponse = {
+    success: boolean;
+    message: string;
+    data: string;
+};
+
 type NewProjectAPIResponse = {
     success: boolean;
     message: string;
@@ -65,40 +71,56 @@ const createProject = createAsyncThunk<NewProjectAPIResponse, ProjectDto, { reje
     },
 );
 
+const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'projects/deleteProject',
+    async (projectId, thunkAPI) => {
+        try {
+            const response = await axios.delete<DeleteProjectAPIResponse>(`/api/v1/projects`, { data: { projectId } });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const projectsSlice = createSlice({
     name: 'projects',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder
-            .addCase(createProject.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(createProject.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload ?? null;
-            })
-            .addCase(createProject.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.error = null;
-                state.projects = [...state.projects, action.payload.data];
-            })
-            .addCase(getProjects.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(getProjects.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload ?? null;
-            })
-            .addCase(getProjects.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.error = null;
-                state.projects = action.payload.data;
-            });
+        [getProjects, createProject, deleteProject].forEach((thunk) => {
+            builder
+                .addCase(thunk.pending, (state) => {
+                    state.isLoading = true;
+                    state.error = null;
+                })
+                .addCase(thunk.rejected, (state, action) => {
+                    state.isLoading = false;
+                    state.error = action.payload ?? null;
+                });
+        }),
+            builder
+                .addCase(getProjects.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.projects = action.payload.data;
+                })
+                .addCase(createProject.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.projects = [...state.projects, action.payload.data];
+                })
+                .addCase(deleteProject.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.projects = state.projects.filter((project) => project.id !== action.payload.data);
+                });
     },
 });
 
-export { getProjects, createProject };
+export { getProjects, createProject, deleteProject };
 export default projectsSlice.reducer;
