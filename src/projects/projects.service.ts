@@ -1,96 +1,18 @@
 import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Project, User } from '@prisma/client';
+
+interface ProjectWithLead extends Project {
+    lead: User | null;
+}
 
 @Injectable()
 export class ProjectsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getProjects() {
-        const projects = await this.prisma.project.findMany({
-            select: {
-                id: true,
-                avatar: true,
-                title: true,
-                startDate: true,
-                dueDate: true,
-                status: true,
-                isArchived: true,
-                lead: {
-                    select: {
-                        username: true,
-                        firstName: true,
-                        lastName: true,
-                        photo: true,
-                    },
-                },
-            },
-        });
-
-        if (!projects) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
-        }
-
-        const allProjects = projects.map((project) => {
-            return {
-                title: {
-                    text: project.title,
-                    avatar: project.avatar,
-                },
-                id: project.id,
-                name: project.title,
-                startDate: project.startDate,
-                dueDate: project.dueDate,
-                status: project.status,
-                isArchived: project.isArchived,
-                lead: {
-                    photo: project?.lead?.photo ? project.lead.photo : undefined,
-                    name: project?.lead
-                        ? project.lead?.firstName && project.lead?.lastName
-                            ? `${project.lead.firstName} ${project.lead.lastName}`
-                            : project.lead.username
-                        : 'Deleted User',
-                },
-            };
-        });
-
-        if (!allProjects) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
-        }
-
-        return { allProjects };
-    }
-
-    async createProject(createProjectDto: CreateProjectDto, userId: string) {
-        const startDate = new Date(createProjectDto.startDate);
-        const dueDate = new Date(createProjectDto.dueDate);
-
-        const project = await this.prisma.project.create({
-            data: { ...createProjectDto, startDate: startDate, dueDate: dueDate, leadId: userId },
-            select: {
-                id: true,
-                avatar: true,
-                title: true,
-                startDate: true,
-                dueDate: true,
-                status: true,
-                isArchived: true,
-                lead: {
-                    select: {
-                        username: true,
-                        firstName: true,
-                        lastName: true,
-                        photo: true,
-                    },
-                },
-            },
-        });
-
-        if (!project) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to create project', status: 500, fields: null });
-        }
-
-        const newProject = {
+    private mapProjectToResponse(project: ProjectWithLead) {
+        return {
             title: {
                 text: project.title,
                 avatar: project.avatar,
@@ -110,6 +32,36 @@ export class ProjectsService {
                     : 'Deleted User',
             },
         };
+    }
+
+    async getProjects() {
+        const projects = await this.prisma.project.findMany({
+            include: { lead: true },
+        });
+
+        if (!projects) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
+        }
+
+        const allProjects = projects.map((project) => this.mapProjectToResponse(project));
+
+        return { allProjects };
+    }
+
+    async createProject(createProjectDto: CreateProjectDto, userId: string) {
+        const startDate = new Date(createProjectDto.startDate);
+        const dueDate = new Date(createProjectDto.dueDate);
+
+        const project = await this.prisma.project.create({
+            data: { ...createProjectDto, startDate: startDate, dueDate: dueDate, leadId: userId },
+            include: { lead: true },
+        });
+
+        if (!project) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to create project', status: 500, fields: null });
+        }
+
+        const newProject = this.mapProjectToResponse(project);
 
         return { newProject };
     }
@@ -131,49 +83,14 @@ export class ProjectsService {
         const updatedProject = await this.prisma.project.update({
             where: { id: projectId },
             data: { isArchived: true },
-            select: {
-                id: true,
-                avatar: true,
-                title: true,
-                startDate: true,
-                dueDate: true,
-                status: true,
-                isArchived: true,
-                lead: {
-                    select: {
-                        username: true,
-                        firstName: true,
-                        lastName: true,
-                        photo: true,
-                    },
-                },
-            },
+            include: { lead: true },
         });
 
         if (!updatedProject) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to archive project', status: 500, fields: null });
         }
 
-        const archivedProject = {
-            title: {
-                text: updatedProject.title,
-                avatar: updatedProject.avatar,
-            },
-            id: updatedProject.id,
-            name: updatedProject.title,
-            startDate: updatedProject.startDate,
-            dueDate: updatedProject.dueDate,
-            status: updatedProject.status,
-            isArchived: updatedProject.isArchived,
-            lead: {
-                photo: updatedProject?.lead?.photo ? updatedProject.lead.photo : undefined,
-                name: updatedProject?.lead
-                    ? updatedProject.lead?.firstName && updatedProject.lead?.lastName
-                        ? `${updatedProject.lead.firstName} ${updatedProject.lead.lastName}`
-                        : updatedProject.lead.username
-                    : 'Deleted User',
-            },
-        };
+        const archivedProject = this.mapProjectToResponse(updatedProject);
 
         return { archivedProject };
     }
