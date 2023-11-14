@@ -18,6 +18,17 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
     },
     {
         accessorKey: 'title',
+        sortingFn: (a, b) => {
+            const aTitle = a.original.title.text;
+            const bTitle = b.original.title.text;
+            if (aTitle < bTitle) {
+                return -1;
+            }
+            if (aTitle > bTitle) {
+                return 1;
+            }
+            return 0;
+        },
         header: ({ column }) => {
             return (
                 <Button
@@ -59,6 +70,17 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
     },
     {
         accessorKey: 'lead',
+        sortingFn: (a, b) => {
+            const aName = a.original.lead.name;
+            const bName = b.original.lead.name;
+            if (aName > bName) {
+                return -1;
+            }
+            if (aName < bName) {
+                return 1;
+            }
+            return 0;
+        },
         header: ({ column }) => {
             return (
                 <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>

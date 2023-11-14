@@ -7,7 +7,7 @@ export class ProjectsService {
     constructor(private readonly prisma: PrismaService) {}
 
     async getProjects() {
-        const data = await this.prisma.project.findMany({
+        const projects = await this.prisma.project.findMany({
             select: {
                 id: true,
                 avatar: true,
@@ -15,6 +15,7 @@ export class ProjectsService {
                 startDate: true,
                 dueDate: true,
                 status: true,
+                isArchived: true,
                 lead: {
                     select: {
                         username: true,
@@ -26,11 +27,11 @@ export class ProjectsService {
             },
         });
 
-        if (!data) {
+        if (!projects) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
         }
 
-        const projects = data.map((project) => {
+        const allProjects = projects.map((project) => {
             return {
                 title: {
                     text: project.title,
@@ -41,6 +42,7 @@ export class ProjectsService {
                 startDate: project.startDate,
                 dueDate: project.dueDate,
                 status: project.status,
+                isArchived: project.isArchived,
                 lead: {
                     photo: project?.lead?.photo ? project.lead.photo : undefined,
                     name: project?.lead
@@ -52,18 +54,18 @@ export class ProjectsService {
             };
         });
 
-        if (!projects) {
+        if (!allProjects) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to fetch projects', status: 500, fields: null });
         }
 
-        return { projects };
+        return { allProjects };
     }
 
-    async createProject(userId: string, createProjectDto: CreateProjectDto) {
+    async createProject(createProjectDto: CreateProjectDto, userId: string) {
         const startDate = new Date(createProjectDto.startDate);
         const dueDate = new Date(createProjectDto.dueDate);
 
-        const newProject = await this.prisma.project.create({
+        const project = await this.prisma.project.create({
             data: { ...createProjectDto, startDate: startDate, dueDate: dueDate, leadId: userId },
             select: {
                 id: true,
@@ -72,6 +74,7 @@ export class ProjectsService {
                 startDate: true,
                 dueDate: true,
                 status: true,
+                isArchived: true,
                 lead: {
                     select: {
                         username: true,
@@ -83,31 +86,96 @@ export class ProjectsService {
             },
         });
 
-        if (!newProject) {
+        if (!project) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to create project', status: 500, fields: null });
         }
 
-        const project = {
+        const newProject = {
             title: {
-                text: newProject.title,
-                avatar: newProject.avatar,
+                text: project.title,
+                avatar: project.avatar,
             },
-            id: newProject.id,
-            name: newProject.title,
-            startDate: newProject.startDate,
-            dueDate: newProject.dueDate,
-            status: newProject.status,
+            id: project.id,
+            name: project.title,
+            startDate: project.startDate,
+            dueDate: project.dueDate,
+            status: project.status,
+            isArchived: project.isArchived,
             lead: {
-                photo: newProject?.lead?.photo ? newProject.lead.photo : undefined,
-                name: newProject?.lead
-                    ? newProject.lead?.firstName && newProject.lead?.lastName
-                        ? `${newProject.lead.firstName} ${newProject.lead.lastName}`
-                        : newProject.lead.username
+                photo: project?.lead?.photo ? project.lead.photo : undefined,
+                name: project?.lead
+                    ? project.lead?.firstName && project.lead?.lastName
+                        ? `${project.lead.firstName} ${project.lead.lastName}`
+                        : project.lead.username
                     : 'Deleted User',
             },
         };
 
-        return { project };
+        return { newProject };
+    }
+
+    async archiveProject(projectId: string, userId: string) {
+        const project = await this.prisma.project.findUnique({
+            where: { id: projectId },
+            include: { lead: true },
+        });
+
+        if (!project) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to archive project', status: 500, fields: null });
+        }
+
+        if (project.leadId !== userId) {
+            throw new ForbiddenException({ success: false, message: 'Forbidden', status: 403, fields: null });
+        }
+
+        const updatedProject = await this.prisma.project.update({
+            where: { id: projectId },
+            data: { isArchived: true },
+            select: {
+                id: true,
+                avatar: true,
+                title: true,
+                startDate: true,
+                dueDate: true,
+                status: true,
+                isArchived: true,
+                lead: {
+                    select: {
+                        username: true,
+                        firstName: true,
+                        lastName: true,
+                        photo: true,
+                    },
+                },
+            },
+        });
+
+        if (!updatedProject) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to archive project', status: 500, fields: null });
+        }
+
+        const archivedProject = {
+            title: {
+                text: updatedProject.title,
+                avatar: updatedProject.avatar,
+            },
+            id: updatedProject.id,
+            name: updatedProject.title,
+            startDate: updatedProject.startDate,
+            dueDate: updatedProject.dueDate,
+            status: updatedProject.status,
+            isArchived: updatedProject.isArchived,
+            lead: {
+                photo: updatedProject?.lead?.photo ? updatedProject.lead.photo : undefined,
+                name: updatedProject?.lead
+                    ? updatedProject.lead?.firstName && updatedProject.lead?.lastName
+                        ? `${updatedProject.lead.firstName} ${updatedProject.lead.lastName}`
+                        : updatedProject.lead.username
+                    : 'Deleted User',
+            },
+        };
+
+        return { archivedProject };
     }
 
     async deleteProject(projectId: string, userId: string) {

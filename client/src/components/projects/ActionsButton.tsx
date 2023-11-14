@@ -18,7 +18,7 @@ import {
 } from '../ui';
 import { DefaultAPIError, ProjectWithLead } from '@/types';
 import { useAppDispatch } from '@/hooks';
-import { deleteProject } from '@/features/projects/projectsSlice';
+import { archiveProject, deleteProject } from '@/features/projects/projectsSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function ActionButton({ project }: { project: ProjectWithLead }) {
@@ -30,16 +30,12 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
     const { toast } = useToast();
 
     const handleArchiveProject = () => {
-        console.log(project);
-    };
-
-    const handleDeleteProject = () => {
-        dispatch(deleteProject(project.id))
+        dispatch(archiveProject(project.id))
             .unwrap()
             .then((res) => {
                 if (res.success) {
                     toast({
-                        title: `Project ${project.name} was deleted`,
+                        title: `Project ${project.title.text} was archived`,
                         variant: 'default',
                     });
                 }
@@ -49,7 +45,35 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
                     navigate('/');
                 } else if (err.status === 403) {
                     toast({
-                        title: `Unauthorized to delete this project`,
+                        title: `Not authorized to archive this project`,
+                        variant: 'destructive',
+                    });
+                } else {
+                    toast({
+                        title: `Failed to archive the project`,
+                        variant: 'destructive',
+                    });
+                }
+            });
+    };
+
+    const handleDeleteProject = () => {
+        dispatch(deleteProject(project.id))
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    toast({
+                        title: `Project ${project.title.text} was deleted`,
+                        variant: 'default',
+                    });
+                }
+            })
+            .catch((err: DefaultAPIError) => {
+                if (err.status === 401) {
+                    navigate('/');
+                } else if (err.status === 403) {
+                    toast({
+                        title: `Not authorized to delete this project`,
                         variant: 'destructive',
                     });
                 } else {
@@ -84,11 +108,11 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
                         <AlertDialogFooter>
                             <AlertDialogCancel onClick={() => setDropdown(false)}>Cancel</AlertDialogCancel>
                             <AlertDialogAction
+                                className='bg-secondary-foreground hover:bg-secondary-hover'
                                 onClick={() => {
                                     setDropdown(false);
                                     handleArchiveProject();
                                 }}
-                                className='bg-secondary-foreground hover:bg-secondary-hover'
                             >
                                 Archive
                             </AlertDialogAction>

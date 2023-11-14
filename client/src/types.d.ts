@@ -24,6 +24,7 @@ interface ProjectWithLead {
     startDate: Date;
     dueDate: Date;
     status: ProjectStatus;
+    isArchived: boolean;
     lead: {
         photo?: string;
         name: string;

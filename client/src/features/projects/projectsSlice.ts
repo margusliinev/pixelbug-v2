@@ -75,7 +75,23 @@ const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejec
     'projects/deleteProject',
     async (projectId, thunkAPI) => {
         try {
-            const response = await axios.delete<DeleteProjectAPIResponse>(`/api/v1/projects`, { data: { projectId } });
+            const response = await axios.delete<DeleteProjectAPIResponse>('/api/v1/projects', { data: { projectId } });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
+const archiveProject = createAsyncThunk<NewProjectAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'projects/archiveProject',
+    async (projectId, thunkAPI) => {
+        try {
+            const response = await axios.patch<NewProjectAPIResponse>('/api/v1/projects', { projectId });
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
@@ -92,7 +108,7 @@ const projectsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        [getProjects, createProject, deleteProject].forEach((thunk) => {
+        [getProjects, createProject, deleteProject, archiveProject].forEach((thunk) => {
             builder
                 .addCase(thunk.pending, (state) => {
                     state.isLoading = true;
@@ -114,6 +130,16 @@ const projectsSlice = createSlice({
                     state.error = null;
                     state.projects = [...state.projects, action.payload.data];
                 })
+                .addCase(archiveProject.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.projects = state.projects.map((project) => {
+                        if (project.id === action.payload.data.id) {
+                            return action.payload.data;
+                        }
+                        return project;
+                    });
+                })
                 .addCase(deleteProject.fulfilled, (state, action) => {
                     state.isLoading = false;
                     state.error = null;
@@ -122,5 +148,5 @@ const projectsSlice = createSlice({
     },
 });
 
-export { getProjects, createProject, deleteProject };
+export { getProjects, createProject, archiveProject, deleteProject };
 export default projectsSlice.reducer;
