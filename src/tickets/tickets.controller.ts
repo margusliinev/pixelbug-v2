@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { AuthenticatedRequest } from 'src/types';
@@ -7,9 +7,15 @@ import { AuthenticatedRequest } from 'src/types';
 export class TicketsController {
     constructor(private readonly ticketsService: TicketsService) {}
 
+    @Get()
+    async getTickets() {
+        const { allTickets } = await this.ticketsService.getTickets();
+        return { success: true, message: 'Tickets retrieved', data: allTickets };
+    }
+
     @Post()
     async createTicket(@Body() createTicketDto: CreateTicketDto, @Req() req: AuthenticatedRequest) {
-        const { ticket } = await this.ticketsService.createTicket(createTicketDto, req.user.id);
-        return { success: true, message: 'Ticket created', data: ticket };
+        const { newTicket } = await this.ticketsService.createTicket(createTicketDto, req.user.id);
+        return { success: true, message: 'Ticket created', data: newTicket };
     }
 }

@@ -12,19 +12,19 @@ export class ProjectsController {
     @Get()
     async getProjects() {
         const { allProjects } = await this.projectsService.getProjects();
-        return { success: true, message: 'Projects successfully retrieved', data: allProjects };
+        return { success: true, message: 'Projects retrieved', data: allProjects };
     }
 
     @Post()
     async createProject(@Body() createProjectDto: CreateProjectDto, @Req() req: AuthenticatedRequest) {
         const { newProject } = await this.projectsService.createProject(createProjectDto, req.user.id);
-        return { success: true, message: 'Project successfully created', data: newProject };
+        return { success: true, message: 'Project created', data: newProject };
     }
 
     @Patch()
     async archiveProject(@Body() archiveProjectDto: ArchiveProjectDto, @Req() req: AuthenticatedRequest) {
         const { archivedProject } = await this.projectsService.archiveProject(archiveProjectDto.projectId, req.user.id);
-        return { success: true, message: 'Project successfully updated', data: archivedProject };
+        return { success: true, message: 'Project updated', data: archivedProject };
     }
 
     @Delete()

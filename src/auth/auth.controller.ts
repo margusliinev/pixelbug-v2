@@ -25,7 +25,7 @@ export class AuthController {
             expires: new Date(Date.now() + this.COOKIE_EXPIRATION_TIME),
             signed: true,
         });
-        return { success: true, message: 'User successfully created' };
+        return { success: true, message: 'User created' };
     }
 
     @Post('signin')
@@ -40,7 +40,7 @@ export class AuthController {
             expires: new Date(Date.now() + this.COOKIE_EXPIRATION_TIME),
             signed: true,
         });
-        return { success: true, message: 'User successfully signed in' };
+        return { success: true, message: 'User signed in' };
     }
 
     @Post('signout')

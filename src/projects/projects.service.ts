@@ -24,9 +24,9 @@ export class ProjectsService {
             status: project.status,
             isArchived: project.isArchived,
             lead: {
-                photo: project?.lead?.photo ? project.lead.photo : undefined,
+                photo: project?.lead?.photo ? project.lead.photo : null,
                 name: project?.lead
-                    ? project.lead?.firstName && project.lead?.lastName
+                    ? project?.lead?.firstName && project?.lead?.lastName
                         ? `${project.lead.firstName} ${project.lead.lastName}`
                         : project.lead.username
                     : 'Deleted User',
