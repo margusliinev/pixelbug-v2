@@ -1,3 +1,10 @@
+import { Bug, Feature } from '@/assets/icons';
+
 export default function TicketsPage() {
-    return <section>Tickets</section>;
+    return (
+        <section>
+            <Bug />
+            <Feature />
+        </section>
+    );
 }

@@ -36,6 +36,11 @@ enum TicketStatus {
   UNASSIGNED
 }
 
+enum TicketType {
+  BUG
+  FEATURE
+}
+
 model User {
   id              String        @id @default(cuid())
   username        String        @unique
@@ -97,6 +102,7 @@ model Ticket {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   resolvedAt  DateTime?
+  type        TicketType   @default(BUG)
   priority    Priority     @default(LOW)
   status      TicketStatus @default(UNASSIGNED)
   assigneeId  String?
