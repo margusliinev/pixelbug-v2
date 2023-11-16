@@ -65,12 +65,28 @@ const createTicket = createAsyncThunk<NewTicketAPIResponse, TicketDto, { rejectV
     },
 );
 
+const assignTicket = createAsyncThunk<NewTicketAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'tickets/assignTicket',
+    async (ticketId, thunkAPI) => {
+        try {
+            const response = await axios.patch<NewTicketAPIResponse>('/api/v1/tickets', { ticketId });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        [getTickets, createTicket].forEach((thunk) => {
+        [getTickets, createTicket, assignTicket].forEach((thunk) => {
             builder
                 .addCase(thunk.pending, (state) => {
                     state.isLoading = true;
@@ -91,9 +107,19 @@ const ticketsSlice = createSlice({
                     state.isLoading = false;
                     state.error = null;
                     state.tickets = [...state.tickets, action.payload.data];
+                })
+                .addCase(assignTicket.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.tickets = state.tickets.map((ticket) => {
+                        if (ticket.id === action.payload.data.id) {
+                            return action.payload.data;
+                        }
+                        return ticket;
+                    });
                 });
     },
 });
 
-export { getTickets, createTicket };
+export { getTickets, createTicket, assignTicket };
 export default ticketsSlice.reducer;

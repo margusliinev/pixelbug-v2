@@ -101,8 +101,12 @@ export class TicketsService {
             });
         }
 
+        if (ticket.assigneeId === userId) {
+            throw new ForbiddenException({ success: false, message: 'Ticket is already assigned to you', status: 403, fields: null });
+        }
+
         if (ticket.assigneeId !== null) {
-            throw new ForbiddenException({ success: false, message: 'Ticket already assigned', status: 403, fields: null });
+            throw new ForbiddenException({ success: false, message: 'Ticket is already taken', status: 403, fields: null });
         }
 
         const updatedTicket = await this.prisma.ticket.update({

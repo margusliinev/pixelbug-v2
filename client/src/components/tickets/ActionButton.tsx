@@ -14,14 +14,48 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
+    useToast,
 } from '../ui';
-import { TicketWithProject } from '@/types';
+import { DefaultAPIError, TicketWithProject } from '@/types';
+import { useAppDispatch } from '@/hooks';
+import { useNavigate } from 'react-router-dom';
+import { assignTicket } from '@/features/tickets/ticketsSlice';
 
 export default function ActionButton({ ticket }: { ticket: TicketWithProject }) {
     const [warning, setWarning] = useState(false);
     const [alert, setAlert] = useState(false);
     const [dropdown, setDropdown] = useState(false);
-    console.log(ticket);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { toast } = useToast();
+
+    const handleAssignTicket = () => {
+        dispatch(assignTicket(ticket.id))
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    toast({
+                        title: 'Ticket was assigned to you',
+                        variant: 'default',
+                    });
+                }
+            })
+            .catch((err: DefaultAPIError) => {
+                if (err.status === 401) {
+                    navigate('/');
+                } else if (err.status === 403) {
+                    toast({
+                        title: `${err.message}`,
+                        variant: 'destructive',
+                    });
+                } else {
+                    toast({
+                        title: `Failed to assign the ticket`,
+                        variant: 'destructive',
+                    });
+                }
+            });
+    };
 
     return (
         <DropdownMenu open={dropdown} onOpenChange={setDropdown} modal={false}>
@@ -49,6 +83,7 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                                 className='bg-secondary-foreground hover:bg-secondary-hover'
                                 onClick={() => {
                                     setDropdown(false);
+                                    handleAssignTicket();
                                 }}
                             >
                                 Assign Me
