@@ -115,6 +115,6 @@ export class ProjectsService {
             throw new InternalServerErrorException({ success: false, message: 'Failed to delete project', status: 500, fields: null });
         }
 
-        return { success: true, message: 'Project successfully deleted', data: projectId };
+        return { projectId };
     }
 }

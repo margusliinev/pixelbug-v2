@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Ticket, Project, User } from '@prisma/client';
@@ -101,9 +101,13 @@ export class TicketsService {
             });
         }
 
+        if (ticket.assigneeId !== null) {
+            throw new ForbiddenException({ success: false, message: 'Ticket already assigned', status: 403, fields: null });
+        }
+
         const updatedTicket = await this.prisma.ticket.update({
             where: { id: ticketId },
-            data: { assigneeId: userId },
+            data: { assigneeId: userId, status: ticket.status === 'UNASSIGNED' ? 'ASSIGNED' : ticket.status },
             include: {
                 project: true,
                 reporter: true,
@@ -118,5 +122,29 @@ export class TicketsService {
         const assignedTicket = this.mapTicketToResponse(updatedTicket);
 
         return { assignedTicket };
+    }
+
+    async deleteTicket(ticketId: string, userId: string) {
+        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { assignee: true } });
+        if (!ticket) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'Failed to delete ticket, ticket not found',
+                status: 500,
+                fields: null,
+            });
+        }
+
+        if (ticket.assigneeId !== userId) {
+            throw new ForbiddenException({ success: false, message: 'Not authorized to delete this ticket', status: 403, fields: null });
+        }
+
+        try {
+            await this.prisma.ticket.delete({ where: { id: ticketId } });
+        } catch (error) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to delete project', status: 500, fields: null });
+        }
+
+        return { ticketId };
     }
 }

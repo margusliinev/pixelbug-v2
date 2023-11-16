@@ -28,7 +28,8 @@ export class ProjectsController {
     }
 
     @Delete()
-    deleteProject(@Body() deleteProjectDto: DeleteProjectDto, @Req() req: AuthenticatedRequest) {
-        return this.projectsService.deleteProject(deleteProjectDto.projectId, req.user.id);
+    async deleteProject(@Body() deleteProjectDto: DeleteProjectDto, @Req() req: AuthenticatedRequest) {
+        const { projectId } = await this.projectsService.deleteProject(deleteProjectDto.projectId, req.user.id);
+        return { success: true, message: 'Project successfully deleted', data: projectId };
     }
 }
