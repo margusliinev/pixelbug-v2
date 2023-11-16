@@ -35,7 +35,7 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
             .then((res) => {
                 if (res.success) {
                     toast({
-                        title: `Project ${project.title.text} was archived`,
+                        title: `Project was archived`,
                         variant: 'default',
                     });
                 }
@@ -63,7 +63,7 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
             .then((res) => {
                 if (res.success) {
                     toast({
-                        title: `Project ${project.title.text} was deleted`,
+                        title: `Project was deleted`,
                         variant: 'default',
                     });
                 }

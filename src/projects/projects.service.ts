@@ -13,12 +13,9 @@ export class ProjectsService {
 
     private mapProjectToResponse(project: ProjectWithLead) {
         return {
-            title: {
-                text: project.title,
-                avatar: project.avatar,
-            },
             id: project.id,
-            name: project.title,
+            title: project.title,
+            avatar: project.avatar,
             startDate: project.startDate,
             dueDate: project.dueDate,
             status: project.status,

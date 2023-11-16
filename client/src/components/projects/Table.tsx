@@ -44,8 +44,8 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                 <div className='flex items-center gap-4'>
                     <Input
                         placeholder='Search by title...'
-                        value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-                        onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+                        value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => table.getColumn('title')?.setFilterValue(event.target.value)}
                         className='w-full xs:w-96'
                     />
                     <div className='hidden md:block'>
@@ -74,7 +74,6 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                             return (
                                 <TableRow key={headerGroup.id} className='hover:bg-transparent'>
                                     {headerGroup.headers.map((header) => {
-                                        if (header.id === 'name') return;
                                         if (header.id === 'title') {
                                             return (
                                                 <TableHead key={header.id} className='px-0 xxxs:px-4'>
@@ -132,7 +131,6 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                                     className='cursor-pointer capitalize hover:bg-gray-100'
                                 >
                                     {row.getVisibleCells().map((cell) => {
-                                        if (cell.column.id === 'name') return;
                                         if (cell.column.id === 'title') {
                                             return (
                                                 <TableCell key={cell.id} className='px-0 xxxs:px-4 max-w-[200px] overflow-hidden'>

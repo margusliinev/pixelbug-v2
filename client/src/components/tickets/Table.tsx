@@ -81,30 +81,23 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                                 </TableHead>
                                             );
                                         }
-                                        // if (header.id === 'createdAt') {
-                                        //     return (
-                                        //         <TableHead key={header.id} className='hidden lg:table-cell'>
-                                        //             {flexRender(header.column.columnDef.header, header.getContext())}
-                                        //         </TableHead>
-                                        //     );
-                                        // }
                                         if (header.id === 'projectTitle') {
                                             return (
-                                                <TableHead key={header.id} className='px-0 xxxs:px-4'>
+                                                <TableHead key={header.id} className='hidden xxs:table-cell'>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </TableHead>
                                             );
                                         }
                                         if (header.id === 'reporter') {
                                             return (
-                                                <TableHead key={header.id} className='hidden xs:table-cell'>
+                                                <TableHead key={header.id} className='hidden 2xl:table-cell'>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </TableHead>
                                             );
                                         }
                                         if (header.id === 'assignee') {
                                             return (
-                                                <TableHead key={header.id} className='hidden xs:table-cell'>
+                                                <TableHead key={header.id} className='hidden 2xl:table-cell'>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </TableHead>
                                             );
@@ -118,7 +111,7 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                         }
                                         if (header.id === 'priority') {
                                             return (
-                                                <TableHead key={header.id} className='hidden 2xl:table-cell pl-0'>
+                                                <TableHead key={header.id} className='hidden xs:table-cell pl-0'>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </TableHead>
                                             );
@@ -152,30 +145,23 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                                 </TableCell>
                                             );
                                         }
-                                        // if (cell.column.id === 'createdAt') {
-                                        //     return (
-                                        //         <TableCell key={cell.id} className='hidden lg:table-cell'>
-                                        //             {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        //         </TableCell>
-                                        //     );
-                                        // }
                                         if (cell.column.id === 'projectTitle') {
                                             return (
-                                                <TableCell key={cell.id} className='px-0 xxxs:px-4 max-w-[200px] overflow-hidden'>
+                                                <TableCell key={cell.id} className='hidden xxs:table-cell'>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
                                         }
                                         if (cell.column.id === 'reporter') {
                                             return (
-                                                <TableCell key={cell.id} className='hidden xs:table-cell'>
+                                                <TableCell key={cell.id} className='hidden 2xl:table-cell'>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
                                         }
                                         if (cell.column.id === 'assignee') {
                                             return (
-                                                <TableCell key={cell.id} className='hidden xs:table-cell'>
+                                                <TableCell key={cell.id} className='hidden 2xl:table-cell'>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );
@@ -189,7 +175,7 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                         }
                                         if (cell.column.id === 'priority') {
                                             return (
-                                                <TableCell key={cell.id} className='hidden md:table-cell'>
+                                                <TableCell key={cell.id} className='hidden xs:table-cell'>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );

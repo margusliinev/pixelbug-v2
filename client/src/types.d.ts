@@ -15,11 +15,9 @@ export type DefaultAPIError = {
 };
 
 interface ProjectWithLead {
-    title: {
-        text: string;
-        avatar: string;
-    };
     id: string;
+    title: string;
+    avatar: string;
     name: string;
     startDate: Date;
     dueDate: Date;

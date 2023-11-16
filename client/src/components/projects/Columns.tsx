@@ -8,27 +8,7 @@ import ActionButton from './ActionsButton';
 
 export const columns: ColumnDef<ProjectWithLead>[] = [
     {
-        accessorKey: 'name',
-        header: () => {
-            return;
-        },
-        cell: () => {
-            return;
-        },
-    },
-    {
         accessorKey: 'title',
-        sortingFn: (a, b) => {
-            const aTitle = a.original.title.text;
-            const bTitle = b.original.title.text;
-            if (aTitle < bTitle) {
-                return -1;
-            }
-            if (aTitle > bTitle) {
-                return 1;
-            }
-            return 0;
-        },
         header: ({ column }) => {
             return (
                 <Button
@@ -45,13 +25,10 @@ export const columns: ColumnDef<ProjectWithLead>[] = [
             return (
                 <div className='flex items-center gap-2 w-fit'>
                     <Avatar className='h-8 w-8 rounded-none'>
-                        <AvatarImage
-                            src={project.row.original.title.avatar ? project.row.original.title.avatar : undefined}
-                            className='rounded-none'
-                        />
-                        <AvatarFallback className='rounded-none bg-gray-200'>{project.row.original.title.text[0].toUpperCase()}</AvatarFallback>
+                        <AvatarImage src={project.row.original.avatar ? project.row.original.avatar : undefined} className='rounded-none' />
+                        <AvatarFallback className='rounded-none bg-gray-200'>{project.row.original.title[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
-                    <p>{project.row.original.title.text}</p>
+                    <p>{project.row.original.title.length > 40 ? project.row.original.title.substring(0, 40) + '...' : project.row.original.title}</p>
                 </div>
             );
         },

@@ -1,11 +1,11 @@
 import { TicketWithProject } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
 import { Bug, Feature } from '@/assets/icons';
 import StatusCell from './StatusCell';
 import ActionButton from './ActionButton';
+import PriorityCell from './PriorityCell';
 
 export const columns: ColumnDef<TicketWithProject>[] = [
     {
@@ -26,22 +26,10 @@ export const columns: ColumnDef<TicketWithProject>[] = [
             return (
                 <div className='flex items-center gap-2 w-fit'>
                     <div className='h-8 w-8'>{ticket.row.original.type === 'BUG' ? <Bug /> : <Feature />}</div>
-                    <p>{ticket.row.original.title}</p>
+                    <p>{ticket.row.original.title.length > 40 ? ticket.row.original.title.substring(0, 40) + '...' : ticket.row.original.title}</p>
                 </div>
             );
         },
-    },
-    {
-        accessorKey: 'createdAt',
-        header: ({ column }) => {
-            return (
-                <Button variant='ghost' className='group hover:bg-transparent' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                    Created At
-                    <ArrowUpDown className='ml-2 h-4 w-4 group-hover:text-primary' />
-                </Button>
-            );
-        },
-        cell: (ticket) => format(new Date(ticket.row.original.createdAt), 'PPP'),
     },
     {
         accessorKey: 'projectTitle',
@@ -158,7 +146,10 @@ export const columns: ColumnDef<TicketWithProject>[] = [
                 </Button>
             );
         },
-        cell: (ticket) => ticket.row.original.priority,
+        cell: (ticket) => {
+            const ticketPriority = ticket.row.original.priority;
+            return <PriorityCell priority={ticketPriority} />;
+        },
     },
     {
         accessorKey: 'actions',
