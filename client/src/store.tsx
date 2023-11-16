@@ -3,6 +3,7 @@ import authReducer from './features/auth/authSlice';
 import userReducer from './features/user/userSlice';
 import usersReducer from './features/users/usersSlice';
 import projectsReducer from './features/projects/projectsSlice';
+import ticketsReducer from './features/tickets/ticketsSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         user: userReducer,
         users: usersReducer,
         projects: projectsReducer,
+        tickets: ticketsReducer,
     },
 });
 

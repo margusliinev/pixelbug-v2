@@ -248,7 +248,7 @@ const SidebarLinks = ({
                         }
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
-                        <Ticket />
+                        <Ticket height={6} width={6} />
                         Tickets
                     </NavLink>
                 </li>

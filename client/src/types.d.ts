@@ -1,4 +1,4 @@
-import { ProjectStatus } from '@prisma/client';
+import { ProjectStatus, TicketStatus, Priority, TicketType } from '@prisma/client';
 
 export type DefaultAPIResponse = {
     success: boolean;
@@ -28,5 +28,23 @@ interface ProjectWithLead {
     lead: {
         photo?: string;
         name: string;
+    };
+}
+
+interface TicketWithProject extends Ticket {
+    id: string;
+    title: string;
+    type: TicketType;
+    priority: Priority;
+    status: TicketStatus;
+    createdAt: Date;
+    projectTitle: string;
+    reporter: {
+        name: string;
+        photo: string | null;
+    };
+    assignee: {
+        name: string;
+        photo: string | null;
     };
 }

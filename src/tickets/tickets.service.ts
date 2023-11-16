@@ -3,7 +3,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Ticket, Project, User } from '@prisma/client';
 
-interface TicketWithProjectAndUsers extends Ticket {
+interface TicketWithProject extends Ticket {
     project: Project;
     reporter: User | null;
     assignee: User | null;
@@ -13,7 +13,7 @@ interface TicketWithProjectAndUsers extends Ticket {
 export class TicketsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    private mapTicketToResponse(ticket: TicketWithProjectAndUsers) {
+    private mapTicketToResponse(ticket: TicketWithProject) {
         return {
             id: ticket.id,
             title: ticket.title,
