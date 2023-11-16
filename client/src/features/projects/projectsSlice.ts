@@ -71,22 +71,6 @@ const createProject = createAsyncThunk<NewProjectAPIResponse, ProjectDto, { reje
     },
 );
 
-const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejectValue: DefaultAPIError }>(
-    'projects/deleteProject',
-    async (projectId, thunkAPI) => {
-        try {
-            const response = await axios.delete<DeleteProjectAPIResponse>('/api/v1/projects', { data: { projectId } });
-            return response.data;
-        } catch (error) {
-            if (isAxiosError(error) && error.response) {
-                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
-            }
-            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
-            return thunkAPI.rejectWithValue(defaultError);
-        }
-    },
-);
-
 const archiveProject = createAsyncThunk<NewProjectAPIResponse, string, { rejectValue: DefaultAPIError }>(
     'projects/archiveProject',
     async (projectId, thunkAPI) => {
@@ -103,12 +87,28 @@ const archiveProject = createAsyncThunk<NewProjectAPIResponse, string, { rejectV
     },
 );
 
+const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'projects/deleteProject',
+    async (projectId, thunkAPI) => {
+        try {
+            const response = await axios.delete<DeleteProjectAPIResponse>('/api/v1/projects', { data: { projectId } });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const projectsSlice = createSlice({
     name: 'projects',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        [getProjects, createProject, deleteProject, archiveProject].forEach((thunk) => {
+        [getProjects, createProject, archiveProject, deleteProject].forEach((thunk) => {
             builder
                 .addCase(thunk.pending, (state) => {
                     state.isLoading = true;

@@ -21,6 +21,12 @@ type TicketsAPIResponse = {
     data: TicketWithProject[];
 };
 
+type DeleteTicketAPIResponse = {
+    success: boolean;
+    message: string;
+    data: string;
+};
+
 type NewTicketAPIResponse = {
     success: boolean;
     message: string;
@@ -81,12 +87,28 @@ const assignTicket = createAsyncThunk<NewTicketAPIResponse, string, { rejectValu
     },
 );
 
+const deleteTicket = createAsyncThunk<DeleteTicketAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'tickets/deleteTicket',
+    async (ticketId, thunkAPI) => {
+        try {
+            const response = await axios.delete<DeleteTicketAPIResponse>('/api/v1/tickets', { data: { ticketId } });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        [getTickets, createTicket, assignTicket].forEach((thunk) => {
+        [getTickets, createTicket, assignTicket, deleteTicket].forEach((thunk) => {
             builder
                 .addCase(thunk.pending, (state) => {
                     state.isLoading = true;
@@ -117,9 +139,14 @@ const ticketsSlice = createSlice({
                         }
                         return ticket;
                     });
+                })
+                .addCase(deleteTicket.fulfilled, (state, action) => {
+                    state.isLoading = false;
+                    state.error = null;
+                    state.tickets = state.tickets.filter((ticket) => ticket.id !== action.payload.data);
                 });
     },
 });
 
-export { getTickets, createTicket, assignTicket };
+export { getTickets, createTicket, assignTicket, deleteTicket };
 export default ticketsSlice.reducer;

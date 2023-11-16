@@ -19,7 +19,7 @@ import {
 import { DefaultAPIError, TicketWithProject } from '@/types';
 import { useAppDispatch } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
-import { assignTicket } from '@/features/tickets/ticketsSlice';
+import { assignTicket, deleteTicket } from '@/features/tickets/ticketsSlice';
 
 export default function ActionButton({ ticket }: { ticket: TicketWithProject }) {
     const [warning, setWarning] = useState(false);
@@ -51,6 +51,34 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                 } else {
                     toast({
                         title: `Failed to assign the ticket`,
+                        variant: 'destructive',
+                    });
+                }
+            });
+    };
+
+    const handleDeleteTicket = () => {
+        dispatch(deleteTicket(ticket.id))
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    toast({
+                        title: 'Ticket was deleted',
+                        variant: 'default',
+                    });
+                }
+            })
+            .catch((err: DefaultAPIError) => {
+                if (err.status === 401) {
+                    navigate('/');
+                } else if (err.status === 403) {
+                    toast({
+                        title: 'Not authorized to delete this ticket',
+                        variant: 'destructive',
+                    });
+                } else {
+                    toast({
+                        title: `Failed to delete the ticket`,
                         variant: 'destructive',
                     });
                 }
@@ -109,6 +137,7 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                                 className='bg-destructive hover:bg-destructive-hover'
                                 onClick={() => {
                                     setDropdown(false);
+                                    handleDeleteTicket();
                                 }}
                             >
                                 Delete
