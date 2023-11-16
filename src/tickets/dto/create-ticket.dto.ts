@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { TicketType, TicketStatus, Priority } from '@prisma/client';
+import { TicketType, Priority } from '@prisma/client';
 
 export class CreateTicketDto {
     @IsString({ message: 'Title must be a string' })
@@ -17,10 +17,6 @@ export class CreateTicketDto {
     @IsEnum(Priority, { message: 'Priority must be a valid ticket priority' })
     @IsNotEmpty({ message: 'Ticket priority is required' })
     priority: Priority;
-
-    @IsEnum(TicketStatus, { message: 'Status must be a valid ticket status' })
-    @IsNotEmpty({ message: 'Ticket status is required' })
-    status: TicketStatus;
 
     @IsString({ message: 'Project ID must be a string' })
     @IsNotEmpty({ message: 'Project ID is required' })

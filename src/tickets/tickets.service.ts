@@ -89,4 +89,34 @@ export class TicketsService {
 
         return { newTicket };
     }
+
+    async assignTicket(ticketId: string, userId: string) {
+        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId } });
+        if (!ticket) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'Failed to assign ticket, ticket not found',
+                status: 500,
+                fields: null,
+            });
+        }
+
+        const updatedTicket = await this.prisma.ticket.update({
+            where: { id: ticketId },
+            data: { assigneeId: userId },
+            include: {
+                project: true,
+                reporter: true,
+                assignee: true,
+            },
+        });
+
+        if (!updatedTicket) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to assign ticket', status: 500, fields: null });
+        }
+
+        const assignedTicket = this.mapTicketToResponse(updatedTicket);
+
+        return { assignedTicket };
+    }
 }

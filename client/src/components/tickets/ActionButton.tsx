@@ -31,16 +31,16 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                     <MoreHorizontal className='h-4 w-4' />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className='p-0'>
+            <DropdownMenuContent align='end' className='p-0 grid'>
                 <AlertDialog open={warning} onOpenChange={setWarning}>
-                    <AlertDialogTrigger className='text-sm pl-4 pr-0 py-2 w-full h-full text-left font-medium text-black hover:bg-gray-100'>
-                        Archive
+                    <AlertDialogTrigger className='text-sm pl-4 pr-8 py-2 w-fit h-full text-left font-medium text-black hover:bg-gray-100'>
+                        Assign To Me
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action will remove this project from your active workspace and will then be only visible in the archive.
+                                This action will assign you to this ticket. You will be notified of any changes to this ticket.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -51,21 +51,21 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                                     setDropdown(false);
                                 }}
                             >
-                                Archive
+                                Assign Me
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
                 <AlertDialog open={alert} onOpenChange={setAlert}>
-                    <AlertDialogTrigger className='text-sm pl-4 pr-0 py-2 w-full h-full text-left font-medium text-destructive hover:bg-gray-100'>
-                        Delete
+                    <AlertDialogTrigger className='text-sm pl-4 pr-8 py-2 w-fit h-full text-left font-medium text-destructive hover:bg-gray-100'>
+                        Delete Ticket
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the project and all the associated data (tickets, comments,
-                                project details).
+                                This action cannot be undone. This will permanently delete the ticket and all the associated data (comments,
+                                attachments, etc.)
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
