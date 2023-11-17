@@ -12,6 +12,7 @@ import {
     AccountPage,
     UsersPage,
     NewProjectPage,
+    NewTicketPage,
 } from './pages';
 
 function App() {
@@ -62,6 +63,10 @@ function App() {
                 {
                     path: 'tickets',
                     element: <TicketsPage />,
+                },
+                {
+                    path: 'tickets/new',
+                    element: <NewTicketPage />,
                 },
                 {
                     path: 'users',

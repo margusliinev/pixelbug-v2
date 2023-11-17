@@ -164,7 +164,7 @@ export default function NewProjectPage() {
                                 </PopoverTrigger>
                                 <PopoverContent className='w-80 translate-y-2' onOpenAutoFocus={(e) => e.preventDefault()}>
                                     <div className='grid gap-4'>
-                                        <div className='space-y-2'>
+                                        <div className='space-y-1'>
                                             <h4 className='font-medium leading-none'>Select Image</h4>
                                             <p className='text-sm text-muted-foreground'>Choose an avatar for your project.</p>
                                         </div>
@@ -179,7 +179,7 @@ export default function NewProjectPage() {
                                 </PopoverContent>
                             </Popover>
                             {avatarError ? (
-                                <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                                <p className='pt-1 text-sm text-destructive' id='avatar-error'>
                                     {avatarError}
                                 </p>
                             ) : null}
@@ -201,7 +201,7 @@ export default function NewProjectPage() {
                             }}
                         ></Input>
                         {titleError ? (
-                            <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                            <p className='pt-1 text-sm text-destructive' id='title-error'>
                                 {titleError}
                             </p>
                         ) : null}
@@ -221,7 +221,7 @@ export default function NewProjectPage() {
                             }}
                         ></Textarea>
                         {descriptionError ? (
-                            <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                            <p className='pt-1 text-sm text-destructive' id='description-error'>
                                 {descriptionError}
                             </p>
                         ) : null}
@@ -252,13 +252,13 @@ export default function NewProjectPage() {
                             </SelectContent>
                         </Select>
                         {statusError ? (
-                            <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                            <p className='pt-1 text-sm text-destructive' id='status-error'>
                                 {statusError}
                             </p>
                         ) : null}
                     </fieldset>
                     <div className='grid gap-4 xs:flex items-start'>
-                        <fieldset className='space-y-2 grid w-full'>
+                        <fieldset className='space-y-1 w-full'>
                             <Label htmlFor='startDate'>Start Date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -287,12 +287,12 @@ export default function NewProjectPage() {
                                 </PopoverContent>
                             </Popover>
                             {startDateError ? (
-                                <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                                <p className='pt-1 text-sm text-destructive' id='startDate-error'>
                                     {startDateError}
                                 </p>
                             ) : null}
                         </fieldset>
-                        <fieldset className='space-y-2 grid w-full'>
+                        <fieldset className='space-y-1 w-full'>
                             <Label htmlFor='dueDate'>Due Date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -321,13 +321,13 @@ export default function NewProjectPage() {
                                 </PopoverContent>
                             </Popover>
                             {dueDateError ? (
-                                <p className='pt-1 text-sm text-destructive' id='firstName-error'>
+                                <p className='pt-1 text-sm text-destructive' id='dueDate-error'>
                                     {dueDateError}
                                 </p>
                             ) : null}
                         </fieldset>
                     </div>
-                    <Button type='submit' className='mt-2 w-32' aria-label='Sign up' disabled={isLoading}>
+                    <Button type='submit' className='mt-2 w-32' aria-label='Create Project' disabled={isLoading}>
                         {isLoading ? <ButtonSpinner /> : 'Create Project'}
                     </Button>
                 </form>

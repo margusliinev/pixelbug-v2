@@ -18,7 +18,7 @@ export class CreateTicketDto {
     @IsNotEmpty({ message: 'Ticket priority is required' })
     priority: Priority;
 
-    @IsString({ message: 'Project ID must be a string' })
-    @IsNotEmpty({ message: 'Project ID is required' })
+    @IsString({ message: 'Project must be a string' })
+    @IsNotEmpty({ message: 'Project is required' })
     projectId: string;
 }

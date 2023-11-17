@@ -1,7 +1,7 @@
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent, Button } from '@/components/ui';
 import { Link } from 'react-router-dom';
-import MissingFeature from '@/components/MissingFeature';
-import AddedFeature from '@/components/AddedFeature';
+import MissingFeature from '@/components/pricing/MissingFeature';
+import AddedFeature from '@/components/pricing/AddedFeature';
 
 export default function PricingPage() {
     return (

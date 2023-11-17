@@ -9,5 +9,19 @@ import TicketsPage from './TicketsPage';
 import AccountPage from './AccountPage';
 import UsersPage from './UsersPage';
 import NewProjectPage from './NewProjectPage';
+import NewTicketPage from './NewTicketPage';
 
-export { ErrorPage, HomePage, PricingPage, SignupPage, SigninPage, DashboardPage, ProjectsPage, TicketsPage, AccountPage, UsersPage, NewProjectPage };
+export {
+    ErrorPage,
+    HomePage,
+    PricingPage,
+    SignupPage,
+    SigninPage,
+    DashboardPage,
+    ProjectsPage,
+    TicketsPage,
+    AccountPage,
+    UsersPage,
+    NewProjectPage,
+    NewTicketPage,
+};

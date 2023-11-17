@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { DefaultAPIError, TicketWithProject } from '@/types';
-import { Priority, TicketStatus, TicketType } from '@prisma/client';
+import { Priority, TicketType } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
 
 type TicketsState = {
@@ -38,7 +38,6 @@ type TicketDto = {
     description: string;
     type: TicketType;
     priority: Priority;
-    status: TicketStatus;
     projectId: string;
 };
 
