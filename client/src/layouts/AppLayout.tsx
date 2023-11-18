@@ -87,7 +87,7 @@ export function Navbar({
                         <Menu />
                     </button>
                     <div className='h-6 w-px bg-neutral-300 xl:hidden'></div>
-                    <div className='relative flex w-full gap-2 rounded-full px-3 py-2 ring-1 ring-border sm:px-2 sm:py-2'>
+                    <div className='relative flex w-full gap-2 rounded-md px-3 py-2 ring-1 ring-border shadow-sm sm:px-2 sm:py-2'>
                         <label htmlFor='search' className='ml-1 hidden text-gray-500 xs:flex xs:items-center'>
                             <div className='grid w-4 place-items-center'>
                                 <Search />
@@ -102,9 +102,11 @@ export function Navbar({
                     <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
                         {!user ? (
                             <div className='flex items-center gap-2'>
-                                <Skeleton className='w-10 h-10 rounded-full mr-1' />
-                                <Skeleton className='h-4 w-[60px]' />
-                                <ChevronDown animate={true} />
+                                <Skeleton className='w-10 h-10 rounded-full xs:mr-1' />
+                                <Skeleton className='h-4 w-[60px] hidden xs:block' />
+                                <div className='hidden xs:block'>
+                                    <ChevronDown animate={true} />
+                                </div>
                             </div>
                         ) : (
                             <>
