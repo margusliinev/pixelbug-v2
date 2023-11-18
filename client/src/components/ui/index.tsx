@@ -11,6 +11,7 @@ import { Textarea } from './textarea';
 import { useToast, toast } from './use-toast';
 import { Toaster } from './toaster';
 import { Calendar } from './calendar';
+import { Skeleton } from './skeleton';
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -105,4 +106,5 @@ export {
     Toaster,
     useToast,
     toast,
+    Skeleton,
 };

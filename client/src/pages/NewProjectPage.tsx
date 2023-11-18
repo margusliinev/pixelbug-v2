@@ -49,7 +49,7 @@ export default function NewProjectPage() {
     const avatarRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
-    const statusRef = useRef<HTMLSelectElement>(null);
+    const statusRef = useRef<HTMLButtonElement>(null);
     const startDateRef = useRef<HTMLButtonElement>(null);
     const dueDateRef = useRef<HTMLButtonElement>(null);
     const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(avatarOptions[0]);
@@ -235,13 +235,14 @@ export default function NewProjectPage() {
                                 setStatus(value);
                             }}
                         >
-                            <SelectTrigger id='status' className='w-full'>
-                                <SelectValue
-                                    placeholder='Status'
-                                    ref={statusRef}
-                                    aria-invalid={statusError ? true : undefined}
-                                    aria-describedby='status-error'
-                                />
+                            <SelectTrigger
+                                id='status'
+                                className='w-full'
+                                ref={statusRef}
+                                aria-invalid={statusError ? true : undefined}
+                                aria-describedby='status-error'
+                            >
+                                <SelectValue placeholder='Status' />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value='PLANNING'>Planning</SelectItem>

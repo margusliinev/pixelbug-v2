@@ -1,6 +1,15 @@
 import type { User as UserType } from '@prisma/client';
 import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    Skeleton,
+} from '@/components/ui';
 import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { signout } from '@/features/auth/authSlice';
@@ -29,8 +38,6 @@ export default function AppLayout() {
                 setIsAuth(false);
             });
     }, [dispatch]);
-
-    if (isAuth === undefined) return null;
 
     if (isAuth === false) return <Navigate to='/' />;
 
@@ -93,23 +100,33 @@ export function Navbar({
                 </div>
                 <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
                     <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
-                        <Avatar className='rounded-full'>
-                            <AvatarImage src={user?.photo ? user?.photo : undefined} />
-                            <AvatarFallback className='bg-neutral-200'>
-                                {user?.firstName ? user?.firstName.charAt(0).toUpperCase() : user?.username.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                        </Avatar>
-                        <span className='hidden whitespace-nowrap text-sm font-medium xs:block'>
-                            {user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : `${user?.username}`}
-                        </span>
-                        {open ? (
-                            <span className='hidden xs:block'>
-                                <ChevronUp />
-                            </span>
+                        {!user ? (
+                            <div className='flex items-center gap-2'>
+                                <Skeleton className='w-10 h-10 rounded-full mr-1' />
+                                <Skeleton className='h-4 w-[60px]' />
+                                <ChevronDown animate={true} />
+                            </div>
                         ) : (
-                            <span className='hidden xs:block'>
-                                <ChevronDown />
-                            </span>
+                            <>
+                                <Avatar className='rounded-full'>
+                                    <AvatarImage src={user?.photo ? user?.photo : undefined} />
+                                    <AvatarFallback className='bg-neutral-200'>
+                                        {user?.firstName ? user?.firstName.charAt(0).toUpperCase() : user?.username.charAt(0).toUpperCase()}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <span className='hidden whitespace-nowrap text-sm font-medium xs:block'>
+                                    {user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : `${user?.username}`}
+                                </span>
+                                {open ? (
+                                    <span className='hidden xs:block'>
+                                        <ChevronUp />
+                                    </span>
+                                ) : (
+                                    <span className='hidden xs:block'>
+                                        <ChevronDown />
+                                    </span>
+                                )}
+                            </>
                         )}
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
@@ -264,7 +281,7 @@ const SidebarLinks = ({
                     >
                         <User />
                         Account
-                        {user?.createdAt === user?.updatedAt && (
+                        {user && user?.createdAt === user?.updatedAt && (
                             <span className='absolute right-14 bottom-2 animate-bounce'>
                                 <ErrorTriangle />
                             </span>

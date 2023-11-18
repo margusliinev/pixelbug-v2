@@ -21,12 +21,12 @@ export default function NewTicketPage() {
     const [isTitleError, setIsTitleError] = useState<boolean>(false);
     const [isDescriptionError, setIsDescriptionError] = useState<boolean>(false);
     const [isPriorityError, setIsPriorityError] = useState<boolean>(false);
-    const projectRef = useRef<HTMLSelectElement>(null);
-    const typeRef = useRef<HTMLSelectElement>(null);
+    const projectRef = useRef<HTMLButtonElement>(null);
+    const typeRef = useRef<HTMLButtonElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
-    const priorityRef = useRef<HTMLSelectElement>(null);
-    const [project, setProject] = useState<ProjectWithLead['title']>(projects[0]?.id ?? '');
+    const priorityRef = useRef<HTMLButtonElement>(null);
+    const [project, setProject] = useState<ProjectWithLead['title']>('');
     const [type, setType] = useState<TicketType>('BUG');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -123,13 +123,13 @@ export default function NewTicketPage() {
                                 setProject(value);
                             }}
                         >
-                            <SelectTrigger id='project'>
-                                <SelectValue
-                                    placeholder={projects.length === 0 && !isLoadingProjects ? 'No active projects' : 'Choose a project'}
-                                    ref={projectRef}
-                                    aria-invalid={projectError ? true : undefined}
-                                    aria-describedby='project-error'
-                                />
+                            <SelectTrigger
+                                id='project'
+                                aria-invalid={projectError ? true : undefined}
+                                ref={projectRef}
+                                aria-describedby='project-error'
+                            >
+                                <SelectValue placeholder={projects.length === 0 && !isLoadingProjects ? 'No active projects' : 'Choose a project'} />
                             </SelectTrigger>
                             <SelectContent>
                                 {projects.map((project) => {
@@ -198,13 +198,8 @@ export default function NewTicketPage() {
                                     setType(value);
                                 }}
                             >
-                                <SelectTrigger id='type'>
-                                    <SelectValue
-                                        placeholder='type'
-                                        ref={typeRef}
-                                        aria-invalid={typeError ? true : undefined}
-                                        aria-describedby='type-error'
-                                    />
+                                <SelectTrigger id='type' ref={typeRef} aria-invalid={typeError ? true : undefined} aria-describedby='type-error'>
+                                    <SelectValue placeholder='type' />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value='BUG'>
@@ -278,13 +273,13 @@ export default function NewTicketPage() {
                                     setPriority(value);
                                 }}
                             >
-                                <SelectTrigger id='priority'>
-                                    <SelectValue
-                                        placeholder='priority'
-                                        ref={priorityRef}
-                                        aria-invalid={priorityError ? true : undefined}
-                                        aria-describedby='priority-error'
-                                    />
+                                <SelectTrigger
+                                    id='priority'
+                                    ref={priorityRef}
+                                    aria-invalid={priorityError ? true : undefined}
+                                    aria-describedby='priority-error'
+                                >
+                                    <SelectValue placeholder='priority' />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value='LOW'>Low</SelectItem>
