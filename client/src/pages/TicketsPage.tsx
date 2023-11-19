@@ -4,12 +4,11 @@ import { getTickets } from '@/features/tickets/ticketsSlice';
 import { Ticket } from '@/assets/icons';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
-import PageSpinner from '@/components/PageSpinner';
 import { TicketsTable } from '@/components/tickets/Table';
 import { columns } from '@/components/tickets/Columns';
 
 export default function TicketsPage() {
-    const { isLoading, tickets } = useAppSelector((store) => store.tickets);
+    const { tickets } = useAppSelector((store) => store.tickets);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -19,10 +18,6 @@ export default function TicketsPage() {
             void dispatch(getTickets());
         }
     }, [dispatch, tickets.length]);
-
-    if (isLoading && tickets.length < 1) {
-        return <PageSpinner />;
-    }
 
     if (!tickets || tickets.length < 1) {
         return (

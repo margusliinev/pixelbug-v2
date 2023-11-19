@@ -73,7 +73,7 @@ export default function ActionButton({ ticket }: { ticket: TicketWithProject }) 
                     navigate('/');
                 } else if (err.status === 403) {
                     toast({
-                        title: 'Not authorized to delete this ticket',
+                        title: 'Only project lead can delete the ticket',
                         variant: 'destructive',
                     });
                 } else {

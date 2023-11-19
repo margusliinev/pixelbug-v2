@@ -91,7 +91,7 @@ export class TicketsService {
     }
 
     async assignTicket(ticketId: string, userId: string) {
-        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId } });
+        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
         if (!ticket) {
             throw new InternalServerErrorException({
                 success: false,
@@ -105,7 +105,7 @@ export class TicketsService {
             throw new ForbiddenException({ success: false, message: 'Ticket is already assigned to you', status: 403, fields: null });
         }
 
-        if (ticket.assigneeId !== null) {
+        if (ticket.assigneeId !== null && ticket.project.leadId !== userId) {
             throw new ForbiddenException({ success: false, message: 'Ticket is already taken', status: 403, fields: null });
         }
 
@@ -129,7 +129,7 @@ export class TicketsService {
     }
 
     async deleteTicket(ticketId: string, userId: string) {
-        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { assignee: true } });
+        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
         if (!ticket) {
             throw new InternalServerErrorException({
                 success: false,
@@ -139,8 +139,8 @@ export class TicketsService {
             });
         }
 
-        if (ticket.assigneeId !== userId) {
-            throw new ForbiddenException({ success: false, message: 'Not authorized to delete this ticket', status: 403, fields: null });
+        if (ticket.project.leadId !== userId) {
+            throw new ForbiddenException({ success: false, message: 'Forbidden', status: 403, fields: null });
         }
 
         try {

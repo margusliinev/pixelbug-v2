@@ -45,7 +45,7 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
                     navigate('/');
                 } else if (err.status === 403) {
                     toast({
-                        title: `Not authorized to archive this project`,
+                        title: 'Only project lead can archive the project',
                         variant: 'destructive',
                     });
                 } else {
@@ -73,7 +73,7 @@ export default function ActionButton({ project }: { project: ProjectWithLead }) 
                     navigate('/');
                 } else if (err.status === 403) {
                     toast({
-                        title: `Not authorized to delete this project`,
+                        title: 'Only project lead can delete the project',
                         variant: 'destructive',
                     });
                 } else {

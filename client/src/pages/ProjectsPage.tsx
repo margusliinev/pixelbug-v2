@@ -6,10 +6,8 @@ import { getProjects } from '@/features/projects/projectsSlice';
 import { Folder } from '@/assets/icons';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
-import PageSpinner from '@/components/PageSpinner';
-
 export default function ProjectsPage() {
-    const { isLoading, projects } = useAppSelector((store) => store.projects);
+    const { projects } = useAppSelector((store) => store.projects);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -19,10 +17,6 @@ export default function ProjectsPage() {
             void dispatch(getProjects());
         }
     }, [dispatch, projects.length]);
-
-    if (isLoading && projects.length < 1) {
-        return <PageSpinner />;
-    }
 
     if (!projects || projects.length < 1) {
         return (
