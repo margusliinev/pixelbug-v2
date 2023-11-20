@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
 import { TicketsTable } from '@/components/tickets/Table';
 import { columns } from '@/components/tickets/Columns';
+import PageSpinner from '@/components/PageSpinner';
 
 export default function TicketsPage() {
-    const { tickets } = useAppSelector((store) => store.tickets);
+    const { isLoading, tickets } = useAppSelector((store) => store.tickets);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -18,6 +19,10 @@ export default function TicketsPage() {
             void dispatch(getTickets());
         }
     }, [dispatch, tickets.length]);
+
+    if (isLoading && tickets.length < 1) {
+        return <PageSpinner />;
+    }
 
     if (!tickets || tickets.length < 1) {
         return (

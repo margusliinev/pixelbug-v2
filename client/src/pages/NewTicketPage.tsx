@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { DefaultAPIError, ProjectWithLead } from '@/types';
 import { TicketType, Priority } from '@prisma/client';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createTicket } from '@/features/tickets/ticketsSlice';
+import BreadCrumbs from '@/components/Breadcrumbs';
 
 export default function NewTicketPage() {
     const { isLoading } = useAppSelector((store) => store.tickets);
@@ -100,17 +101,8 @@ export default function NewTicketPage() {
 
     return (
         <section>
-            <div className='flex items-center gap-1 text-lg text-primary-hover pt-1'>
-                <div className='flex items-center gap-1 group'>
-                    <span aria-hidden='true' className='transition-colors group-hover:text-emerald-500 rotate-180 text-sm font-semibold mt-0.5'>
-                        &rarr;
-                    </span>
-                    <Link to='/app/tickets' className='font-medium'>
-                        All Tickets
-                    </Link>
-                </div>
-            </div>
-            <div className='bg-white rounded-lg border p-6 h-fit mt-3'>
+            <BreadCrumbs url='tickets' child='new' />
+            <div className='bg-white rounded-lg border p-6 h-fit mt-4'>
                 <form className='grid gap-4 w-full max-w-2xl' onSubmit={handleSubmit} noValidate>
                     <h1 className='text-xl font-semibold'>Create Ticket</h1>
                     <fieldset className='space-y-1'>

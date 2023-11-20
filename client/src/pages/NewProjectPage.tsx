@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/hooks';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { createProject } from '@/features/projects/projectsSlice';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DefaultAPIError } from '@/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -25,6 +25,7 @@ import {
     Textarea,
     useToast,
 } from '@/components/ui';
+import BreadCrumbs from '@/components/Breadcrumbs';
 
 interface AvatarOption {
     value: string;
@@ -134,17 +135,8 @@ export default function NewProjectPage() {
 
     return (
         <section>
-            <div className='flex items-center gap-1 text-lg text-primary-hover pt-1'>
-                <div className='flex items-center gap-1 group'>
-                    <span aria-hidden='true' className='transition-colors group-hover:text-emerald-500 rotate-180 text-sm font-semibold mt-0.5'>
-                        &rarr;
-                    </span>
-                    <Link to='/app/projects' className='font-medium'>
-                        All Projects
-                    </Link>
-                </div>
-            </div>
-            <div className='bg-white rounded-lg border p-6 h-fit mt-3'>
+            <BreadCrumbs url='projects' child='new' />
+            <div className='bg-white rounded-lg border p-6 h-fit mt-4'>
                 <form className='grid gap-4 w-full max-w-2xl' onSubmit={handleSubmit} noValidate>
                     <h1 className='text-xl font-semibold'>Create Project</h1>
                     <fieldset className='space-y-1'>
