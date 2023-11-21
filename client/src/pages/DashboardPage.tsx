@@ -1,3 +1,4 @@
+import PageSpinner from '@/components/PageSpinner';
 import { DashboardBarChart } from '@/components/dashboard/DashboardBarChart';
 import { DashboardDonutChart } from '@/components/dashboard/DashboardDonutChart';
 import { getDashboardData } from '@/features/dashboard/dashboardSlice';
@@ -6,40 +7,26 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function DashboardPage() {
-    const { dashboard } = useAppSelector((store) => store.dashboard);
-    const { user } = useAppSelector((store) => store.user);
+    const { isLoading, dashboard } = useAppSelector((store) => store.dashboard);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        void dispatch(getDashboardData());
-    }, [dispatch]);
+        if (dashboard.barChartData.length > 0) {
+            return;
+        } else {
+            void dispatch(getDashboardData());
+        }
+    }, [dashboard.barChartData.length, dispatch]);
 
-    const barChartData = dashboard.barChartData;
-
-    const donutChartData = [
-        {
-            name: 'Low',
-            Tickets: dashboard.donutChartData.low || 0,
-        },
-        {
-            name: 'Medium',
-            Tickets: dashboard.donutChartData.medium || 0,
-        },
-        {
-            name: 'High',
-            Tickets: dashboard.donutChartData.high || 0,
-        },
-        {
-            name: 'Critical',
-            Tickets: dashboard.donutChartData.critical || 0,
-        },
-    ];
+    if (dashboard.barChartData.length === 0 && isLoading) {
+        return <PageSpinner />;
+    }
 
     return (
         <section>
             <header className='flex items-end justify-between gap-8'>
                 <div>
-                    <h1 className='font-medium text-lg'>Welcome Back, {user?.firstName}!</h1>
+                    <h1 className='font-medium text-lg'>Welcome Back!</h1>
                     <h2 className='text-base text-neutral-600'>Here&apos;s a short overview of what&apos;s happening today.</h2>
                 </div>
             </header>
@@ -49,17 +36,8 @@ export default function DashboardPage() {
                         <p className='uppercase text-base text-neutral-600 font-medium'>active projects</p>
                         <p className='text-2xl font-bold text-neutral-700'>{dashboard?.projects || 0}</p>
                         <Link className='text-base tracking-tight flex items-center gap-1 group' to={'/app/projects'}>
-                            View projects
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth='1.5'
-                                stroke='currentColor'
-                                className='w-4 h-4 mt-0.5 transition-colors group-hover:text-emerald-600'
-                            >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75' />
-                            </svg>
+                            <span>View projects</span>
+                            <span className='transition-colors group-hover:text-emerald-600'>&rarr;</span>
                         </Link>
                     </div>
                     <svg
@@ -68,7 +46,7 @@ export default function DashboardPage() {
                         viewBox='0 0 24 24'
                         strokeWidth='1.5'
                         stroke='currentColor'
-                        className='w-14 h-14 p-3 rounded-md text-white bg-sky-500'
+                        className='w-14 h-14 p-3 rounded-md text-white bg-blue-400'
                     >
                         <path
                             strokeLinecap='round'
@@ -79,20 +57,11 @@ export default function DashboardPage() {
                 </div>
                 <div className='bg-white grid-area-b p-5 rounded-md border shadow-sm flex items-center justify-between'>
                     <div className='grid gap-3'>
-                        <p className='uppercase text-base text-neutral-600 font-medium'>your tickets</p>
+                        <p className='uppercase text-base text-neutral-600 font-medium'>total tickets</p>
                         <p className='text-2xl font-bold text-neutral-700'>{dashboard?.tickets || 0}</p>
                         <Link className='text-base tracking-tight flex items-center gap-1 group' to={'/app/tickets'}>
-                            Total tickets
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth='1.5'
-                                stroke='currentColor'
-                                className='w-4 h-4 mt-0.5 transition-colors group-hover:text-emerald-600'
-                            >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75' />
-                            </svg>
+                            <span>View tickets</span>
+                            <span className='transition-colors group-hover:text-emerald-600'>&rarr;</span>
                         </Link>
                     </div>
                     <svg
@@ -115,17 +84,8 @@ export default function DashboardPage() {
                         <p className='uppercase text-base text-neutral-600 font-medium'>Users</p>
                         <p className='text-2xl font-bold text-neutral-70<svg>0'>{dashboard?.users || 0}</p>
                         <Link className='text-base tracking-tight flex items-center gap-1 group' to={'/app/users'}>
-                            Find users
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                fill='none'
-                                viewBox='0 0 24 24'
-                                strokeWidth='1.5'
-                                stroke='currentColor'
-                                className='w-4 h-4 mt-0.5 transition-colors group-hover:text-emerald-600'
-                            >
-                                <path strokeLinecap='round' strokeLinejoin='round' d='M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75' />
-                            </svg>
+                            <span>Find users</span>
+                            <span className='transition-colors group-hover:text-emerald-600'>&rarr;</span>
                         </Link>
                     </div>
                     <svg
@@ -143,8 +103,12 @@ export default function DashboardPage() {
                         />
                     </svg>
                 </div>
-                <div className='grid-area-d shadow-sm'>{barChartData && <DashboardBarChart chartData={barChartData} />}</div>
-                <div className='grid-area-e shadow-sm'>{donutChartData && <DashboardDonutChart chartData={donutChartData} />}</div>
+                <div className='grid-area-d shadow-sm'>
+                    <DashboardBarChart chartData={dashboard.barChartData} />
+                </div>
+                <div className='grid-area-e shadow-sm'>
+                    <DashboardDonutChart chartData={dashboard.donutChartData} />
+                </div>
             </article>
         </section>
     );

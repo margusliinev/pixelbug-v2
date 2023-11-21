@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { DefaultAPIError, TicketWithProject } from '@/types';
 import { Priority, TicketType } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
+import { getDashboardData } from '../dashboard/dashboardSlice';
 
 type TicketsState = {
     isLoading: boolean;
@@ -59,6 +60,9 @@ const createTicket = createAsyncThunk<NewTicketAPIResponse, TicketDto, { rejectV
     async (body, thunkAPI) => {
         try {
             const response = await axios.post<NewTicketAPIResponse>('/api/v1/tickets', body);
+            if (response.status === 201) {
+                await thunkAPI.dispatch(getDashboardData());
+            }
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
@@ -91,6 +95,9 @@ const deleteTicket = createAsyncThunk<DeleteTicketAPIResponse, string, { rejectV
     async (ticketId, thunkAPI) => {
         try {
             const response = await axios.delete<DeleteTicketAPIResponse>('/api/v1/tickets', { data: { ticketId } });
+            if (response.status === 200) {
+                await thunkAPI.dispatch(getDashboardData());
+            }
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {

@@ -3,6 +3,7 @@ import { DefaultAPIError, ProjectWithLead } from '@/types';
 import { ProjectStatus } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
 import { getTickets } from '../tickets/ticketsSlice';
+import { getDashboardData } from '../dashboard/dashboardSlice';
 
 type ProjectsState = {
     isLoading: boolean;
@@ -61,6 +62,9 @@ const createProject = createAsyncThunk<NewProjectAPIResponse, ProjectDto, { reje
     async (body, thunkAPI) => {
         try {
             const response = await axios.post<NewProjectAPIResponse>('/api/v1/projects', body);
+            if (response.status === 201) {
+                await thunkAPI.dispatch(getDashboardData());
+            }
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
@@ -95,6 +99,7 @@ const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejec
             const response = await axios.delete<DeleteProjectAPIResponse>('/api/v1/projects', { data: { projectId } });
             if (response.status === 200) {
                 await thunkAPI.dispatch(getTickets());
+                await thunkAPI.dispatch(getDashboardData());
             }
             return response.data;
         } catch (error) {

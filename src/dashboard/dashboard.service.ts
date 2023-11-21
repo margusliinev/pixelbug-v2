@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -16,7 +16,16 @@ export class DashboardService {
                 },
             },
         });
+
+        if (!projects) {
+            throw new NotFoundException({ success: false, message: 'Projects not found', status: 404, fields: null });
+        }
+
         const usersCount = await this.prisma.user.count();
+
+        if (!usersCount || usersCount === 0) {
+            throw new NotFoundException({ success: false, message: 'Users not found', status: 404, fields: null });
+        }
 
         const barChartData = projects
             .map((project) => {
@@ -28,32 +37,41 @@ export class DashboardService {
             .sort((a, b) => b.tickets - a.tickets);
 
         const tickets = projects.map((project) => project.tickets).flat();
+
         const donutChartData = tickets.reduce(
             (acc, cur) => {
                 switch (cur.priority) {
                     case 'LOW':
-                        acc.low += 1;
+                        if (acc[0]) {
+                            acc[0].tickets += 1;
+                        }
                         break;
                     case 'MEDIUM':
-                        acc.medium += 1;
+                        if (acc[1]) {
+                            acc[1].tickets += 1;
+                        }
                         break;
                     case 'HIGH':
-                        acc.high += 1;
+                        if (acc[2]) {
+                            acc[2].tickets += 1;
+                        }
                         break;
                     case 'CRITICAL':
-                        acc.critical += 1;
+                        if (acc[3]) {
+                            acc[3].tickets += 1;
+                        }
                         break;
                     default:
                         break;
                 }
                 return acc;
             },
-            {
-                low: 0,
-                medium: 0,
-                high: 0,
-                critical: 0,
-            },
+            [
+                { title: 'Low', tickets: 0 },
+                { title: 'Medium', tickets: 0 },
+                { title: 'High', tickets: 0 },
+                { title: 'Critical', tickets: 0 },
+            ],
         );
 
         const dashboardData = {

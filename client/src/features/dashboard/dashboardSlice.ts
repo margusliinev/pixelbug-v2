@@ -2,21 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { DefaultAPIError } from '@/types';
 import axios, { isAxiosError } from 'axios';
 
-type BarChartColumn = {
+type ChartColumn = {
     title: string;
     tickets: number;
 };
 
-type DonutChartSection = {
-    low: number;
-    medium: number;
-    high: number;
-    critical: number;
-};
-
 type Dashboard = {
-    barChartData: BarChartColumn[];
-    donutChartData: DonutChartSection;
+    barChartData: ChartColumn[];
+    donutChartData: ChartColumn[];
     projects: number;
     tickets: number;
     users: number;
@@ -33,12 +26,7 @@ const initialState: DashboardState = {
     error: null,
     dashboard: {
         barChartData: [],
-        donutChartData: {
-            low: 0,
-            medium: 0,
-            high: 0,
-            critical: 0,
-        },
+        donutChartData: [],
         projects: 0,
         tickets: 0,
         users: 0,

@@ -1,8 +1,8 @@
 import { Card, DonutChart, Title } from '@tremor/react';
 
 interface ChartData {
-    name: string;
-    Tickets: number;
+    title: string;
+    tickets: number;
 }
 const valueFormatter = (number: number) => (number === 1 ? `${number} Ticket` : `${number} Tickets`);
 
@@ -12,12 +12,11 @@ export const DashboardDonutChart = ({ chartData }: { chartData: ChartData[] }) =
         <DonutChart
             className='h-[250px] w-full absolute self-center font-medium'
             data={chartData}
-            category='Tickets'
-            index='name'
+            category='tickets'
+            index='title'
             colors={['emerald', 'yellow', 'rose', 'red']}
             valueFormatter={valueFormatter}
             showTooltip={true}
-            showAnimation={false}
         />
     </Card>
 );

@@ -18,6 +18,7 @@ export const DashboardBarChart = ({ chartData }: { chartData: ChartData[] }) => 
                 categories={['tickets']}
                 colors={['emerald']}
                 yAxisWidth={24}
+                showAnimation={true}
             />
         </Card>
     );
