@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ProjectsModule } from './projects/projects.module';
 import { join } from 'path';
 import { TicketsModule } from './tickets/tickets.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { TicketsModule } from './tickets/tickets.module';
         CloudinaryModule,
         ProjectsModule,
         TicketsModule,
+        DashboardModule,
     ],
     controllers: [],
     providers: [
