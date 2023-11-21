@@ -4,6 +4,7 @@ import userReducer from './features/user/userSlice';
 import usersReducer from './features/users/usersSlice';
 import projectsReducer from './features/projects/projectsSlice';
 import ticketsReducer from './features/tickets/ticketsSlice';
+import dashboardReducer from './features/dashboard/dashboardSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         users: usersReducer,
         projects: projectsReducer,
         tickets: ticketsReducer,
+        dashboard: dashboardReducer,
     },
 });
 
