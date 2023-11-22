@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Input, Label, useToast } from '@/components/ui';
+import { Button, Input, Label } from '@/components/ui';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks';
 import { signup } from '@/features/auth/authSlice';
@@ -19,7 +19,6 @@ export default function SignupPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { toast } = useToast();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -36,10 +35,6 @@ export default function SignupPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
-                    toast({
-                        title: 'Welcome to PixelBug!',
-                        variant: 'default',
-                    });
                 }
             })
             .catch((error: DefaultAPIError) => {

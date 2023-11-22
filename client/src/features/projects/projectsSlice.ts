@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { DefaultAPIError, ProjectWithLead } from '@/types';
 import { ProjectStatus } from '@prisma/client';
-import axios, { isAxiosError } from 'axios';
 import { getTickets } from '../tickets/ticketsSlice';
 import { getDashboardData } from '../dashboard/dashboardSlice';
+import axios, { isAxiosError } from 'axios';
 
 type ProjectsState = {
     isLoading: boolean;
@@ -63,7 +63,7 @@ const createProject = createAsyncThunk<NewProjectAPIResponse, ProjectDto, { reje
         try {
             const response = await axios.post<NewProjectAPIResponse>('/api/v1/projects', body);
             if (response.status === 201) {
-                await thunkAPI.dispatch(getDashboardData());
+                void thunkAPI.dispatch(getDashboardData());
             }
             return response.data;
         } catch (error) {
@@ -98,8 +98,8 @@ const deleteProject = createAsyncThunk<DeleteProjectAPIResponse, string, { rejec
         try {
             const response = await axios.delete<DeleteProjectAPIResponse>('/api/v1/projects', { data: { projectId } });
             if (response.status === 200) {
-                await thunkAPI.dispatch(getTickets());
-                await thunkAPI.dispatch(getDashboardData());
+                void thunkAPI.dispatch(getTickets());
+                void thunkAPI.dispatch(getDashboardData());
             }
             return response.data;
         } catch (error) {

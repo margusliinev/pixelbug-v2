@@ -61,7 +61,7 @@ const createTicket = createAsyncThunk<NewTicketAPIResponse, TicketDto, { rejectV
         try {
             const response = await axios.post<NewTicketAPIResponse>('/api/v1/tickets', body);
             if (response.status === 201) {
-                await thunkAPI.dispatch(getDashboardData());
+                void thunkAPI.dispatch(getDashboardData());
             }
             return response.data;
         } catch (error) {
@@ -96,7 +96,7 @@ const deleteTicket = createAsyncThunk<DeleteTicketAPIResponse, string, { rejectV
         try {
             const response = await axios.delete<DeleteTicketAPIResponse>('/api/v1/tickets', { data: { ticketId } });
             if (response.status === 200) {
-                await thunkAPI.dispatch(getDashboardData());
+                void thunkAPI.dispatch(getDashboardData());
             }
             return response.data;
         } catch (error) {

@@ -1,4 +1,4 @@
-export default function Ticket({ height, width }: { height: number; width: number }) {
+export default function Ticket({ height, width, color }: { height: number; width: number; color?: string }) {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -6,7 +6,7 @@ export default function Ticket({ height, width }: { height: number; width: numbe
             viewBox='0 0 24 24'
             strokeWidth='1.5'
             stroke='currentColor'
-            className={`h-${height} w-${width} text-secondary-foreground`}
+            className={`h-${height} w-${width} ${color ? color : 'text-secondary-foreground'}`}
         >
             <path
                 strokeLinecap='round'

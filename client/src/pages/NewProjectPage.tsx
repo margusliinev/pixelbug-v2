@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { DefaultAPIError } from '@/types';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import ButtonSpinner from '@/components/ButtonSpinner';
 import {
     Button,
     Calendar,
@@ -25,6 +24,7 @@ import {
     Textarea,
     useToast,
 } from '@/components/ui';
+import ButtonSpinner from '@/components/ButtonSpinner';
 import BreadCrumbs from '@/components/Breadcrumbs';
 
 interface AvatarOption {

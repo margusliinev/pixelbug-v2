@@ -66,15 +66,11 @@ export default function SigninPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
-                    toast({
-                        title: 'Welcome to PixelBug!',
-                        variant: 'default',
-                    });
                 }
             })
             .catch(() => {
                 toast({
-                    title: 'Demo user login failed',
+                    title: 'Something went wrong. Please try again later',
                     variant: 'destructive',
                 });
             })
