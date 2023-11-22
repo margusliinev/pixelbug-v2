@@ -3,7 +3,7 @@ import { getProjects } from '@/features/projects/projectsSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { DefaultAPIError, ProjectWithLead } from '@/types';
 import { Priority, TicketType } from '@prisma/client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createTicket } from '@/features/tickets/ticketsSlice';
 import ButtonSpinner from '@/components/ButtonSpinner';
@@ -18,16 +18,6 @@ export default function NewTicketPage() {
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [priorityError, setPriorityError] = useState<string>('');
-    const [isProjectError, setIsProjectError] = useState<boolean>(false);
-    const [isTypeError, setIsTypeError] = useState<boolean>(false);
-    const [isTitleError, setIsTitleError] = useState<boolean>(false);
-    const [isDescriptionError, setIsDescriptionError] = useState<boolean>(false);
-    const [isPriorityError, setIsPriorityError] = useState<boolean>(false);
-    const projectRef = useRef<HTMLButtonElement>(null);
-    const typeRef = useRef<HTMLButtonElement>(null);
-    const titleRef = useRef<HTMLInputElement>(null);
-    const descriptionRef = useRef<HTMLTextAreaElement>(null);
-    const priorityRef = useRef<HTMLButtonElement>(null);
     const [project, setProject] = useState<ProjectWithLead['title']>('');
     const [type, setType] = useState<TicketType>('BUG');
     const [title, setTitle] = useState<string>('');
@@ -39,11 +29,6 @@ export default function NewTicketPage() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsProjectError(false);
-        setIsTypeError(false);
-        setIsTitleError(false);
-        setIsDescriptionError(false);
-        setIsPriorityError(false);
         void dispatch(createTicket({ projectId: project, type, title, description, priority }))
             .unwrap()
             .then((res) => {
@@ -61,23 +46,18 @@ export default function NewTicketPage() {
                 }
                 if (error.fields?.projectId) {
                     setProjectError(error.fields.projectId);
-                    setIsProjectError(true);
                 }
                 if (error.fields?.title) {
                     setTitleError(error.fields.title);
-                    setIsTitleError(true);
                 }
                 if (error.fields?.description) {
                     setDescriptionError(error.fields.description);
-                    setIsDescriptionError(true);
                 }
                 if (error.fields?.type) {
                     setTypeError(error.fields.type);
-                    setIsTypeError(true);
                 }
                 if (error.fields?.priority) {
                     setPriorityError(error.fields.priority);
-                    setIsPriorityError(true);
                 }
             });
     };
@@ -85,20 +65,6 @@ export default function NewTicketPage() {
     useEffect(() => {
         void dispatch(getProjects());
     }, [dispatch]);
-
-    useEffect(() => {
-        if (isProjectError) {
-            projectRef.current?.focus();
-        } else if (isTypeError) {
-            typeRef.current?.focus();
-        } else if (isTitleError) {
-            titleRef.current?.focus();
-        } else if (isDescriptionError) {
-            descriptionRef.current?.focus();
-        } else if (isPriorityError) {
-            priorityRef.current?.focus();
-        }
-    }, [isProjectError, isTypeError, isTitleError, isDescriptionError, isPriorityError]);
 
     return (
         <section>
@@ -116,12 +82,7 @@ export default function NewTicketPage() {
                                 setProject(value);
                             }}
                         >
-                            <SelectTrigger
-                                id='project'
-                                aria-invalid={projectError ? true : undefined}
-                                ref={projectRef}
-                                aria-describedby='project-error'
-                            >
+                            <SelectTrigger id='project' aria-invalid={projectError ? true : undefined} aria-describedby='project-error'>
                                 <SelectValue placeholder={projects.length === 0 && !isLoadingProjects ? 'No active projects' : 'Choose a project'} />
                             </SelectTrigger>
                             <SelectContent>
@@ -146,7 +107,6 @@ export default function NewTicketPage() {
                             id='title'
                             name='title'
                             type='text'
-                            ref={titleRef}
                             aria-invalid={titleError ? true : undefined}
                             aria-describedby='title-error'
                             value={title}
@@ -166,7 +126,6 @@ export default function NewTicketPage() {
                         <Textarea
                             id='description'
                             name='description'
-                            ref={descriptionRef}
                             aria-invalid={descriptionError ? true : undefined}
                             aria-describedby='description-error'
                             value={description}
@@ -191,7 +150,7 @@ export default function NewTicketPage() {
                                     setType(value);
                                 }}
                             >
-                                <SelectTrigger id='type' ref={typeRef} aria-invalid={typeError ? true : undefined} aria-describedby='type-error'>
+                                <SelectTrigger id='type' aria-invalid={typeError ? true : undefined} aria-describedby='type-error'>
                                     <SelectValue placeholder='type' />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -218,12 +177,7 @@ export default function NewTicketPage() {
                                     setPriority(value);
                                 }}
                             >
-                                <SelectTrigger
-                                    id='priority'
-                                    ref={priorityRef}
-                                    aria-invalid={priorityError ? true : undefined}
-                                    aria-describedby='priority-error'
-                                >
+                                <SelectTrigger id='priority' aria-invalid={priorityError ? true : undefined} aria-describedby='priority-error'>
                                     <SelectValue placeholder='priority' />
                                 </SelectTrigger>
                                 <SelectContent>

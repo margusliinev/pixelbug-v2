@@ -10,15 +10,15 @@ export default function UsersPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (users && users.length > 1) return;
+        if (users.length > 0) return;
         void dispatch(getUsers());
-    }, [dispatch, users]);
+    }, [dispatch, users.length]);
 
-    if (isLoading) {
+    if (isLoading && users.length < 1) {
         return <PageSpinner />;
     }
 
-    if (!users || users.length < 1) {
+    if (users.length < 1) {
         return (
             <div className='grid place-items-center w-full text-center'>
                 <div className='flex flex-col items-center gap-2'>

@@ -13,18 +13,15 @@ export default function TicketsPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (tickets.length > 0) {
-            return;
-        } else {
-            void dispatch(getTickets());
-        }
+        if (tickets.length > 0) return;
+        void dispatch(getTickets());
     }, [dispatch, tickets.length]);
 
     if (isLoading && tickets.length < 1) {
         return <PageSpinner />;
     }
 
-    if (!tickets || tickets.length < 1) {
+    if (tickets.length < 1) {
         return (
             <div className='grid place-items-center w-full text-center'>
                 <div className='flex flex-col items-center gap-2'>

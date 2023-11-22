@@ -35,10 +35,6 @@ export default function SigninPage() {
             .then((res) => {
                 if (res.success) {
                     navigate('/app/dashboard');
-                    toast({
-                        title: 'Welcome back!',
-                        variant: 'default',
-                    });
                 }
             })
             .catch((error: DefaultAPIError) => {

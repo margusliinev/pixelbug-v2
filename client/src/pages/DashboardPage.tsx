@@ -12,14 +12,11 @@ export default function DashboardPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (dashboard.barChartData.length > 0) {
-            return;
-        } else {
-            void dispatch(getDashboardData());
-        }
-    }, [dashboard.barChartData.length, dispatch]);
+        if (dashboard.barChartData.length > 0) return;
+        void dispatch(getDashboardData());
+    }, [dispatch, dashboard.barChartData.length]);
 
-    if (dashboard.barChartData.length === 0 && isLoading) {
+    if (isLoading && dashboard.barChartData.length < 1) {
         return <PageSpinner />;
     }
 

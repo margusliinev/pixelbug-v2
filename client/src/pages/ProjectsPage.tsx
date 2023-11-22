@@ -12,18 +12,15 @@ export default function ProjectsPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (projects.length > 0) {
-            return;
-        } else {
-            void dispatch(getProjects());
-        }
+        if (projects.length > 0) return;
+        void dispatch(getProjects());
     }, [dispatch, projects.length]);
 
     if (isLoading && projects.length < 1) {
         return <PageSpinner />;
     }
 
-    if (!projects || projects.length < 1) {
+    if (projects.length < 1) {
         return (
             <div className='grid place-items-center w-full text-center'>
                 <div className='flex flex-col items-center gap-2'>

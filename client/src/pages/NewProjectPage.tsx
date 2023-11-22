@@ -1,7 +1,7 @@
 import type { ProjectStatus } from '@prisma/client';
 import { avatarOptions } from '@/assets/avatars/AvatarOptions';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { createProject } from '@/features/projects/projectsSlice';
 import { useNavigate } from 'react-router-dom';
@@ -41,18 +41,6 @@ export default function NewProjectPage() {
     const [statusError, setStatusError] = useState<string>('');
     const [startDateError, setStartDateError] = useState<string>('');
     const [dueDateError, setDueDateError] = useState<string>('');
-    const [isAvatarError, setIsAvatarError] = useState<boolean>(false);
-    const [isTitleError, setIsTitleError] = useState<boolean>(false);
-    const [isDescriptionError, setIsDescriptionError] = useState<boolean>(false);
-    const [isStatusError, setIsStatusError] = useState<boolean>(false);
-    const [isStartDateError, setIsStartDateError] = useState<boolean>(false);
-    const [isDueDateError, setIsDueDateError] = useState<boolean>(false);
-    const avatarRef = useRef<HTMLDivElement>(null);
-    const titleRef = useRef<HTMLInputElement>(null);
-    const descriptionRef = useRef<HTMLTextAreaElement>(null);
-    const statusRef = useRef<HTMLButtonElement>(null);
-    const startDateRef = useRef<HTMLButtonElement>(null);
-    const dueDateRef = useRef<HTMLButtonElement>(null);
     const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(avatarOptions[0]);
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -65,11 +53,6 @@ export default function NewProjectPage() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsTitleError(false);
-        setIsDescriptionError(false);
-        setIsStatusError(false);
-        setIsStartDateError(false);
-        setIsDueDateError(false);
         void dispatch(createProject({ avatar: selectedAvatar.value, title, description, status, startDate, dueDate }))
             .unwrap()
             .then((res) => {
@@ -87,27 +70,21 @@ export default function NewProjectPage() {
                 }
                 if (error.fields?.avatar) {
                     setAvatarError(error.fields.avatar);
-                    setIsAvatarError(true);
                 }
                 if (error.fields?.title) {
                     setTitleError(error.fields.title);
-                    setIsTitleError(true);
                 }
                 if (error.fields?.description) {
                     setDescriptionError(error.fields.description);
-                    setIsDescriptionError(true);
                 }
                 if (error.fields?.status) {
                     setStatusError(error.fields.status);
-                    setIsStatusError(true);
                 }
                 if (error.fields?.startDate) {
                     setStartDateError(error.fields.startDate);
-                    setIsStartDateError(true);
                 }
                 if (error.fields?.dueDate) {
                     setDueDateError(error.fields.dueDate);
-                    setIsDueDateError(true);
                 }
             });
     };
@@ -116,22 +93,6 @@ export default function NewProjectPage() {
         setAvatarError('');
         setSelectedAvatar(avatar);
     };
-
-    useEffect(() => {
-        if (isAvatarError) {
-            avatarRef.current?.focus();
-        } else if (isTitleError) {
-            titleRef.current?.focus();
-        } else if (isDescriptionError) {
-            descriptionRef.current?.focus();
-        } else if (isStatusError) {
-            statusRef.current?.focus();
-        } else if (isStartDateError) {
-            startDateRef.current?.focus();
-        } else if (isDueDateError) {
-            dueDateRef.current?.focus();
-        }
-    }, [isAvatarError, isTitleError, isDescriptionError, isStatusError, isStartDateError, isDueDateError]);
 
     return (
         <section>
@@ -146,7 +107,6 @@ export default function NewProjectPage() {
                                 <PopoverTrigger asChild id='avatar'>
                                     <div
                                         className='p-0 flex items-center text-sm gap-3 cursor-pointer w-fit'
-                                        ref={avatarRef}
                                         aria-invalid={avatarError ? true : undefined}
                                         aria-describedby='avatar-error'
                                     >
@@ -183,7 +143,6 @@ export default function NewProjectPage() {
                             id='title'
                             name='title'
                             type='text'
-                            ref={titleRef}
                             aria-invalid={titleError ? true : undefined}
                             aria-describedby='title-error'
                             value={title}
@@ -203,7 +162,6 @@ export default function NewProjectPage() {
                         <Textarea
                             id='description'
                             name='description'
-                            ref={descriptionRef}
                             aria-invalid={descriptionError ? true : undefined}
                             aria-describedby='description-error'
                             value={description}
@@ -230,7 +188,6 @@ export default function NewProjectPage() {
                             <SelectTrigger
                                 id='status'
                                 className='w-full'
-                                ref={statusRef}
                                 aria-invalid={statusError ? true : undefined}
                                 aria-describedby='status-error'
                             >
@@ -259,7 +216,6 @@ export default function NewProjectPage() {
                                         id='startDate'
                                         variant={'outline'}
                                         className={cn('w-full justify-start text-left font-normal', !startDate && 'text-muted-foreground')}
-                                        ref={startDateRef}
                                         aria-invalid={startDateError ? true : undefined}
                                         aria-describedby='startDate-error'
                                     >
@@ -293,7 +249,6 @@ export default function NewProjectPage() {
                                         id='dueDate'
                                         variant={'outline'}
                                         className={cn('w-full justify-start text-left font-normal', !dueDate && 'text-muted-foreground')}
-                                        ref={dueDateRef}
                                         aria-invalid={dueDateError ? true : undefined}
                                         aria-describedby='dueDate-error'
                                     >

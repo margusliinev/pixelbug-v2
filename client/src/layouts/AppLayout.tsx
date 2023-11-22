@@ -15,6 +15,10 @@ import { useAppSelector, useAppDispatch } from '@/hooks';
 import { signout } from '@/features/auth/authSlice';
 import { getUser } from '@/features/user/userSlice';
 import { useEffect, useState } from 'react';
+import { getUsers } from '@/features/users/usersSlice';
+import { getDashboardData } from '@/features/dashboard/dashboardSlice';
+import { getProjects } from '@/features/projects/projectsSlice';
+import { getTickets } from '@/features/tickets/ticketsSlice';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
 
@@ -30,6 +34,10 @@ export default function AppLayout() {
             .then((res) => {
                 if (res.success) {
                     setIsAuth(true);
+                    void dispatch(getDashboardData());
+                    void dispatch(getProjects());
+                    void dispatch(getTickets());
+                    void dispatch(getUsers());
                 } else {
                     setIsAuth(false);
                 }

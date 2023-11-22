@@ -8,13 +8,13 @@ type UserWithoutPassword = Omit<User, 'password'>;
 type UsersState = {
     isLoading: boolean;
     error: DefaultAPIError | null;
-    users: UserWithoutPassword[] | null;
+    users: UserWithoutPassword[];
 };
 
 const initialState: UsersState = {
     isLoading: false,
     error: null,
-    users: null,
+    users: [],
 };
 
 type UsersAPIResponse = {
