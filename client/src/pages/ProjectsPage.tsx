@@ -7,6 +7,7 @@ import { Folder } from '@/assets/icons';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
 import PageSpinner from '@/components/PageSpinner';
+
 export default function ProjectsPage() {
     const { isLoading, projects } = useAppSelector((store) => store.projects);
     const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ export default function ProjectsPage() {
         void dispatch(getProjects());
     }, [dispatch, projects.length]);
 
-    if (isLoading) {
+    if (isLoading && projects.length < 1) {
         return <PageSpinner />;
     }
 

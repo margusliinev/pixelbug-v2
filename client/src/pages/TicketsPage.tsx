@@ -17,7 +17,7 @@ export default function TicketsPage() {
         void dispatch(getTickets());
     }, [dispatch, tickets.length]);
 
-    if (isLoading) {
+    if (isLoading && tickets.length < 1) {
         return <PageSpinner />;
     }
 

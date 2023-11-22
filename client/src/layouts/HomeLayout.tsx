@@ -1,8 +1,6 @@
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { Close, Menu } from '@/assets/icons';
-import { useEffect, useState } from 'react';
-import { useAppDispatch } from '@/hooks';
-import { getUser } from '@/features/user/userSlice';
+import { useState } from 'react';
 
 type Props = {
     isMobileMenuOpen: boolean;
@@ -10,28 +8,6 @@ type Props = {
 };
 
 export default function HomeLayout() {
-    const [isAuth, setIsAuth] = useState<boolean | undefined>(undefined);
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(getUser())
-            .unwrap()
-            .then((res) => {
-                if (res.success) {
-                    setIsAuth(true);
-                } else {
-                    setIsAuth(false);
-                }
-            })
-            .catch(() => {
-                setIsAuth(false);
-            });
-    }, [dispatch]);
-
-    if (isAuth === undefined) return null;
-
-    if (isAuth) return <Navigate to='/app/dashboard' />;
-
     return (
         <main className='pattern grid h-full min-h-screen w-full place-items-center'>
             <div className='absolute inset-x-0 -top-40 transform-gpu overflow-hidden opacity-40 blur-3xl md:-top-80' aria-hidden='true'>

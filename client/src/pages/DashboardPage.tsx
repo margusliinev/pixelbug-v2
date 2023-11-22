@@ -17,7 +17,7 @@ export default function DashboardPage() {
         void dispatch(getDashboardData());
     }, [dispatch, dashboard.barChartData.length]);
 
-    if (isLoading) {
+    if (isLoading && dashboard.barChartData.length < 1) {
         return <PageSpinner />;
     }
 

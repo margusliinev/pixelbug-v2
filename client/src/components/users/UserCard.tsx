@@ -18,7 +18,9 @@ export default function UserCard({ user }: { user: UserWithoutPassword }) {
                 {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username}
             </h1>
             <h2 className='capitalize text-sm text-secondary-foreground mb-3'>{user.jobTitle ? user.jobTitle : 'developer'}</h2>
-            <UsersRole role={user.role} />
+            <h3 className='mb-8'>
+                <UsersRole role={user.role} />
+            </h3>
             <div className='grid grid-cols-2 border-t border-neutral-200 w-full justify-self-end'>
                 <div className='grid place-items-center border-r border-neutral-200'>
                     <a href={`mailto:${user.email}`} className='flex items-center p-4 text-sm gap-2 font-semibold'>

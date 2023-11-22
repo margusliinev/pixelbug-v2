@@ -6,6 +6,7 @@ import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { signout } from '@/features/auth/authSlice';
 import { getUser } from '@/features/user/userSlice';
+import UsersRole from '@/components/users/UsersRole';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
 
@@ -30,7 +31,7 @@ export default function AppLayout() {
             });
     }, [dispatch]);
 
-    if (isAuth === undefined) return null;
+    if (isAuth === undefined || !user) return null;
 
     if (isAuth === false) return <Navigate to='/' />;
 
@@ -55,7 +56,7 @@ export function Navbar({
 }: {
     isSidebarOpen: boolean;
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    user: UserWithoutPassword | null;
+    user: UserWithoutPassword;
 }) {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
@@ -63,16 +64,9 @@ export function Navbar({
 
     const handleLogout = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(signout())
-            .unwrap()
-            .then(() => {
-                setOpen(false);
-                navigate('/');
-            })
-            .catch(() => {
-                setOpen(false);
-                navigate('/');
-            });
+        void dispatch(signout());
+        setOpen(false);
+        navigate('/');
     };
 
     return (
@@ -98,42 +92,48 @@ export function Navbar({
                         </div>
                     </div>
                 </div>
-                <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-                    <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
-                        <Avatar className='rounded-full'>
-                            <AvatarImage src={user?.photo ? user?.photo : undefined} />
-                            <AvatarFallback className='bg-neutral-200'>
-                                {user?.firstName ? user?.firstName.charAt(0).toUpperCase() : user?.username.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                        </Avatar>
-                        <span className='hidden whitespace-nowrap text-sm font-medium xs:block'>
-                            {user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : `${user?.username}`}
-                        </span>
-                        {open ? (
-                            <span className='hidden xs:block'>
-                                <ChevronUp />
+                <div className='flex items-center gap-4'>
+                    <span className='hidden md:block'>
+                        <UsersRole role={user.role} />
+                    </span>
+                    <div className='h-6 w-px bg-neutral-300'></div>
+                    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
+                        <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
+                            <Avatar className='rounded-full'>
+                                <AvatarImage src={user?.photo ? user?.photo : undefined} />
+                                <AvatarFallback className='bg-neutral-200'>
+                                    {user?.firstName ? user?.firstName.charAt(0).toUpperCase() : user?.username.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+                            <span className='hidden whitespace-nowrap text-sm font-medium xs:block'>
+                                {user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : `${user?.username}`}
                             </span>
-                        ) : (
-                            <span className='hidden xs:block'>
-                                <ChevronDown />
-                            </span>
-                        )}
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
-                        <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
-                            <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
-                                Your Account
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className='m-0 block p-0'>
-                            <form onSubmit={handleLogout}>
-                                <button type='submit' className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
-                                    Sign out
-                                </button>
-                            </form>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            {open ? (
+                                <span className='hidden xs:block'>
+                                    <ChevronUp />
+                                </span>
+                            ) : (
+                                <span className='hidden xs:block'>
+                                    <ChevronDown />
+                                </span>
+                            )}
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className='mr-6 p-0 xs:-mr-6'>
+                            <DropdownMenuItem className='m-0 block p-0' onClick={() => setOpen(false)}>
+                                <Link to={'/app/account'} className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
+                                    Your Account
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='m-0 block p-0'>
+                                <form onSubmit={handleLogout}>
+                                    <button type='submit' className='block w-full px-3 py-2 text-left font-medium hover:bg-gray-100'>
+                                        Sign out
+                                    </button>
+                                </form>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </nav>
     );
