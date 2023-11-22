@@ -14,7 +14,7 @@ export default function UsersPage() {
         void dispatch(getUsers());
     }, [dispatch, users.length]);
 
-    if (isLoading && users.length < 1) {
+    if (isLoading) {
         return <PageSpinner />;
     }
 

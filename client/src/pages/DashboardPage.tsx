@@ -9,6 +9,7 @@ import PageSpinner from '@/components/PageSpinner';
 
 export default function DashboardPage() {
     const { isLoading, dashboard } = useAppSelector((store) => store.dashboard);
+    const { user } = useAppSelector((store) => store.user);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -16,7 +17,7 @@ export default function DashboardPage() {
         void dispatch(getDashboardData());
     }, [dispatch, dashboard.barChartData.length]);
 
-    if (isLoading && dashboard.barChartData.length < 1) {
+    if (isLoading) {
         return <PageSpinner />;
     }
 
@@ -24,7 +25,7 @@ export default function DashboardPage() {
         <section>
             <header className='flex items-end justify-between gap-8'>
                 <div>
-                    <h1 className='font-medium text-lg'>Welcome Back!</h1>
+                    <h1 className='font-medium text-lg'>{user?.firstName ? `Welcome Back, ${user.firstName}!` : 'Welcome Back!'}</h1>
                     <h2 className='text-base text-neutral-600'>Here&apos;s a short overview of what&apos;s happening today.</h2>
                 </div>
             </header>

@@ -16,7 +16,7 @@ export default function ProjectsPage() {
         void dispatch(getProjects());
     }, [dispatch, projects.length]);
 
-    if (isLoading && projects.length < 1) {
+    if (isLoading) {
         return <PageSpinner />;
     }
 
