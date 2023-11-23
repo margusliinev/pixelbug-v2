@@ -96,7 +96,7 @@ export function Navbar({
                     <span className='hidden md:block'>
                         <UsersRole role={user.role} />
                     </span>
-                    <div className='h-6 w-px bg-neutral-300'></div>
+                    <div className='h-6 w-px bg-neutral-300 hidden md:block'></div>
                     <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
                         <DropdownMenuTrigger className='flex max-w-fit items-center gap-2 p-2'>
                             <Avatar className='rounded-full'>

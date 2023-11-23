@@ -32,10 +32,12 @@ interface ProjectWithLead {
 interface TicketWithProject extends Ticket {
     id: string;
     title: string;
+    description: string;
     type: TicketType;
     priority: Priority;
     status: TicketStatus;
     createdAt: Date;
+    resolvedAt: Date | null;
     projectTitle: string;
     reporter: {
         name: string;

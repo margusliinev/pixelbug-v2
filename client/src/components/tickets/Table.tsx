@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui';
 import { TicketWithProject } from '@/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -37,6 +37,7 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
             columnFilters,
         },
     });
+    const navigate = useNavigate();
 
     return (
         <>
@@ -136,6 +137,7 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                     key={row.id}
                                     data-state={row.getIsSelected() && 'selected'}
                                     className='cursor-pointer capitalize hover:bg-gray-100'
+                                    onClick={() => navigate(`/app/tickets/${row.original.id}`)}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         if (cell.column.id === 'title') {

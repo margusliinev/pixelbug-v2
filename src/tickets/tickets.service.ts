@@ -17,10 +17,12 @@ export class TicketsService {
         return {
             id: ticket.id,
             title: ticket.title,
+            description: ticket.description,
             type: ticket.type,
             priority: ticket.priority,
             status: ticket.status,
             createdAt: ticket.createdAt,
+            resolvedAt: ticket.resolvedAt,
             projectTitle: ticket.project.title,
             reporter: {
                 name: ticket?.reporter
