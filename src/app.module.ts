@@ -10,6 +10,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { join } from 'path';
 import { TicketsModule } from './tickets/tickets.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
         ProjectsModule,
         TicketsModule,
         DashboardModule,
+        CommentsModule,
     ],
     controllers: [],
     providers: [

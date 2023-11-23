@@ -35,9 +35,7 @@ export default function BreadCrumbs({ url, child, alias }: { url: string; child:
                 </svg>
             </div>
             <Link to={`/app/${url}/${child}`}>
-                <span className='pr-5 capitalize text-sm font-medium text-secondary-foreground hover:text-primary transition-colors'>
-                    {alias ? alias : child}
-                </span>
+                <span className='pr-5 capitalize text-sm font-medium text-primary'>{alias ? alias : child}</span>
             </Link>
         </div>
     );
