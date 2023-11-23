@@ -137,7 +137,10 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                     key={row.id}
                                     data-state={row.getIsSelected() && 'selected'}
                                     className='cursor-pointer capitalize hover:bg-gray-100'
-                                    onClick={() => navigate(`/app/tickets/${row.original.id}`)}
+                                    onClick={(e) => {
+                                        if ((e.target as HTMLElement).closest('button')) return;
+                                        navigate(`/app/tickets/${row.original.id}`);
+                                    }}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         if (cell.column.id === 'title') {
@@ -184,7 +187,7 @@ export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWit
                                         }
                                         if (cell.column.id === 'actions') {
                                             return (
-                                                <TableCell key={cell.id} className='px-0 xxxs:px-4 w-12 text-center'>
+                                                <TableCell key={cell.id} className='px-0 w-12 text-center'>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
                                             );

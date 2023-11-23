@@ -2,8 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import userReducer from './features/user/userSlice';
 import usersReducer from './features/users/usersSlice';
-import projectsReducer from './features/projects/projectsSlice';
 import ticketsReducer from './features/tickets/ticketsSlice';
+import projectsReducer from './features/projects/projectsSlice';
+import commentsReducer from './features/comments/commentsSlice';
 import dashboardReducer from './features/dashboard/dashboardSlice';
 
 export const store = configureStore({
@@ -11,8 +12,9 @@ export const store = configureStore({
         auth: authReducer,
         user: userReducer,
         users: usersReducer,
-        projects: projectsReducer,
         tickets: ticketsReducer,
+        projects: projectsReducer,
+        comments: commentsReducer,
         dashboard: dashboardReducer,
     },
 });

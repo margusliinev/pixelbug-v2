@@ -13,6 +13,16 @@ export class CommentsService {
             where: {
                 ticketId: ticketId,
             },
+            include: {
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        username: true,
+                        photo: true,
+                    },
+                },
+            },
         });
 
         if (!comments) {
@@ -30,6 +40,16 @@ export class CommentsService {
                 content: content,
                 ticketId: ticketId,
                 userId: userId,
+            },
+            include: {
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        username: true,
+                        photo: true,
+                    },
+                },
             },
         });
 
@@ -63,6 +83,16 @@ export class CommentsService {
             },
             where: {
                 id: commentId,
+            },
+            include: {
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        username: true,
+                        photo: true,
+                    },
+                },
             },
         });
 

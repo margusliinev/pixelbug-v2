@@ -33,7 +33,7 @@ export default function NewTicketPage() {
             .unwrap()
             .then((res) => {
                 if (res.success) {
-                    navigate('/app/tickets');
+                    navigate(`/app/tickets/${res.data.id}`);
                     toast({
                         title: 'Ticket created',
                         variant: 'default',

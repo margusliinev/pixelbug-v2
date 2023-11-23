@@ -3,23 +3,27 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getTickets } from '@/features/tickets/ticketsSlice';
+import { getComments } from '@/features/comments/commentsSlice';
 import { Ticket } from '@/assets/icons';
 import { Button } from '@/components/ui';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import PriorityCell from '@/components/tickets/PriorityCell';
 import StatusCell from '@/components/tickets/StatusCell';
 import PageSpinner from '@/components/PageSpinner';
+import Comments from '@/components/comments/Comments';
 
 export default function SingleTicketPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);
+    const { comments } = useAppSelector((store) => store.comments);
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const ticket = tickets.find((ticket) => ticket.id === id);
 
     useEffect(() => {
+        void dispatch(getComments(id || ''));
         if (tickets.length > 0) return;
         void dispatch(getTickets());
-    }, [dispatch, tickets.length]);
+    }, [dispatch, id, tickets.length]);
 
     if (isLoading) {
         return <PageSpinner />;
@@ -43,7 +47,7 @@ export default function SingleTicketPage() {
     return (
         <section>
             <BreadCrumbs url='tickets' child={ticket.id} alias='ticket' />
-            <div className='bg-white rounded-lg border p-6 mt-4'>
+            <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
                 <div className='px-4 sm:px-0'>
                     <h1 className='text-lg font-semibold leading-7'>Ticket Details</h1>
                 </div>
@@ -110,6 +114,7 @@ export default function SingleTicketPage() {
                     </dl>
                 </div>
             </div>
+            <Comments comments={comments} />
         </section>
     );
 }

@@ -1,11 +1,11 @@
-import { ProjectStatus, TicketStatus, Priority, TicketType } from '@prisma/client';
+import { ProjectStatus, TicketStatus, Priority, TicketType, Comment } from '@prisma/client';
 
-export type DefaultAPIResponse = {
+type DefaultAPIResponse = {
     success: boolean;
     message: string;
 };
 
-export type DefaultAPIError = {
+type DefaultAPIError = {
     success: boolean;
     message: string;
     status: number;
@@ -46,5 +46,14 @@ interface TicketWithProject extends Ticket {
     assignee: {
         name: string;
         photo: string | null;
+    };
+}
+
+interface CommentWithUser extends Comment {
+    user: {
+        firstName: string;
+        lastName: string;
+        username: string;
+        photo: string;
     };
 }
