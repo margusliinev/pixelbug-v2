@@ -124,7 +124,7 @@ export default function SingleTicketPage() {
                     </dl>
                 </div>
             </div>
-            <Comments comments={comments} />
+            <Comments comments={comments} setComments={setComments} ticketId={id || ''} />
         </section>
     );
 }

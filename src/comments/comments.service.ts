@@ -23,6 +23,7 @@ export class CommentsService {
                     },
                 },
             },
+            orderBy: { updatedAt: 'desc' },
         });
 
         if (!comments) {
