@@ -1,7 +1,8 @@
 import { format, formatDistanceStrict } from 'date-fns';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Link, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { CommentWithUser } from '@/types';
 import { getTickets } from '@/features/tickets/ticketsSlice';
 import { getComments } from '@/features/comments/commentsSlice';
 import { Ticket } from '@/assets/icons';
@@ -14,13 +15,22 @@ import Comments from '@/components/comments/Comments';
 
 export default function SingleTicketPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);
-    const { comments } = useAppSelector((store) => store.comments);
+    const [comments, setComments] = useState<CommentWithUser[]>([]);
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const ticket = tickets.find((ticket) => ticket.id === id);
 
     useEffect(() => {
-        void dispatch(getComments(id || ''));
+        dispatch(getComments(id || ''))
+            .unwrap()
+            .then((data) => {
+                if (data.success) {
+                    setComments(data.data);
+                }
+            })
+            .catch(() => {
+                setComments([]);
+            });
         if (tickets.length > 0) return;
         void dispatch(getTickets());
     }, [dispatch, id, tickets.length]);
@@ -49,59 +59,59 @@ export default function SingleTicketPage() {
             <BreadCrumbs url='tickets' child={ticket.id} alias='ticket' />
             <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
                 <div className='px-4 sm:px-0'>
-                    <h1 className='text-lg font-semibold leading-7'>Ticket Details</h1>
+                    <h1 className='text-md font-semibold leading-7'>Ticket Details</h1>
                 </div>
-                <div className='mt-6 border-t border-neutral-200 text-sm xs:text-base'>
+                <div className='mt-6 border-t border-neutral-200 text-sm'>
                     <dl className='divide-y divide-neutral-200'>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Type</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 capitalize'>{ticket.type.toLowerCase()}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Project</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.projectTitle}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Title</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.title}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 grid items-center'>Description</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.description}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Reporter</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.reporter.name}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Assignee</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.assignee.name}</dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Priority</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <PriorityCell priority={ticket.priority} />
                             </dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Status</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 -ml-2'>
                                 <StatusCell status={ticket.status} />
                             </dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Created At</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{format(new Date(ticket.createdAt), 'PPP')}</p>
                             </dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Resolved At</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{ticket.resolvedAt ? format(new Date(ticket.resolvedAt), 'PPP') : 'Ticket is not yet resolved'}</p>
                             </dd>
                         </div>
-                        <div className='px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Resolution time</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>

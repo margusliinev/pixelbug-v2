@@ -37,22 +37,6 @@ const commentsSlice = createSlice({
     name: 'comments',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(getComments.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(getComments.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload ?? null;
-            })
-            .addCase(getComments.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.error = null;
-                state.comments = action.payload.data;
-            });
-    },
 });
 
 export { getComments };
