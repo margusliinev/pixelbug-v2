@@ -1,12 +1,13 @@
 import { CommentWithUser, DefaultAPIError } from '@/types';
-import { Avatar, AvatarFallback, AvatarImage, Textarea } from '../ui';
+import { Avatar, AvatarFallback, AvatarImage, Textarea, useToast } from '../ui';
 import { formatRelative } from 'date-fns';
 import { enIE } from 'date-fns/locale';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Edit, Trash } from '@/assets/icons';
 import { useState, useEffect, useRef } from 'react';
 import { CheckIcon, X } from 'lucide-react';
-import { updateComment } from '@/features/comments/commentsSlice';
+import { deleteComment, updateComment } from '@/features/comments/commentsSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     comment: CommentWithUser;
@@ -20,26 +21,69 @@ export default function SingleComment({ comment, setComments }: Props) {
     const [commentError, setCommentError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { toast } = useToast();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const content = formData.get('edit-comment');
-        if (typeof content !== 'string') return;
         setIsCommentError(false);
-        dispatch(updateComment({ commentId: comment.id, content }))
+        dispatch(updateComment({ commentId: comment.id, content: content as string }))
             .unwrap()
             .then((res) => {
                 if (res.success) {
                     setCommentError('');
                     setIsEditing(false);
                     setComments((prev) => prev.map((prevComment) => (prevComment.id === res.data.id ? res.data : prevComment)));
+                    toast({
+                        title: 'Comment updated',
+                        variant: 'default',
+                    });
                 }
             })
             .catch((err: DefaultAPIError) => {
+                if (err.status === 401) {
+                    navigate('/');
+                } else if (err.status === 403) {
+                    toast({
+                        title: 'You are not authorized to update this comment',
+                        variant: 'destructive',
+                    });
+                }
                 if (err?.fields?.content) {
                     setIsCommentError(true);
                     setCommentError(err?.fields?.content);
+                }
+            });
+    };
+
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        dispatch(deleteComment(comment.id))
+            .unwrap()
+            .then((res) => {
+                if (res.success) {
+                    setComments((prev) => prev.filter((prevComment) => prevComment.id !== res.data));
+                    toast({
+                        title: 'Comment deleted',
+                        variant: 'default',
+                    });
+                }
+            })
+            .catch((err: DefaultAPIError) => {
+                if (err.status === 401) {
+                    navigate('/');
+                } else if (err.status === 403) {
+                    toast({
+                        title: 'You are not authorized to delete this comment',
+                        variant: 'destructive',
+                    });
+                } else {
+                    toast({
+                        title: 'Failed to delete comment',
+                        variant: 'destructive',
+                    });
                 }
             });
     };
@@ -60,9 +104,9 @@ export default function SingleComment({ comment, setComments }: Props) {
                     </AvatarFallback>
                 </Avatar>
                 <span className='text-sm'>
-                    {formatRelative(new Date(comment.updatedAt), new Date(), {
+                    {formatRelative(new Date(comment.createdAt), new Date(), {
                         locale: enIE,
-                    })[0].toUpperCase() + formatRelative(new Date(comment.updatedAt), new Date(), { locale: enIE }).slice(1)}
+                    })[0].toUpperCase() + formatRelative(new Date(comment.createdAt), new Date(), { locale: enIE }).slice(1)}
                 </span>
                 {user && user.id === comment.user.id && !isEditing && (
                     <div className='flex items-center gap-2'>
@@ -72,12 +116,12 @@ export default function SingleComment({ comment, setComments }: Props) {
                             aria-label='Edit comment'
                             onClick={() => {
                                 setCommentError('');
-                                setIsEditing(!isEditing);
+                                setIsEditing(true);
                             }}
                         >
                             <Edit />
                         </button>
-                        <button type='button' className='text-sm' aria-label='Delete comment'>
+                        <button type='button' className='text-sm' aria-label='Delete comment' onClick={handleDelete}>
                             <Trash />
                         </button>
                     </div>
@@ -97,6 +141,7 @@ export default function SingleComment({ comment, setComments }: Props) {
                 <form onSubmit={handleSubmit} noValidate id='confirm-edit'>
                     <Textarea
                         name='edit-comment'
+                        className='text-sm sm:text-base'
                         placeholder='Add your comment...'
                         aria-label='Add your comment'
                         defaultValue={comment.content}
@@ -113,7 +158,7 @@ export default function SingleComment({ comment, setComments }: Props) {
                     ) : null}
                 </form>
             ) : (
-                <p>{comment.content}</p>
+                <p className='text-sm sm:text-base'>{comment.content}</p>
             )}
         </li>
     );

@@ -26,6 +26,12 @@ type NewCommentAPIResponse = {
     data: CommentWithUser;
 };
 
+type DeleteCommentAPIResponse = {
+    success: boolean;
+    message: string;
+    data: string;
+};
+
 const getComments = createAsyncThunk<CommentsAPIResponse, string, { rejectValue: DefaultAPIError }>('comments/getComments', async (id, thunkAPI) => {
     try {
         const response = await axios.get<CommentsAPIResponse>(`/api/v1/comments/${id}`);
@@ -71,11 +77,27 @@ const updateComment = createAsyncThunk<NewCommentAPIResponse, { commentId: strin
     },
 );
 
+const deleteComment = createAsyncThunk<DeleteCommentAPIResponse, string, { rejectValue: DefaultAPIError }>(
+    'comments/deleteComment',
+    async (commentId, thunkAPI) => {
+        try {
+            const response = await axios.delete<DeleteCommentAPIResponse>(`/api/v1/comments`, { data: { commentId } });
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const commentsSlice = createSlice({
     name: 'comments',
     initialState,
     reducers: {},
 });
 
-export { getComments, createComment, updateComment };
+export { getComments, createComment, updateComment, deleteComment };
 export default commentsSlice.reducer;

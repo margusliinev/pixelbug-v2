@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { CommentWithUser, DefaultAPIError } from '@/types';
-import { Button, Textarea } from '../ui';
+import { Button, Textarea, useToast } from '../ui';
 import { useAppDispatch } from '@/hooks';
 import { createComment } from '@/features/comments/commentsSlice';
 import ButtonSpinner from '../ButtonSpinner';
 import CommentsList from './CommentsList';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     comments: CommentWithUser[];
@@ -18,6 +19,8 @@ export default function Comments({ comments, setComments, ticketId }: Props) {
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { toast } = useToast();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,11 +34,18 @@ export default function Comments({ comments, setComments, ticketId }: Props) {
                 if (res.success) {
                     setIsLoading(false);
                     setComments([res.data, ...comments]);
+                    toast({
+                        title: 'Comment created',
+                        variant: 'default',
+                    });
                     (e.target as HTMLFormElement).reset();
                 }
             })
             .catch((err: DefaultAPIError) => {
                 setIsLoading(false);
+                if (err.status === 401) {
+                    navigate('/');
+                }
                 if (err?.fields?.content) {
                     setIsCommentError(true);
                     setCommentError(err?.fields?.content);

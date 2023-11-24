@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { DeleteCommentDto } from './dto/delete-comment.dto';
@@ -39,7 +39,7 @@ export class CommentsService {
             include: {
                 user: true,
             },
-            orderBy: { updatedAt: 'desc' },
+            orderBy: { createdAt: 'desc' },
         });
 
         if (!comments) {
@@ -53,6 +53,19 @@ export class CommentsService {
 
     async createComment(createCommentDto: CreateCommentDto, userId: string) {
         const { ticketId, content } = createCommentDto;
+
+        const trimmedContent = content.trim();
+
+        if (!trimmedContent || trimmedContent === '' || trimmedContent.length < 1) {
+            throw new BadRequestException({
+                success: false,
+                message: 'Comment is required',
+                status: 400,
+                fields: {
+                    content: 'Comment is required',
+                },
+            });
+        }
 
         const comment = await this.prisma.comment.create({
             data: {
@@ -75,7 +88,20 @@ export class CommentsService {
     }
 
     async updateComment(updateCommentDto: UpdateCommentDto, userId: string) {
-        const { commentId } = updateCommentDto;
+        const { commentId, content } = updateCommentDto;
+
+        const trimmedContent = content.trim();
+
+        if (!trimmedContent || trimmedContent === '' || trimmedContent.length < 1) {
+            throw new BadRequestException({
+                success: false,
+                message: 'Comment is required',
+                status: 400,
+                fields: {
+                    content: 'Comment is required',
+                },
+            });
+        }
 
         const comment = await this.prisma.comment.findUnique({
             where: {
@@ -93,7 +119,7 @@ export class CommentsService {
 
         const updateComment = await this.prisma.comment.update({
             data: {
-                content: updateCommentDto.content,
+                content: content,
             },
             where: {
                 id: commentId,
