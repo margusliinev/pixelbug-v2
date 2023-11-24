@@ -11,8 +11,8 @@ export class CommentsController {
 
     @Get(':id')
     async getComments(@Param('id') id: string) {
-        const { comments } = await this.commentsService.getComments(id);
-        return { success: true, message: 'Comments retrieved', data: comments };
+        const { allComments } = await this.commentsService.getComments(id);
+        return { success: true, message: 'Comments retrieved', data: allComments };
     }
 
     @Post()

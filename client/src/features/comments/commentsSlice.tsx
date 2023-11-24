@@ -55,11 +55,27 @@ const createComment = createAsyncThunk<NewCommentAPIResponse, { ticketId: string
     },
 );
 
+const updateComment = createAsyncThunk<NewCommentAPIResponse, { commentId: string; content: string }, { rejectValue: DefaultAPIError }>(
+    'comments/updateComment',
+    async (body, thunkAPI) => {
+        try {
+            const response = await axios.patch<NewCommentAPIResponse>(`/api/v1/comments`, body);
+            return response.data;
+        } catch (error) {
+            if (isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
+            }
+            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            return thunkAPI.rejectWithValue(defaultError);
+        }
+    },
+);
+
 const commentsSlice = createSlice({
     name: 'comments',
     initialState,
     reducers: {},
 });
 
-export { getComments, createComment };
+export { getComments, createComment, updateComment };
 export default commentsSlice.reducer;

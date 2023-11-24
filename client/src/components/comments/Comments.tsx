@@ -77,7 +77,7 @@ export default function Comments({ comments, setComments, ticketId }: Props) {
             <h1 className='text-lg font-semibold leading-7 mb-2'>
                 Comments <span>{`(${comments.length})`}</span>
             </h1>
-            <CommentsList comments={comments} />
+            <CommentsList comments={comments} setComments={setComments} />
         </div>
     );
 }

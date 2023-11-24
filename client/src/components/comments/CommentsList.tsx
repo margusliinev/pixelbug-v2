@@ -1,11 +1,16 @@
 import { CommentWithUser } from '@/types';
 import SingleComment from './SingleComment';
 
-export default function CommentsList({ comments }: { comments: CommentWithUser[] }) {
+interface Props {
+    comments: CommentWithUser[];
+    setComments: React.Dispatch<React.SetStateAction<CommentWithUser[]>>;
+}
+
+export default function CommentsList({ comments, setComments }: Props) {
     return (
         <ul className='grid'>
             {comments.map((comment) => {
-                return <SingleComment key={comment.id} comment={comment} />;
+                return <SingleComment key={comment.id} comment={comment} setComments={setComments} />;
             })}
         </ul>
     );

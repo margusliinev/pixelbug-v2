@@ -16,6 +16,8 @@ import Email from './Email';
 import Phone from './Phone';
 import Bug from './Bug';
 import Feature from './Feature';
+import Edit from './Edit';
+import Trash from './Trash';
 
 export {
     Check,
@@ -36,4 +38,6 @@ export {
     Phone,
     Bug,
     Feature,
+    Edit,
+    Trash,
 };

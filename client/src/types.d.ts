@@ -51,6 +51,7 @@ interface TicketWithProject extends Ticket {
 
 interface CommentWithUser extends Comment {
     user: {
+        id: string;
         firstName: string;
         lastName: string;
         username: string;
