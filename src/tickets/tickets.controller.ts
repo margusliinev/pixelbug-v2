@@ -1,9 +1,10 @@
-import { Controller, Post, Body, Req, Get, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get, Patch, Delete, Put } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { AuthenticatedRequest } from 'src/types';
 import { AssignTicketDto } from './dto/assign-ticket.dto';
 import { DeleteTicketDto } from './dto/delete-ticket.dto';
+import { UpdateTicketDto } from './dto/update-ticket.dto';
 
 @Controller('tickets')
 export class TicketsController {
@@ -25,6 +26,12 @@ export class TicketsController {
     async assignTicket(@Body() assignTicketDto: AssignTicketDto, @Req() req: AuthenticatedRequest) {
         const { assignedTicket } = await this.ticketsService.assignTicket(assignTicketDto.ticketId, req.user.id);
         return { success: true, message: 'Ticket assigned', data: assignedTicket };
+    }
+
+    @Put()
+    async updateTicket(@Body() updateTicketDto: UpdateTicketDto, @Req() req: AuthenticatedRequest) {
+        const { updatedTicket } = await this.ticketsService.updateTicket(updateTicketDto, req.user.id);
+        return { success: true, message: 'Ticket updated', data: updatedTicket };
     }
 
     @Delete()

@@ -1,5 +1,6 @@
 import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Ticket, Project, User } from '@prisma/client';
 
@@ -128,6 +129,60 @@ export class TicketsService {
         const assignedTicket = this.mapTicketToResponse(updatedTicket);
 
         return { assignedTicket };
+    }
+
+    async updateTicket(updateTicketDto: UpdateTicketDto, userId: string) {
+        const { ticketId, assigneeId, status } = updateTicketDto;
+
+        const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
+        if (!ticket) {
+            throw new InternalServerErrorException({
+                success: false,
+                message: 'Failed to update ticket, ticket not found',
+                status: 500,
+                fields: null,
+            });
+        }
+
+        if (assigneeId && ticket.project.leadId !== userId) {
+            throw new ForbiddenException({
+                success: false,
+                message: 'Only project lead can assign tickets',
+                status: 403,
+                fields: {
+                    assigneeId: 'Only project lead can assign tickets',
+                },
+            });
+        }
+
+        if (status && status === 'RESOLVED' && ticket.assigneeId !== userId && ticket.project.leadId !== userId) {
+            throw new ForbiddenException({
+                success: false,
+                message: 'Not authorized to resolve this ticket',
+                status: 403,
+                fields: {
+                    status: 'Not authorized to resolve this ticket',
+                },
+            });
+        }
+
+        const updatedTicket = await this.prisma.ticket.update({
+            where: { id: ticketId },
+            data: { ...updateTicketDto },
+            include: {
+                project: true,
+                reporter: true,
+                assignee: true,
+            },
+        });
+
+        if (!updatedTicket) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to update ticket', status: 500, fields: null });
+        }
+
+        const newTicket = this.mapTicketToResponse(updatedTicket);
+
+        return { updatedTicket: newTicket };
     }
 
     async deleteTicket(ticketId: string, userId: string) {
