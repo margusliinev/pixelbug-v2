@@ -18,8 +18,8 @@ export class UsersService {
         return user;
     }
 
-    async getAllUsers(userId: string) {
-        const users = await this.prisma.user.findMany({ where: { NOT: { id: userId } } });
+    async getAllUsers() {
+        const users = await this.prisma.user.findMany();
         if (!users) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to retrieve users', status: 500, fields: null });
         }

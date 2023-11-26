@@ -1,4 +1,4 @@
-import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -23,6 +23,7 @@ export class TicketsService {
             priority: ticket.priority,
             status: ticket.status,
             createdAt: ticket.createdAt,
+            resolvedAt: ticket.resolvedAt,
             projectTitle: ticket.project.title,
             reporter: {
                 id: ticket?.reporter?.id ? ticket.reporter.id : null,
@@ -145,35 +146,13 @@ export class TicketsService {
             });
         }
 
-        if (assigneeId && ticket.project.leadId !== userId) {
+        if (assigneeId && assigneeId !== userId && ticket.project.leadId !== userId) {
             throw new ForbiddenException({
                 success: false,
-                message: 'Only project lead can assign tickets',
+                message: 'Only project lead can assign ticket to other developers',
                 status: 403,
                 fields: {
-                    assigneeId: 'Only project lead can assign tickets',
-                },
-            });
-        }
-
-        if (status && status === 'RESOLVED' && ticket.assigneeId !== userId && ticket.project.leadId !== userId) {
-            throw new ForbiddenException({
-                success: false,
-                message: 'Only ticket owner or lead can resolve this ticket',
-                status: 403,
-                fields: {
-                    status: 'Not authorized to resolve this ticket',
-                },
-            });
-        }
-
-        if (status && status !== 'UNASSIGNED' && ticket.assigneeId === null && !assigneeId) {
-            throw new ConflictException({
-                success: false,
-                message: 'Ticket must be assigned before changing status',
-                status: 409,
-                fields: {
-                    status: 'Ticket must be assigned before changing status',
+                    assigneeId: 'Only project lead can assign ticket to other developers',
                 },
             });
         }
@@ -185,7 +164,7 @@ export class TicketsService {
                 description: description,
                 priority: priority,
                 type: type,
-                status: assigneeId ? 'ASSIGNED' : status,
+                status: assigneeId && !status ? 'ASSIGNED' : status ? status : ticket.status,
                 assigneeId: assigneeId,
                 resolvedAt: status === 'RESOLVED' ? new Date() : null,
             },
@@ -217,7 +196,7 @@ export class TicketsService {
         }
 
         if (ticket.project.leadId !== userId) {
-            throw new ForbiddenException({ success: false, message: 'Forbidden', status: 403, fields: null });
+            throw new ForbiddenException({ success: false, message: 'Only project lead can delete the ticket', status: 403, fields: null });
         }
 
         try {

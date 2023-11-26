@@ -11,8 +11,8 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
-    async getAllUsers(@Req() req: AuthenticatedRequest) {
-        const { users } = await this.usersService.getAllUsers(req.user.id);
+    async getAllUsers() {
+        const { users } = await this.usersService.getAllUsers();
         return { success: true, message: 'Users retrieved', data: users };
     }
 
