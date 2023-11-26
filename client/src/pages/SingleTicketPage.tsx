@@ -13,6 +13,7 @@ import StatusCell from '@/components/tickets/StatusCell';
 import PageSpinner from '@/components/PageSpinner';
 import Comments from '@/components/comments/Comments';
 import UpdateTicketModal from '@/components/tickets/UpdateTicketModal';
+import DeleteTicketModal from '@/components/tickets/DeleteTicketModal';
 
 export default function SingleTicketPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);
@@ -57,9 +58,12 @@ export default function SingleTicketPage() {
 
     return (
         <section>
-            <div className='grid gap-4 justify-items-start xxs:flex xxs:items-center xxxs:justify-between'>
+            <div className='grid gap-4 justify-items-start xs:flex xs:items-center xs:justify-between'>
                 <BreadCrumbs url='tickets' child={ticket.id} alias='ticket' />
-                <UpdateTicketModal ticket={ticket} />
+                <div className='flex items-center gap-2 '>
+                    <UpdateTicketModal ticket={ticket} />
+                    <DeleteTicketModal ticket={ticket} />
+                </div>
             </div>
             <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
                 <div className='px-4 sm:px-0'>
