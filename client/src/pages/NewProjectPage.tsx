@@ -145,6 +145,7 @@ export default function NewProjectPage() {
                             type='text'
                             aria-invalid={titleError ? true : undefined}
                             aria-describedby='title-error'
+                            maxLength={100}
                             value={title}
                             onChange={(e) => {
                                 setTitleError('');
@@ -165,6 +166,7 @@ export default function NewProjectPage() {
                             aria-invalid={descriptionError ? true : undefined}
                             aria-describedby='description-error'
                             value={description}
+                            maxLength={300}
                             onChange={(e) => {
                                 setDescriptionError('');
                                 setDescription(e.target.value);

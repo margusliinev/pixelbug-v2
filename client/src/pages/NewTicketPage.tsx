@@ -110,6 +110,7 @@ export default function NewTicketPage() {
                             aria-invalid={titleError ? true : undefined}
                             aria-describedby='title-error'
                             value={title}
+                            maxLength={100}
                             onChange={(e) => {
                                 setTitleError('');
                                 setTitle(e.target.value);
@@ -129,6 +130,7 @@ export default function NewTicketPage() {
                             aria-invalid={descriptionError ? true : undefined}
                             aria-describedby='description-error'
                             value={description}
+                            maxLength={300}
                             onChange={(e) => {
                                 setDescriptionError('');
                                 setDescription(e.target.value);

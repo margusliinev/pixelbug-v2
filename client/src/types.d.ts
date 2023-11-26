@@ -24,6 +24,7 @@ interface ProjectWithLead {
     status: ProjectStatus;
     isArchived: boolean;
     lead: {
+        id: string;
         photo?: string;
         name: string;
     };
@@ -40,10 +41,12 @@ interface TicketWithProject extends Ticket {
     resolvedAt: Date | null;
     projectTitle: string;
     reporter: {
+        id: string;
         name: string;
         photo: string | null;
     };
     assignee: {
+        id: string;
         name: string;
         photo: string | null;
     };

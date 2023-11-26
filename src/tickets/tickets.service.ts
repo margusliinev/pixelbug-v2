@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -23,9 +23,9 @@ export class TicketsService {
             priority: ticket.priority,
             status: ticket.status,
             createdAt: ticket.createdAt,
-            resolvedAt: ticket.resolvedAt,
             projectTitle: ticket.project.title,
             reporter: {
+                id: ticket?.reporter?.id ? ticket.reporter.id : null,
                 name: ticket?.reporter
                     ? ticket?.reporter?.firstName && ticket?.reporter?.lastName
                         ? `${ticket.reporter.firstName} ${ticket.reporter.lastName}`
@@ -34,6 +34,7 @@ export class TicketsService {
                 photo: ticket?.reporter?.photo ? ticket.reporter.photo : null,
             },
             assignee: {
+                id: ticket?.assignee?.id ? ticket.assignee.id : null,
                 name: ticket?.assignee
                     ? ticket?.assignee?.firstName && ticket?.assignee?.lastName
                         ? `${ticket.assignee.firstName} ${ticket.assignee.lastName}`
@@ -132,7 +133,7 @@ export class TicketsService {
     }
 
     async updateTicket(updateTicketDto: UpdateTicketDto, userId: string) {
-        const { ticketId, assigneeId, status } = updateTicketDto;
+        const { ticketId, assigneeId, status, title, description, priority, type } = updateTicketDto;
 
         const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
         if (!ticket) {
@@ -158,7 +159,7 @@ export class TicketsService {
         if (status && status === 'RESOLVED' && ticket.assigneeId !== userId && ticket.project.leadId !== userId) {
             throw new ForbiddenException({
                 success: false,
-                message: 'Not authorized to resolve this ticket',
+                message: 'Only ticket owner or lead can resolve this ticket',
                 status: 403,
                 fields: {
                     status: 'Not authorized to resolve this ticket',
@@ -166,9 +167,28 @@ export class TicketsService {
             });
         }
 
+        if (status && status !== 'UNASSIGNED' && ticket.assigneeId === null && !assigneeId) {
+            throw new ConflictException({
+                success: false,
+                message: 'Ticket must be assigned before changing status',
+                status: 409,
+                fields: {
+                    status: 'Ticket must be assigned before changing status',
+                },
+            });
+        }
+
         const updatedTicket = await this.prisma.ticket.update({
             where: { id: ticketId },
-            data: { ...updateTicketDto },
+            data: {
+                title: title,
+                description: description,
+                priority: priority,
+                type: type,
+                status: assigneeId ? 'ASSIGNED' : status,
+                assigneeId: assigneeId,
+                resolvedAt: status === 'RESOLVED' ? new Date() : null,
+            },
             include: {
                 project: true,
                 reporter: true,

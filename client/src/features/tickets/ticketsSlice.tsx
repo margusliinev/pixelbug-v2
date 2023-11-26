@@ -190,5 +190,5 @@ const ticketsSlice = createSlice({
     },
 });
 
-export { getTickets, createTicket, assignTicket, deleteTicket };
+export { getTickets, createTicket, assignTicket, updateTicket, deleteTicket };
 export default ticketsSlice.reducer;

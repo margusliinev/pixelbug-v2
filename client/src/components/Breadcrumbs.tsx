@@ -19,23 +19,23 @@ export default function BreadCrumbs({ url, child, alias }: { url: string; child:
                     </svg>
                 </div>
             </Link>
-            <div className='pr-5'>
+            <div className='pr-3 xxs:pr-5'>
                 <svg className='flex-shrink w-6' viewBox='0 0 24 44' preserveAspectRatio='none' fill='#d1d5db' aria-hidden='true'>
                     <path d='M.293 0l22 22-22 22h1.414l22-22-22-22H.293z'></path>
                 </svg>
             </div>
             <Link to={`/app/${url}`}>
-                <span className='pr-5 capitalize text-sm font-medium text-secondary-foreground hover:text-primary transition-colors'>
+                <span className='pr-3 xxs:pr-5 capitalize text-sm font-medium text-secondary-foreground hover:text-primary transition-colors'>
                     {url === 'tickets' || url === 'projects' ? `all ${url}` : `${url}`}
                 </span>
             </Link>
-            <div className='pr-5'>
+            <div className='pr-3 xxs:pr-5'>
                 <svg className='flex-shrink w-6' viewBox='0 0 24 44' preserveAspectRatio='none' fill='#d1d5db' aria-hidden='true'>
                     <path d='M.293 0l22 22-22 22h1.414l22-22-22-22H.293z'></path>
                 </svg>
             </div>
             <Link to={`/app/${url}/${child}`}>
-                <span className='pr-5 capitalize text-sm font-medium text-primary'>{alias ? alias : child}</span>
+                <span className='pr-3 xxs:pr-5 capitalize text-sm font-medium text-primary'>{alias ? alias : child}</span>
             </Link>
         </div>
     );

@@ -12,6 +12,7 @@ import PriorityCell from '@/components/tickets/PriorityCell';
 import StatusCell from '@/components/tickets/StatusCell';
 import PageSpinner from '@/components/PageSpinner';
 import Comments from '@/components/comments/Comments';
+import UpdateTicketModal from '@/components/tickets/UpdateTicketModal';
 
 export default function SingleTicketPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);
@@ -35,7 +36,7 @@ export default function SingleTicketPage() {
         void dispatch(getTickets());
     }, [dispatch, id, tickets.length]);
 
-    if (isLoading) {
+    if (isLoading && !ticket) {
         return <PageSpinner />;
     }
 
@@ -56,7 +57,10 @@ export default function SingleTicketPage() {
 
     return (
         <section>
-            <BreadCrumbs url='tickets' child={ticket.id} alias='ticket' />
+            <div className='grid gap-4 justify-items-start xxs:flex xxs:items-center xxxs:justify-between'>
+                <BreadCrumbs url='tickets' child={ticket.id} alias='ticket' />
+                <UpdateTicketModal ticket={ticket} />
+            </div>
             <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
                 <div className='px-4 sm:px-0'>
                     <h1 className='text-md font-semibold leading-7'>Ticket Details</h1>

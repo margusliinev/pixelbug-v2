@@ -1,12 +1,16 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { TicketType, Priority, TicketStatus } from '@prisma/client';
 
 export class UpdateTicketDto {
     @IsString({ message: 'Title must be a string' })
+    @MaxLength(100, { message: 'Title must be less than 100 characters' })
+    @MinLength(1, { message: 'Description is required' })
     @IsOptional()
     title: string;
 
     @IsString({ message: 'Description must be a string' })
+    @MaxLength(300, { message: 'Description must be less than 300 characters' })
+    @MinLength(1, { message: 'Description is required' })
     @IsOptional()
     description: string;
 

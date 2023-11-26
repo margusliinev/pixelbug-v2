@@ -21,6 +21,7 @@ export class ProjectsService {
             status: project.status,
             isArchived: project.isArchived,
             lead: {
+                id: project?.lead?.id ? project.lead.id : null,
                 photo: project?.lead?.photo ? project.lead.photo : null,
                 name: project?.lead
                     ? project?.lead?.firstName && project?.lead?.lastName
