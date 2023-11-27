@@ -42,25 +42,24 @@ enum TicketType {
 }
 
 model User {
-  id              String        @id @default(cuid())
-  username        String        @unique
-  email           String        @unique
+  id              String    @id @default(cuid())
+  username        String    @unique
+  email           String    @unique
   password        String
   firstName       String?
   lastName        String?
   jobTitle        String?
   photo           String?
-  phone           String?       @unique
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  isVerified      Boolean       @default(false)
-  role            Role          @default(USER)
+  phone           String?   @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  isVerified      Boolean   @default(false)
+  role            Role      @default(USER)
   sessions        Session[]
-  projects        UserProject[]
   comments        Comment[]
   leadProjects    Project[]
-  assignedTickets Ticket[]      @relation("assignee")
-  reportedTickets Ticket[]      @relation("reporter")
+  assignedTickets Ticket[]  @relation("assignee")
+  reportedTickets Ticket[]  @relation("reporter")
 
   @@map("users")
 }
@@ -79,20 +78,9 @@ model Project {
   leadId      String?
   lead        User?         @relation(fields: [leadId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   status      ProjectStatus @default(PLANNING)
-  users       UserProject[]
   tickets     Ticket[]
 
   @@map("projects")
-}
-
-model UserProject {
-  userId    String
-  projectId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@id([userId, projectId])
-  @@map("users_projects")
 }
 
 model Ticket {
