@@ -32,6 +32,46 @@ export class ProjectsService {
         };
     }
 
+    async getSingleProject(projectId: string) {
+        const data = await this.prisma.project.findUnique({
+            include: {
+                lead: true,
+                tickets: true,
+            },
+            where: { id: projectId },
+        });
+
+        if (!data) {
+            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch project', status: 500, fields: null });
+        }
+
+        const project = {
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            startDate: data.startDate,
+            dueDate: data.dueDate,
+            endDate: data.endDate,
+            avatar: data.avatar,
+            isArchived: data.isArchived,
+            status: data.status,
+            lead: {
+                id: data?.lead?.id ? data.lead.id : null,
+                photo: data?.lead?.photo ? data.lead.photo : null,
+                name: data?.lead
+                    ? data?.lead?.firstName && data?.lead?.lastName
+                        ? `${data.lead.firstName} ${data.lead.lastName}`
+                        : data.lead.username
+                    : 'Deleted User',
+            },
+            tickets: data.tickets,
+        };
+
+        return { project };
+    }
+
     async getProjects() {
         const projects = await this.prisma.project.findMany({
             include: { lead: true },
