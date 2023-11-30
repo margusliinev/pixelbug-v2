@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { CommentWithUser } from '@/types';
 import { getTickets } from '@/features/tickets/ticketsSlice';
 import { getComments } from '@/features/comments/commentsSlice';
-import { Ticket } from '@/assets/icons';
+import { Bug, Feature, Ticket } from '@/assets/icons';
 import { Button } from '@/components/ui';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import PriorityCell from '@/components/tickets/PriorityCell';
@@ -66,22 +66,15 @@ export default function SingleTicketPage() {
                 </div>
             </div>
             <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
-                <div className='px-4 sm:px-0'>
-                    <h1 className='text-md font-semibold leading-7'>Ticket Details</h1>
+                <div className='px-4 sm:px-0 flex items-center gap-2'>
+                    <div className='h-8 w-8'>{ticket.type === 'BUG' ? <Bug /> : <Feature />}</div>
+                    <h1 className='text-md font-semibold leading-7'>{ticket.title}</h1>
                 </div>
                 <div className='mt-6 border-t border-neutral-200 text-sm'>
                     <dl className='divide-y divide-neutral-200'>
                         <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='font-medium leading-6'>Type</dt>
-                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 capitalize'>{ticket.type.toLowerCase()}</dd>
-                        </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Project</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.projectTitle}</dd>
-                        </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='font-medium leading-6'>Title</dt>
-                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.title}</dd>
                         </div>
                         <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 grid items-center'>Description</dt>

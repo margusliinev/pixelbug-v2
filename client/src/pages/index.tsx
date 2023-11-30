@@ -10,6 +10,8 @@ import AccountPage from './AccountPage';
 import UsersPage from './UsersPage';
 import NewProjectPage from './NewProjectPage';
 import NewTicketPage from './NewTicketPage';
+import SingleTicketPage from './SingleTicketPage';
+import SingleProjectPage from './SingleProjectPage';
 
 export {
     ErrorPage,
@@ -24,4 +26,6 @@ export {
     UsersPage,
     NewProjectPage,
     NewTicketPage,
+    SingleTicketPage,
+    SingleProjectPage,
 };

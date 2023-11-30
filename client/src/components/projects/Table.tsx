@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui';
 import { ProjectWithLead } from '@/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -37,6 +37,7 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
             columnFilters,
         },
     });
+    const navigate = useNavigate();
 
     return (
         <>
@@ -129,6 +130,10 @@ export function ProjectsTable<TValue>({ columns, data }: DataTableProps<ProjectW
                                     key={row.id}
                                     data-state={row.getIsSelected() && 'selected'}
                                     className='cursor-pointer capitalize hover:bg-gray-100'
+                                    onClick={(e) => {
+                                        if ((e.target as HTMLElement).closest('button')) return;
+                                        navigate(`/app/projects/${row.original.id}`);
+                                    }}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         if (cell.column.id === 'title') {

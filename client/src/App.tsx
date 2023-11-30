@@ -13,8 +13,9 @@ import {
     UsersPage,
     NewProjectPage,
     NewTicketPage,
+    SingleTicketPage,
+    SingleProjectPage,
 } from './pages';
-import SingleTicketPage from './pages/SingleTicketPage';
 
 function App() {
     const router = createBrowserRouter([
@@ -60,6 +61,10 @@ function App() {
                 {
                     path: 'projects/new',
                     element: <NewProjectPage />,
+                },
+                {
+                    path: 'projects/:id',
+                    element: <SingleProjectPage />,
                 },
                 {
                     path: 'tickets',
