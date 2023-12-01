@@ -4,7 +4,7 @@ import { TicketType, Priority, TicketStatus } from '@prisma/client';
 export class UpdateTicketDto {
     @IsString({ message: 'Title must be a string' })
     @MaxLength(100, { message: 'Title must be less than 100 characters' })
-    @MinLength(1, { message: 'Description is required' })
+    @MinLength(1, { message: 'Title is required' })
     @IsOptional()
     title: string;
 

@@ -81,6 +81,13 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                 if (err.status === 401) {
                     navigate('/');
                 }
+                if (err.status === 403) {
+                    setOpen(false);
+                    toast({
+                        title: `${err.message}`,
+                        variant: 'destructive',
+                    });
+                }
                 if (err.fields?.title) {
                     setTitleError(err.fields.title);
                 }
@@ -274,7 +281,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <Button type='button' className='mt-4 w-32' disabled={isLoading} onClick={handleSubmit}>
+                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading} onClick={handleSubmit}>
                             {isLoading ? <ButtonSpinner /> : 'Update Ticket'}
                         </Button>
                     </form>

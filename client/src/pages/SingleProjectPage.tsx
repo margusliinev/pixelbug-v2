@@ -4,10 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Folder } from '@/assets/icons';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
+import { getProjects } from '@/features/projects/projectsSlice';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import StatusCell from '@/components/projects/StatusCell';
 import PageSpinner from '@/components/PageSpinner';
-import { getProjects } from '@/features/projects/projectsSlice';
+import UpdateProjectModal from '@/components/projects/UpdateProjectModal';
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal';
 
 export default function SingleProjectPage() {
     const { isLoading, projects } = useAppSelector((store) => store.projects);
@@ -43,7 +45,10 @@ export default function SingleProjectPage() {
         <section>
             <div className='grid gap-4 justify-items-start xs:flex xs:items-center xs:justify-between'>
                 <BreadCrumbs url='projects' child={project.id} alias='project' />
-                <div className='flex items-center gap-2 '></div>
+                <div className='flex items-center gap-2 '>
+                    <UpdateProjectModal project={project} />
+                    <DeleteProjectModal project={project} />
+                </div>
             </div>
             <div className='bg-white rounded-lg border p-6 mt-4 shadow-sm'>
                 <div className='px-4 sm:px-0 flex items-center gap-2'>

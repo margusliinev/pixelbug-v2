@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Req, Get, Patch, Delete, Put } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
-import { AuthenticatedRequest } from 'src/types';
 import { AssignTicketDto } from './dto/assign-ticket.dto';
-import { DeleteTicketDto } from './dto/delete-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { DeleteTicketDto } from './dto/delete-ticket.dto';
+import { AuthenticatedRequest } from 'src/types';
 
 @Controller('tickets')
 export class TicketsController {

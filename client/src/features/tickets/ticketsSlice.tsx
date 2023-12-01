@@ -28,7 +28,7 @@ type DeleteTicketAPIResponse = {
     data: string;
 };
 
-type NewTicketAPIResponse = {
+type TicketAPIResponse = {
     success: boolean;
     message: string;
     data: TicketData;
@@ -43,13 +43,13 @@ type CreateTicketDto = {
 };
 
 type UpdateTicketDto = {
+    ticketId: string;
     title?: string;
     description?: string;
     type?: TicketType;
     priority?: Priority;
     status?: string;
     assigneeId?: string;
-    ticketId: string;
 };
 
 const getTickets = createAsyncThunk<TicketsAPIResponse, void, { rejectValue: DefaultAPIError }>('tickets/getTickets', async (_, thunkAPI) => {
@@ -65,11 +65,11 @@ const getTickets = createAsyncThunk<TicketsAPIResponse, void, { rejectValue: Def
     }
 });
 
-const createTicket = createAsyncThunk<NewTicketAPIResponse, CreateTicketDto, { rejectValue: DefaultAPIError }>(
+const createTicket = createAsyncThunk<TicketAPIResponse, CreateTicketDto, { rejectValue: DefaultAPIError }>(
     'tickets/createTicket',
     async (body, thunkAPI) => {
         try {
-            const response = await axios.post<NewTicketAPIResponse>('/api/v1/tickets', body);
+            const response = await axios.post<TicketAPIResponse>('/api/v1/tickets', body);
             if (response.status === 201) {
                 void thunkAPI.dispatch(getDashboardData());
             }
@@ -84,11 +84,11 @@ const createTicket = createAsyncThunk<NewTicketAPIResponse, CreateTicketDto, { r
     },
 );
 
-const assignTicket = createAsyncThunk<NewTicketAPIResponse, string, { rejectValue: DefaultAPIError }>(
+const assignTicket = createAsyncThunk<TicketAPIResponse, string, { rejectValue: DefaultAPIError }>(
     'tickets/assignTicket',
     async (ticketId, thunkAPI) => {
         try {
-            const response = await axios.patch<NewTicketAPIResponse>('/api/v1/tickets', { ticketId });
+            const response = await axios.patch<TicketAPIResponse>('/api/v1/tickets', { ticketId });
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
@@ -100,11 +100,11 @@ const assignTicket = createAsyncThunk<NewTicketAPIResponse, string, { rejectValu
     },
 );
 
-const updateTicket = createAsyncThunk<NewTicketAPIResponse, UpdateTicketDto, { rejectValue: DefaultAPIError }>(
+const updateTicket = createAsyncThunk<TicketAPIResponse, UpdateTicketDto, { rejectValue: DefaultAPIError }>(
     'tickets/updateTicket',
     async (body, thunkAPI) => {
         try {
-            const response = await axios.put<NewTicketAPIResponse>('/api/v1/tickets', body);
+            const response = await axios.put<TicketAPIResponse>('/api/v1/tickets', body);
             return response.data;
         } catch (error) {
             if (isAxiosError(error) && error.response) {
