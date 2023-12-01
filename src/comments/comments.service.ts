@@ -5,7 +5,7 @@ import { DeleteCommentDto } from './dto/delete-comment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User, Comment } from '@prisma/client';
 
-interface CommentWithUser extends Comment {
+interface CommentData extends Comment {
     user: User | null;
 }
 
@@ -13,7 +13,7 @@ interface CommentWithUser extends Comment {
 export class CommentsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    private mapComment(comment: CommentWithUser) {
+    private mapComment(comment: CommentData) {
         return {
             id: comment.id,
             content: comment.content,
@@ -23,10 +23,12 @@ export class CommentsService {
             userId: comment.userId,
             user: {
                 id: comment?.user?.id,
-                username: comment?.user?.username,
-                firstName: comment?.user?.firstName,
-                lastName: comment?.user?.lastName,
                 photo: comment?.user?.photo,
+                name: comment?.user
+                    ? comment?.user?.firstName && comment?.user?.lastName
+                        ? `${comment.user.firstName} ${comment.user.lastName}`
+                        : comment.user.username
+                    : 'Deleted User',
             },
         };
     }

@@ -3,7 +3,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Project, User } from '@prisma/client';
 
-interface ProjectWithLead extends Project {
+interface ProjectData extends Project {
     lead: User | null;
 }
 
@@ -11,18 +11,22 @@ interface ProjectWithLead extends Project {
 export class ProjectsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    private mapProjectToResponse(project: ProjectWithLead) {
+    private mapProjectToResponse(project: ProjectData) {
         return {
             id: project.id,
             title: project.title,
+            description: project.description,
             avatar: project.avatar,
+            createdAt: project.createdAt,
+            updatedAt: project.updatedAt,
             startDate: project.startDate,
             dueDate: project.dueDate,
+            endDate: project.endDate,
             status: project.status,
             isArchived: project.isArchived,
             lead: {
-                id: project?.lead?.id ? project.lead.id : null,
-                photo: project?.lead?.photo ? project.lead.photo : null,
+                id: project?.lead?.id,
+                photo: project?.lead?.photo,
                 name: project?.lead
                     ? project?.lead?.firstName && project?.lead?.lastName
                         ? `${project.lead.firstName} ${project.lead.lastName}`
@@ -30,46 +34,6 @@ export class ProjectsService {
                     : 'Deleted User',
             },
         };
-    }
-
-    async getSingleProject(projectId: string) {
-        const data = await this.prisma.project.findUnique({
-            include: {
-                lead: true,
-                tickets: true,
-            },
-            where: { id: projectId },
-        });
-
-        if (!data) {
-            throw new InternalServerErrorException({ success: false, message: 'Failed to fetch project', status: 500, fields: null });
-        }
-
-        const project = {
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt,
-            startDate: data.startDate,
-            dueDate: data.dueDate,
-            endDate: data.endDate,
-            avatar: data.avatar,
-            isArchived: data.isArchived,
-            status: data.status,
-            lead: {
-                id: data?.lead?.id ? data.lead.id : null,
-                photo: data?.lead?.photo ? data.lead.photo : null,
-                name: data?.lead
-                    ? data?.lead?.firstName && data?.lead?.lastName
-                        ? `${data.lead.firstName} ${data.lead.lastName}`
-                        : data.lead.username
-                    : 'Deleted User',
-            },
-            tickets: data.tickets,
-        };
-
-        return { project };
     }
 
     async getProjects() {

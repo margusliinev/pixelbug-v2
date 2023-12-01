@@ -16,12 +16,12 @@ import {
     DropdownMenuTrigger,
     useToast,
 } from '../ui';
-import { DefaultAPIError, TicketWithProject } from '@/types';
+import { DefaultAPIError, TicketData } from '@/types';
 import { useAppDispatch } from '@/hooks';
 import { useNavigate } from 'react-router-dom';
 import { assignTicket, deleteTicket } from '@/features/tickets/ticketsSlice';
 
-export default function ActionButton({ ticket }: { ticket: TicketWithProject }) {
+export default function ActionButton({ ticket }: { ticket: TicketData }) {
     const [warning, setWarning] = useState(false);
     const [alert, setAlert] = useState(false);
     const [dropdown, setDropdown] = useState(false);

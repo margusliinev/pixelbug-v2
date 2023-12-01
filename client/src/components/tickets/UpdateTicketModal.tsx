@@ -1,4 +1,4 @@
-import { DefaultAPIError, TicketWithProject } from '@/types';
+import { DefaultAPIError, TicketData } from '@/types';
 import {
     Button,
     Dialog,
@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import TypeOption from './TypeOption';
 import ButtonSpinner from '../ButtonSpinner';
 
-export default function UpdateTicketModal({ ticket }: { ticket: TicketWithProject }) {
+export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
     const { users } = useAppSelector((store) => store.users);
     const { isLoading } = useAppSelector((store) => store.tickets);
     const [open, setOpen] = useState(false);

@@ -1,9 +1,9 @@
-import { CommentWithUser } from '@/types';
+import { CommentData } from '@/types';
 import SingleComment from './SingleComment';
 
 interface Props {
-    comments: CommentWithUser[];
-    setComments: React.Dispatch<React.SetStateAction<CommentWithUser[]>>;
+    comments: CommentData[];
+    setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
 }
 
 export default function CommentsList({ comments, setComments }: Props) {

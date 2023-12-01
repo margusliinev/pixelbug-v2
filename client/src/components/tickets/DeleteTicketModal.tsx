@@ -11,12 +11,12 @@ import {
     AlertDialogTrigger,
     useToast,
 } from '../ui';
-import { DefaultAPIError, TicketWithProject } from '@/types';
+import { DefaultAPIError, TicketData } from '@/types';
 import { useAppDispatch } from '@/hooks';
 import { deleteTicket } from '@/features/tickets/ticketsSlice';
 import { useNavigate } from 'react-router-dom';
 
-export default function DeleteTicketModal({ ticket }: { ticket: TicketWithProject }) {
+export default function DeleteTicketModal({ ticket }: { ticket: TicketData }) {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();

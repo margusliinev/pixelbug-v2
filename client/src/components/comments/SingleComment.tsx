@@ -1,4 +1,4 @@
-import { CommentWithUser, DefaultAPIError } from '@/types';
+import { CommentData, DefaultAPIError } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage, Textarea, useToast } from '../ui';
 import { formatRelative } from 'date-fns';
 import { enIE } from 'date-fns/locale';
@@ -10,8 +10,8 @@ import { deleteComment, updateComment } from '@/features/comments/commentsSlice'
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-    comment: CommentWithUser;
-    setComments: React.Dispatch<React.SetStateAction<CommentWithUser[]>>;
+    comment: CommentData;
+    setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
 }
 
 export default function SingleComment({ comment, setComments }: Props) {
@@ -99,9 +99,7 @@ export default function SingleComment({ comment, setComments }: Props) {
             <article className='flex items-center gap-2'>
                 <Avatar className='rounded-full h-8 w-8'>
                     <AvatarImage src={comment.user.photo} />
-                    <AvatarFallback className='bg-neutral-200'>
-                        {comment.user.firstName ? comment.user.firstName.charAt(0).toUpperCase() : comment.user.username.charAt(0).toUpperCase()}
-                    </AvatarFallback>
+                    <AvatarFallback className='bg-neutral-200'>{comment.user.name[0].toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <span className='text-sm'>
                     {formatRelative(new Date(comment.createdAt), new Date(), {

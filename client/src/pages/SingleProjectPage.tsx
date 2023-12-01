@@ -4,22 +4,23 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Folder } from '@/assets/icons';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
-import { getProject } from '@/features/project/projectSlice';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import StatusCell from '@/components/projects/StatusCell';
 import PageSpinner from '@/components/PageSpinner';
+import { getProjects } from '@/features/projects/projectsSlice';
 
 export default function SingleProjectPage() {
-    const { isLoading, project } = useAppSelector((store) => store.project);
+    const { isLoading, projects } = useAppSelector((store) => store.projects);
     const { id } = useParams();
+    const project = projects.find((project) => project.id === id);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (project && project.id === id) return;
-        void dispatch(getProject(id || ''));
-    }, [dispatch, id, project]);
+        if (projects.length > 0) return;
+        void dispatch(getProjects());
+    }, [dispatch, projects.length]);
 
-    if (isLoading) {
+    if (isLoading && !project) {
         return <PageSpinner />;
     }
 
@@ -55,10 +56,6 @@ export default function SingleProjectPage() {
                 <div className='mt-6 border-t border-neutral-200 text-sm'>
                     <dl className='divide-y divide-neutral-200'>
                         <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='font-medium leading-6 grid items-center'>Description</dt>
-                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{project.description}</dd>
-                        </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Lead</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 flex items-center gap-2'>
                                 <Avatar className='h-8 w-8 rounded-full'>
@@ -67,6 +64,10 @@ export default function SingleProjectPage() {
                                 </Avatar>
                                 {project.lead.name}
                             </dd>
+                        </div>
+                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                            <dt className='font-medium leading-6 grid items-center'>Description</dt>
+                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{project.description}</dd>
                         </div>
                         <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Status</dt>

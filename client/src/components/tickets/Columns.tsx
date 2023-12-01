@@ -1,4 +1,4 @@
-import { TicketWithProject } from '@/types';
+import { TicketData } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
@@ -7,7 +7,7 @@ import StatusCell from './StatusCell';
 import ActionButton from './ActionButton';
 import PriorityCell from './PriorityCell';
 
-export const columns: ColumnDef<TicketWithProject>[] = [
+export const columns: ColumnDef<TicketData>[] = [
     {
         accessorKey: 'title',
         header: ({ column }) => {

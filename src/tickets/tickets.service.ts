@@ -4,7 +4,7 @@ import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Ticket, Project, User } from '@prisma/client';
 
-interface TicketWithProject extends Ticket {
+interface TicketData extends Ticket {
     project: Project;
     reporter: User | null;
     assignee: User | null;
@@ -14,7 +14,7 @@ interface TicketWithProject extends Ticket {
 export class TicketsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    private mapTicketToResponse(ticket: TicketWithProject) {
+    private mapTicketToResponse(ticket: TicketData) {
         return {
             id: ticket.id,
             title: ticket.title,
@@ -26,22 +26,22 @@ export class TicketsService {
             resolvedAt: ticket.resolvedAt,
             projectTitle: ticket.project.title,
             reporter: {
-                id: ticket?.reporter?.id ? ticket.reporter.id : null,
+                id: ticket?.reporter?.id,
+                photo: ticket?.reporter?.photo,
                 name: ticket?.reporter
                     ? ticket?.reporter?.firstName && ticket?.reporter?.lastName
                         ? `${ticket.reporter.firstName} ${ticket.reporter.lastName}`
                         : ticket.reporter.username
                     : 'Deleted User',
-                photo: ticket?.reporter?.photo ? ticket.reporter.photo : null,
             },
             assignee: {
-                id: ticket?.assignee?.id ? ticket.assignee.id : null,
+                id: ticket?.assignee?.id,
+                photo: ticket?.assignee?.photo,
                 name: ticket?.assignee
                     ? ticket?.assignee?.firstName && ticket?.assignee?.lastName
                         ? `${ticket.assignee.firstName} ${ticket.assignee.lastName}`
                         : ticket.assignee.username
                     : 'Unassigned',
-                photo: ticket?.assignee?.photo ? ticket.assignee.photo : null,
             },
         };
     }

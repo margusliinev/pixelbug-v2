@@ -16,12 +16,12 @@ import {
     DropdownMenuTrigger,
     useToast,
 } from '../ui';
-import { DefaultAPIError, ProjectWithLead } from '@/types';
+import { DefaultAPIError, ProjectData } from '@/types';
 import { useAppDispatch } from '@/hooks';
 import { archiveProject, deleteProject } from '@/features/projects/projectsSlice';
 import { useNavigate } from 'react-router-dom';
 
-export default function ActionButton({ project }: { project: ProjectWithLead }) {
+export default function ActionButton({ project }: { project: ProjectData }) {
     const [warning, setWarning] = useState(false);
     const [alert, setAlert] = useState(false);
     const [dropdown, setDropdown] = useState(false);

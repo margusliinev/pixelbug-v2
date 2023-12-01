@@ -1,4 +1,4 @@
-import { ProjectWithLead } from '@/types';
+import { ProjectData } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
 import StatusCell from './StatusCell';
 import ActionButton from './ActionsButton';
 
-export const columns: ColumnDef<ProjectWithLead>[] = [
+export const columns: ColumnDef<ProjectData>[] = [
     {
         accessorKey: 'title',
         header: ({ column }) => {

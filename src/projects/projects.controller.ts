@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Get, Delete, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get, Delete, Patch } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { DeleteProjectDto } from './dto/delete-project.dto';
@@ -8,12 +8,6 @@ import { AuthenticatedRequest } from 'src/types';
 @Controller('projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}
-
-    @Get(':id')
-    async getSingleProject(@Param('id') id: string) {
-        const { project } = await this.projectsService.getSingleProject(id);
-        return { success: true, message: 'Project retrieved', data: project };
-    }
 
     @Get()
     async getProjects() {

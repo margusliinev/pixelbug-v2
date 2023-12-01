@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { DefaultAPIError, TicketWithProject } from '@/types';
+import { DefaultAPIError, TicketData } from '@/types';
 import { Priority, TicketType } from '@prisma/client';
 import axios, { isAxiosError } from 'axios';
 import { getDashboardData } from '../dashboard/dashboardSlice';
@@ -7,7 +7,7 @@ import { getDashboardData } from '../dashboard/dashboardSlice';
 type TicketsState = {
     isLoading: boolean;
     error: DefaultAPIError | null;
-    tickets: TicketWithProject[];
+    tickets: TicketData[];
 };
 
 const initialState: TicketsState = {
@@ -19,7 +19,7 @@ const initialState: TicketsState = {
 type TicketsAPIResponse = {
     success: boolean;
     message: string;
-    data: TicketWithProject[];
+    data: TicketData[];
 };
 
 type DeleteTicketAPIResponse = {
@@ -31,7 +31,7 @@ type DeleteTicketAPIResponse = {
 type NewTicketAPIResponse = {
     success: boolean;
     message: string;
-    data: TicketWithProject;
+    data: TicketData;
 };
 
 type CreateTicketDto = {

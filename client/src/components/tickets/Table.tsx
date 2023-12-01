@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui';
-import { TicketWithProject } from '@/types';
+import { TicketData } from '@/types';
 import { Link, useNavigate } from 'react-router-dom';
 import {
     ColumnDef,
@@ -15,12 +15,12 @@ import {
     useReactTable,
 } from '@tanstack/react-table';
 
-interface DataTableProps<TicketWithProject, TValue> {
-    columns: ColumnDef<TicketWithProject, TValue>[];
-    data: TicketWithProject[];
+interface DataTableProps<TicketData, TValue> {
+    columns: ColumnDef<TicketData, TValue>[];
+    data: TicketData[];
 }
 
-export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketWithProject, TValue>) {
+export function TicketsTable<TValue>({ columns, data }: DataTableProps<TicketData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const table = useReactTable({

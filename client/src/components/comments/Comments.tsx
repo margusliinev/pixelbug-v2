@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { CommentWithUser, DefaultAPIError } from '@/types';
+import { CommentData, DefaultAPIError } from '@/types';
 import { Button, Textarea, useToast } from '../ui';
 import { useAppDispatch } from '@/hooks';
 import { createComment } from '@/features/comments/commentsSlice';
@@ -8,8 +8,8 @@ import CommentsList from './CommentsList';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-    comments: CommentWithUser[];
-    setComments: React.Dispatch<React.SetStateAction<CommentWithUser[]>>;
+    comments: CommentData[];
+    setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
     ticketId: string;
 }
 

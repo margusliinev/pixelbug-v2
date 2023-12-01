@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { DefaultAPIError, ProjectWithLead } from '@/types';
+import { DefaultAPIError, ProjectData } from '@/types';
 import { ProjectStatus } from '@prisma/client';
 import { getTickets } from '../tickets/ticketsSlice';
 import { getDashboardData } from '../dashboard/dashboardSlice';
@@ -8,7 +8,7 @@ import axios, { isAxiosError } from 'axios';
 type ProjectsState = {
     isLoading: boolean;
     error: DefaultAPIError | null;
-    projects: ProjectWithLead[];
+    projects: ProjectData[];
 };
 
 const initialState: ProjectsState = {
@@ -26,13 +26,13 @@ type DeleteProjectAPIResponse = {
 type NewProjectAPIResponse = {
     success: boolean;
     message: string;
-    data: ProjectWithLead;
+    data: ProjectData;
 };
 
 type ProjectsAPIResponse = {
     success: boolean;
     message: string;
-    data: ProjectWithLead[];
+    data: ProjectData[];
 };
 
 type ProjectDto = {

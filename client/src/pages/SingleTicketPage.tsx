@@ -2,7 +2,7 @@ import { format, formatDistanceStrict } from 'date-fns';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { CommentWithUser } from '@/types';
+import { CommentData } from '@/types';
 import { getTickets } from '@/features/tickets/ticketsSlice';
 import { getComments } from '@/features/comments/commentsSlice';
 import { Bug, Feature, Ticket } from '@/assets/icons';
@@ -17,10 +17,10 @@ import DeleteTicketModal from '@/components/tickets/DeleteTicketModal';
 
 export default function SingleTicketPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);
-    const [comments, setComments] = useState<CommentWithUser[]>([]);
+    const [comments, setComments] = useState<CommentData[]>([]);
     const { id } = useParams();
-    const dispatch = useAppDispatch();
     const ticket = tickets.find((ticket) => ticket.id === id);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getComments(id || ''))

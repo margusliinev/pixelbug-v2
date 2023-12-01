@@ -1,7 +1,7 @@
 import { Label, Input, Textarea, Button, useToast, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
 import { getProjects } from '@/features/projects/projectsSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { DefaultAPIError, ProjectWithLead } from '@/types';
+import { DefaultAPIError, ProjectData } from '@/types';
 import { Priority, TicketType } from '@prisma/client';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ export default function NewTicketPage() {
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [priorityError, setPriorityError] = useState<string>('');
-    const [project, setProject] = useState<ProjectWithLead['title']>('');
+    const [project, setProject] = useState<ProjectData['title']>('');
     const [type, setType] = useState<TicketType>('BUG');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -77,7 +77,7 @@ export default function NewTicketPage() {
                         <Select
                             disabled={projects.length === 0}
                             value={project}
-                            onValueChange={(value: ProjectWithLead['title']) => {
+                            onValueChange={(value: ProjectData['title']) => {
                                 setProjectError('');
                                 setProject(value);
                             }}

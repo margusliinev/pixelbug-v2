@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { CommentWithUser, DefaultAPIError } from '@/types';
+import { CommentData, DefaultAPIError } from '@/types';
 import axios, { isAxiosError } from 'axios';
 
 type CommentsState = {
     isLoading: boolean;
     error: DefaultAPIError | null;
-    comments: CommentWithUser[];
+    comments: CommentData[];
 };
 
 const initialState: CommentsState = {
@@ -17,13 +17,13 @@ const initialState: CommentsState = {
 type CommentsAPIResponse = {
     success: boolean;
     message: string;
-    data: CommentWithUser[];
+    data: CommentData[];
 };
 
 type NewCommentAPIResponse = {
     success: boolean;
     message: string;
-    data: CommentWithUser;
+    data: CommentData;
 };
 
 type DeleteCommentAPIResponse = {
@@ -40,7 +40,12 @@ const getComments = createAsyncThunk<CommentsAPIResponse, string, { rejectValue:
         if (isAxiosError(error) && error.response) {
             return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
         }
-        const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+        const defaultError: DefaultAPIError = {
+            success: false,
+            message: 'Something went wrong',
+            status: 500,
+            fields: null,
+        };
         return thunkAPI.rejectWithValue(defaultError);
     }
 });
@@ -55,7 +60,12 @@ const createComment = createAsyncThunk<NewCommentAPIResponse, { ticketId: string
             if (isAxiosError(error) && error.response) {
                 return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
             }
-            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            const defaultError: DefaultAPIError = {
+                success: false,
+                message: 'Something went wrong',
+                status: 500,
+                fields: null,
+            };
             return thunkAPI.rejectWithValue(defaultError);
         }
     },
@@ -71,7 +81,12 @@ const updateComment = createAsyncThunk<NewCommentAPIResponse, { commentId: strin
             if (isAxiosError(error) && error.response) {
                 return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
             }
-            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            const defaultError: DefaultAPIError = {
+                success: false,
+                message: 'Something went wrong',
+                status: 500,
+                fields: null,
+            };
             return thunkAPI.rejectWithValue(defaultError);
         }
     },
@@ -87,7 +102,12 @@ const deleteComment = createAsyncThunk<DeleteCommentAPIResponse, string, { rejec
             if (isAxiosError(error) && error.response) {
                 return thunkAPI.rejectWithValue(error.response.data as DefaultAPIError);
             }
-            const defaultError: DefaultAPIError = { success: false, message: 'Something went wrong', status: 500, fields: null };
+            const defaultError: DefaultAPIError = {
+                success: false,
+                message: 'Something went wrong',
+                status: 500,
+                fields: null,
+            };
             return thunkAPI.rejectWithValue(defaultError);
         }
     },
