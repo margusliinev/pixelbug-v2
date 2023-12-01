@@ -1,6 +1,11 @@
 import { DefaultAPIError, ProjectData } from '@/types';
+import { ProjectStatus } from '@prisma/client';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
 import {
     Button,
+    Calendar,
     Dialog,
     DialogContent,
     DialogHeader,
@@ -8,6 +13,9 @@ import {
     DialogTrigger,
     Input,
     Label,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
     Select,
     SelectContent,
     SelectItem,
@@ -21,7 +29,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateProject } from '@/features/projects/projectsSlice';
 import { useNavigate } from 'react-router-dom';
 import ButtonSpinner from '../ButtonSpinner';
-import { ProjectStatus } from '@prisma/client';
 
 export default function UpdateProjectModal({ project }: { project: ProjectData }) {
     const { isLoading } = useAppSelector((store) => store.projects);
@@ -29,14 +36,18 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
     const [statusError, setStatusError] = useState<string>('');
+    const [startDateError, setStartDateError] = useState<string>('');
+    const [dueDateError, setDueDateError] = useState<string>('');
     const [title, setTitle] = useState<string>(project.title);
     const [description, setDescription] = useState<string>(project.description);
     const [status, setStatus] = useState<string>(project.status);
+    const [startDate, setStartDate] = useState<Date | undefined>(project.startDate ? new Date(project.startDate) : undefined);
+    const [dueDate, setDueDate] = useState<Date | undefined>(project.dueDate ? new Date(project.dueDate) : undefined);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const updatedProject = {};
         if (title !== project.title) {
@@ -47,6 +58,12 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
         }
         if (status !== project.status) {
             Object.assign(updatedProject, { status });
+        }
+        if (startDate?.toISOString() !== new Date(project.startDate).toISOString()) {
+            Object.assign(updatedProject, { startDate });
+        }
+        if (dueDate?.toISOString() !== new Date(project.dueDate).toISOString()) {
+            Object.assign(updatedProject, { dueDate });
         }
         dispatch(updateProject({ projectId: project.id, ...updatedProject }))
             .unwrap()
@@ -79,6 +96,12 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
                 if (err.fields?.status) {
                     setStatusError(err.fields.status);
                 }
+                if (err.fields?.startDate) {
+                    setStartDateError(err.fields.startDate);
+                }
+                if (err.fields?.dueDate) {
+                    setDueDateError(err.fields.dueDate);
+                }
             });
     };
 
@@ -96,7 +119,7 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
                     <DialogHeader>
                         <DialogTitle>Update Project</DialogTitle>
                     </DialogHeader>
-                    <form className='grid gap-3' noValidate>
+                    <form className='grid gap-3' onSubmit={handleSubmit} noValidate>
                         <fieldset className='space-y-1'>
                             <Label htmlFor='title'>Title</Label>
                             <Input
@@ -121,6 +144,7 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
                         <fieldset className='space-y-1'>
                             <Label htmlFor='description'>Description</Label>
                             <Textarea
+                                className='min-h-[100px]'
                                 id='description'
                                 name='description'
                                 aria-invalid={descriptionError ? true : undefined}
@@ -164,7 +188,75 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
                                 </p>
                             ) : null}
                         </fieldset>
-                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading} onClick={handleSubmit}>
+                        <div className='grid gap-4 xs:flex items-start'>
+                            <fieldset className='space-y-1 w-full'>
+                                <Label htmlFor='startDate'>Start Date</Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            id='startDate'
+                                            variant={'outline'}
+                                            className={cn('w-full justify-start text-left font-normal', !startDate && 'text-muted-foreground')}
+                                            aria-invalid={startDateError ? true : undefined}
+                                            aria-describedby='startDate-error'
+                                        >
+                                            <CalendarIcon className='mr-2 h-4 w-4' />
+                                            {startDate ? format(startDate, 'PPP') : <span>Pick a start date</span>}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='w-auto p-0'>
+                                        <Calendar
+                                            mode='single'
+                                            selected={startDate}
+                                            onSelect={(date) => {
+                                                setStartDateError('');
+                                                setStartDate(date);
+                                            }}
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                {startDateError ? (
+                                    <p className='pt-1 text-sm text-destructive' id='startDate-error'>
+                                        {startDateError}
+                                    </p>
+                                ) : null}
+                            </fieldset>
+                            <fieldset className='space-y-1 w-full'>
+                                <Label htmlFor='dueDate'>Due Date</Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            id='dueDate'
+                                            variant={'outline'}
+                                            className={cn('w-full justify-start text-left font-normal', !dueDate && 'text-muted-foreground')}
+                                            aria-invalid={dueDateError ? true : undefined}
+                                            aria-describedby='dueDate-error'
+                                        >
+                                            <CalendarIcon className='mr-2 h-4 w-4' />
+                                            {dueDate ? format(dueDate, 'PPP') : <span>Pick a due date</span>}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='w-auto p-0'>
+                                        <Calendar
+                                            mode='single'
+                                            selected={dueDate}
+                                            onSelect={(date) => {
+                                                setDueDateError('');
+                                                setDueDate(date);
+                                            }}
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                {dueDateError ? (
+                                    <p className='pt-1 text-sm text-destructive' id='dueDate-error'>
+                                        {dueDateError}
+                                    </p>
+                                ) : null}
+                            </fieldset>
+                        </div>
+                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
                             {isLoading ? <ButtonSpinner /> : 'Update Project'}
                         </Button>
                     </form>

@@ -45,7 +45,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const updatedTicket = {};
         if (type !== ticket.type) {
@@ -129,7 +129,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                     <DialogHeader>
                         <DialogTitle>Update Ticket</DialogTitle>
                     </DialogHeader>
-                    <form className='grid gap-3' noValidate>
+                    <form className='grid gap-3' onSubmit={handleSubmit} noValidate>
                         <fieldset className='space-y-1'>
                             <Label htmlFor='title'>Title</Label>
                             <Input
@@ -154,6 +154,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                         <fieldset className='space-y-1'>
                             <Label htmlFor='description'>Description</Label>
                             <Textarea
+                                className='min-h-[100px]'
                                 id='description'
                                 name='description'
                                 aria-invalid={descriptionError ? true : undefined}
@@ -281,7 +282,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading} onClick={handleSubmit}>
+                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
                             {isLoading ? <ButtonSpinner /> : 'Update Ticket'}
                         </Button>
                     </form>

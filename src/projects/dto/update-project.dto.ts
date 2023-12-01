@@ -1,5 +1,5 @@
 import { ProjectStatus } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsISO8601, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UpdateProjectDto {
     @IsString({ message: 'Title must be a string' })
@@ -17,6 +17,14 @@ export class UpdateProjectDto {
     @IsEnum(ProjectStatus, { message: 'Status must be a valid project status' })
     @IsOptional()
     status: ProjectStatus;
+
+    @IsISO8601({ strict: true, strictSeparator: true }, { message: 'Start date must be a date' })
+    @IsOptional()
+    startDate: Date;
+
+    @IsISO8601({ strict: true, strictSeparator: true }, { message: 'Due date must be a date' })
+    @IsOptional()
+    dueDate: Date;
 
     @IsString({ message: 'Project ID must be a string' })
     @IsNotEmpty({ message: 'Project ID is required' })

@@ -98,7 +98,7 @@ export class ProjectsService {
         return { archivedProject };
     }
     async updateProject(updateProjectDto: UpdateProjectDto, userId: string) {
-        const { projectId, title, description, status } = updateProjectDto;
+        const { projectId, title, description, status, startDate, dueDate } = updateProjectDto;
 
         const project = await this.prisma.project.findUnique({ where: { id: projectId }, include: { lead: true } });
         if (!project) {
@@ -126,6 +126,8 @@ export class ProjectsService {
                 description: description,
                 status: status,
                 endDate: status === 'COMPLETED' ? new Date() : null,
+                startDate: startDate,
+                dueDate: dueDate,
             },
             include: {
                 lead: true,
