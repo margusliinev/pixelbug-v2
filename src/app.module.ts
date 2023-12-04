@@ -7,10 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ProjectsModule } from './projects/projects.module';
-import { join } from 'path';
 import { TicketsModule } from './tickets/tickets.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { CommentsModule } from './comments/comments.module';
+import { SearchModule } from './search/search.module';
+import { join } from 'path';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { CommentsModule } from './comments/comments.module';
         TicketsModule,
         DashboardModule,
         CommentsModule,
+        SearchModule,
     ],
     controllers: [],
     providers: [
