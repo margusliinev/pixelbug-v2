@@ -5,7 +5,7 @@ import { getDashboardData } from '@/features/dashboard/dashboardSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 
 export default function DashboardPage() {
     const { isLoading, dashboard } = useAppSelector((store) => store.dashboard);

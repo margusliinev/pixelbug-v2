@@ -6,7 +6,7 @@ import { getProjects } from '@/features/projects/projectsSlice';
 import { Folder } from '@/assets/icons';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 
 export default function ProjectsPage() {
     const { isLoading, projects } = useAppSelector((store) => store.projects);

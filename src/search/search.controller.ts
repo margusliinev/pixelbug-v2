@@ -8,6 +8,6 @@ export class SearchController {
     @Get()
     async search(@Query() queryParams: { searchTerm: string }) {
         const { searchResults } = await this.searchService.search(queryParams);
-        return { success: true, data: searchResults };
+        return { success: true, tickets: searchResults };
     }
 }

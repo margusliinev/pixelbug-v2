@@ -28,7 +28,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { updateProject } from '@/features/projects/projectsSlice';
 import { useNavigate } from 'react-router-dom';
-import ButtonSpinner from '../ButtonSpinner';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 
 export default function UpdateProjectModal({ project }: { project: ProjectData }) {
     const { isLoading } = useAppSelector((store) => store.projects);

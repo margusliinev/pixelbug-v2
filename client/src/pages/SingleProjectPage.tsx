@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from '@/components/ui';
 import { getProjects } from '@/features/projects/projectsSlice';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import StatusCell from '@/components/projects/StatusCell';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 import UpdateProjectModal from '@/components/projects/UpdateProjectModal';
 import DeleteProjectModal from '@/components/projects/DeleteProjectModal';
 

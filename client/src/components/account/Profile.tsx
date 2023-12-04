@@ -18,7 +18,7 @@ import {
     TabsContent,
     useToast,
 } from '../ui';
-import ButtonSpinner from '../ButtonSpinner';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 
 export default function Profile() {
     const [photoError, setPhotoError] = useState('');

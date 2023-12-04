@@ -6,7 +6,7 @@ import { Priority, TicketType } from '@prisma/client';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createTicket } from '@/features/tickets/ticketsSlice';
-import ButtonSpinner from '@/components/ButtonSpinner';
+import ButtonSpinner from '@/components/spinners/ButtonSpinner';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import TypeOption from '@/components/tickets/TypeOption';
 

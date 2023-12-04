@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks';
 import { signup } from '@/features/auth/authSlice';
 import { DefaultAPIError } from '@/types';
-import ButtonSpinner from '@/components/ButtonSpinner';
+import ButtonSpinner from '@/components/spinners/ButtonSpinner';
 
 export default function SignupPage() {
     const [isLoading, setIsLoading] = useState(false);

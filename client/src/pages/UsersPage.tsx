@@ -2,7 +2,7 @@ import { getUsers } from '@/features/users/usersSlice';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { useEffect } from 'react';
 import { Users } from '@/assets/icons';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 import UserCard from '@/components/users/UserCard';
 
 export default function UsersPage() {

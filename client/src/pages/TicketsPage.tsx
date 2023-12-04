@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui';
 import { TicketsTable } from '@/components/tickets/Table';
 import { columns } from '@/components/tickets/Columns';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 
 export default function TicketsPage() {
     const { isLoading, tickets } = useAppSelector((store) => store.tickets);

@@ -3,7 +3,7 @@ import { CommentData, DefaultAPIError } from '@/types';
 import { Button, Textarea, useToast } from '../ui';
 import { useAppDispatch } from '@/hooks';
 import { createComment } from '@/features/comments/commentsSlice';
-import ButtonSpinner from '../ButtonSpinner';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 import CommentsList from './CommentsList';
 import { useNavigate } from 'react-router-dom';
 

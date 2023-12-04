@@ -24,7 +24,7 @@ import {
     Textarea,
     useToast,
 } from '@/components/ui';
-import ButtonSpinner from '@/components/ButtonSpinner';
+import ButtonSpinner from '@/components/spinners/ButtonSpinner';
 import BreadCrumbs from '@/components/Breadcrumbs';
 
 interface AvatarOption {

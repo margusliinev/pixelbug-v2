@@ -23,7 +23,7 @@ import { updateTicket } from '@/features/tickets/ticketsSlice';
 import { getUsers } from '@/features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
 import TypeOption from './TypeOption';
-import ButtonSpinner from '../ButtonSpinner';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 
 export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
     const { users } = useAppSelector((store) => store.users);

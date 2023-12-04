@@ -4,7 +4,7 @@ import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Inpu
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { DefaultAPIError } from '@/types';
 import { useNavigate } from 'react-router-dom';
-import ButtonSpinner from '../ButtonSpinner';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 
 export default function Password() {
     const [isCurrentPasswordError, setIsCurrentPasswordError] = useState(false);

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui';
 import BreadCrumbs from '@/components/Breadcrumbs';
 import PriorityCell from '@/components/tickets/PriorityCell';
 import StatusCell from '@/components/tickets/StatusCell';
-import PageSpinner from '@/components/PageSpinner';
+import PageSpinner from '@/components/spinners/PageSpinner';
 import Comments from '@/components/comments/Comments';
 import UpdateTicketModal from '@/components/tickets/UpdateTicketModal';
 import DeleteTicketModal from '@/components/tickets/DeleteTicketModal';
