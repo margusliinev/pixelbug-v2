@@ -36,7 +36,7 @@ export default function GlobalSearch() {
     return (
         <div className='relative flex w-full gap-2 rounded-md px-3 py-2 ring-1 ring-border shadow-sm sm:px-2 sm:py-2'>
             <label htmlFor='search' className='ml-1 hidden text-gray-500 xs:flex xs:items-center'>
-                <div className='grid w-4 place-items-center'>{isLoading ? <SearchSpinner /> : <Search />}</div>
+                <div className='grid w-4 place-items-center'>{isLoading && searchTerm !== '' ? <SearchSpinner /> : <Search />}</div>
             </label>
             <div className='w-full'>
                 <input
