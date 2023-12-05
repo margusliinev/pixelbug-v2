@@ -282,7 +282,7 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                                 </p>
                             ) : null}
                         </fieldset>
-                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
+                        <Button type='submit' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
                             {isLoading ? <ButtonSpinner /> : 'Update Ticket'}
                         </Button>
                     </form>

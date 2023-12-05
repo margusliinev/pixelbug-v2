@@ -256,7 +256,7 @@ export default function UpdateProjectModal({ project }: { project: ProjectData }
                                 ) : null}
                             </fieldset>
                         </div>
-                        <Button type='button' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
+                        <Button type='submit' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
                             {isLoading ? <ButtonSpinner /> : 'Update Project'}
                         </Button>
                     </form>
