@@ -1,14 +1,13 @@
 import type { User as UserType } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { Menu, Home, Folder, Ticket, User, Users, Search, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
+import { Menu, Home, Folder, Ticket, User, Users, Close, ChevronUp, ChevronDown, ErrorTriangle } from '@/assets/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { signout } from '@/features/auth/authSlice';
 import { getUser } from '@/features/user/userSlice';
-import { useSearchTicketsQuery } from '@/features/search/searchSlice';
 import UsersRole from '@/components/users/UsersRole';
-import SearchSpinner from '@/components/spinners/SearchSpinner';
+import GlobalSearch from '@/components/search/GlobalSearch';
 
 type UserWithoutPassword = Omit<UserType, 'password'>;
 
@@ -61,27 +60,8 @@ export function Navbar({
     user: UserWithoutPassword;
 }) {
     const [open, setOpen] = useState(false);
-    const [isSearchboxOpen, setIsSearchboxOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-    const { data, status: searchStatus } = useSearchTicketsQuery(debouncedSearchTerm, { refetchOnMountOrArgChange: true, skip: searchTerm === '' });
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setSearchTerm(e.target.value);
-    };
-
-    useEffect(() => {
-        const delay = setTimeout(() => {
-            setDebouncedSearchTerm(searchTerm);
-        }, 300);
-
-        return () => {
-            clearTimeout(delay);
-        };
-    }, [searchTerm]);
 
     const handleLogout = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -102,53 +82,7 @@ export function Navbar({
                         <Menu />
                     </button>
                     <div className='h-6 w-px bg-neutral-300 xl:hidden'></div>
-                    <div className='relative flex w-full gap-2 rounded-md px-3 py-2 ring-1 ring-border shadow-sm sm:px-2 sm:py-2'>
-                        <label htmlFor='search' className='ml-1 hidden text-gray-500 xs:flex xs:items-center'>
-                            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison */}
-                            <div className='grid w-4 place-items-center'>{searchStatus === 'pending' ? <SearchSpinner /> : <Search />}</div>
-                        </label>
-                        <div className='w-full'>
-                            <input
-                                type='text'
-                                name='search'
-                                id='search'
-                                placeholder='Search'
-                                className='w-full text-sm focus:outline-none'
-                                value={searchTerm}
-                                onChange={handleChange}
-                                onFocus={() => setIsSearchboxOpen(true)}
-                                onBlur={() => {
-                                    setTimeout(() => {
-                                        setIsSearchboxOpen(false);
-                                    }, 150);
-                                }}
-                            />
-                            <div
-                                className={
-                                    isSearchboxOpen && debouncedSearchTerm !== ''
-                                        ? 'absolute bg-white top-12 w-full border rounded-lg right-0 max-h-48 overflow-y-auto'
-                                        : 'hidden'
-                                }
-                            >
-                                {data && data.tickets && data.tickets.length > 0 ? (
-                                    data.tickets.map((ticket) => {
-                                        return (
-                                            <Link
-                                                to={`/app/tickets/${ticket.id}`}
-                                                className='block capitalize text-sm p-3 transition-colors hover:bg-gray-100'
-                                                key={ticket.id}
-                                            >
-                                                <span className='text-neutral-500'>Ticket: </span>
-                                                {ticket.title}
-                                            </Link>
-                                        );
-                                    })
-                                ) : (
-                                    <article className='capitalize text-sm p-3'>No results</article>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                    <GlobalSearch />
                 </div>
                 <div className='flex items-center gap-4'>
                     <span className='hidden md:block'>
