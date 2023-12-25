@@ -180,16 +180,6 @@
         "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1700774935/Profiles/t7bkpeyzew4d7nwcfoan_ylbhz3.jpg"
     },
     {
-        "username": "kristinwatson",
-        "email": "kristinwatson@gmail.com",
-        "password": "kristinwatson123",
-        "firstName": "Kristin",
-        "lastName": "Watson",
-        "phone": "3055551234",
-        "jobTitle": "Back End Developer",
-        "photo": "https://res.cloudinary.com/dwv94rkbl/image/upload/v1700774932/Profiles/jna2borq61rbumzzllq7_oujpqi.jpg"
-    },
-    {
         "username": "jennywilson",
         "email": "jennywilson@gmail.com",
         "password": "jennywilson123",
