@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
+COPY prisma ./prisma/
 
 RUN npm install
 
@@ -39,6 +40,8 @@ WORKDIR /app
 COPY --from=backend /app/dist ./dist
 
 COPY --from=frontend /app/client/dist ./client/dist
+
+ENV NODE_ENV production
 
 EXPOSE 5000
 
