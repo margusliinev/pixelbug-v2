@@ -6,11 +6,9 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
 
-RUN npm install --production
+RUN npm install
 
 COPY . .
-
-RUN npm install -g @nestjs/cli
 
 RUN npm run build
 
