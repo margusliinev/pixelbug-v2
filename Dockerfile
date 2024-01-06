@@ -24,7 +24,7 @@ COPY client/vite.config.ts ./
 COPY client/postcss.config.js ./
 COPY client/tailwind.config.js ./
 
-RUN npm install --production
+RUN npm install
 
 COPY client .
 
