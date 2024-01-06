@@ -10,6 +10,8 @@ RUN npm install --production
 
 COPY . .
 
+RUN npm install -g @nestjs/cli
+
 RUN npm run build
 
 FROM node:20-alpine AS frontend
