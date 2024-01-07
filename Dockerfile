@@ -51,4 +51,4 @@ EXPOSE 5000
 
 USER user
 
-CMD ["npm", "run", "start"]
+CMD ["node", "dist/main.js"]
