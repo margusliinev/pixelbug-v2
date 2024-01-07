@@ -7,8 +7,8 @@
     "license": "MIT",
     "scripts": {
         "dev": "concurrently \"nest start --watch --preserveWatchOutput\" \"cd client && npm run dev\"",
-        "build": "nest build",
-        "start": "nest start",
+        "build": "cd client && npm install && npm run build && cd .. && npm install && nest build",
+        "start": "node dist/main",
         "typecheck": "cd client && npm run typecheck && cd .. && tsc",
         "format": "cd client && npm run format && cd .. && prettier . --write",
         "lint": "cd client && npm run lint && cd .. && eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
