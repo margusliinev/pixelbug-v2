@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
-COPY prisma ./prisma/
 
 RUN npm install
 
@@ -37,8 +36,12 @@ RUN addgroup app && adduser -S -G app -h /app user
 
 WORKDIR /app
 
+COPY --from=backend /app/node_modules ./node_modules
+COPY --from=backend /app/package*.json ./
 COPY --from=backend /app/dist ./dist
 
+COPY --from=frontend /app/client/node_modules ./client/node_modules
+COPY --from=frontend /app/client/package*.json ./client
 COPY --from=frontend /app/client/dist ./client/dist
 
 ENV NODE_ENV production
