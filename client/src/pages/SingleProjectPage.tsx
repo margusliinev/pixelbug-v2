@@ -60,7 +60,7 @@ export default function SingleProjectPage() {
                 </div>
                 <div className='mt-6 border-t border-neutral-200 text-sm'>
                     <dl className='divide-y divide-neutral-200'>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Lead</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 flex items-center gap-2'>
                                 <Avatar className='h-8 w-8 rounded-full'>
@@ -70,29 +70,29 @@ export default function SingleProjectPage() {
                                 {project.lead.name}
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 grid items-center'>Description</dt>
-                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{project.description}</dd>
+                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 break-words'>{project.description}</dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Status</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 -ml-2'>
                                 <StatusCell status={project.status} />
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Start Date</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{format(new Date(project.startDate), 'PPP')}</p>
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Due Date</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{project.dueDate ? format(new Date(project.dueDate), 'PPP') : 'Project is not yet completed'}</p>
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Completion Time</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>

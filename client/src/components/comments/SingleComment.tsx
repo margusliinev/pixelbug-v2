@@ -95,7 +95,7 @@ export default function SingleComment({ comment, setComments }: Props) {
     }, [isCommentError]);
 
     return (
-        <li className='py-4 px-2 border-b last-of-type:border-none grid gap-2'>
+        <li className='py-4 px-2 border-b last-of-type:border-none grid grid-cols-1 gap-2'>
             <article className='flex items-center gap-2'>
                 <Avatar className='rounded-full h-8 w-8'>
                     <AvatarImage src={comment.user.photo} />
@@ -139,7 +139,7 @@ export default function SingleComment({ comment, setComments }: Props) {
                 <form onSubmit={handleSubmit} noValidate id='confirm-edit'>
                     <Textarea
                         name='edit-comment'
-                        className='text-sm sm:text-base'
+                        className='text-sm sm:text-base break-words'
                         placeholder='Add your comment...'
                         aria-label='Add your comment'
                         defaultValue={comment.content}
@@ -156,7 +156,7 @@ export default function SingleComment({ comment, setComments }: Props) {
                     ) : null}
                 </form>
             ) : (
-                <p className='text-sm sm:text-base'>{comment.content}</p>
+                <p className='text-sm sm:text-base break-words'>{comment.content}</p>
             )}
         </li>
     );

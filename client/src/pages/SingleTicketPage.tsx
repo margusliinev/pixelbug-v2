@@ -72,47 +72,47 @@ export default function SingleTicketPage() {
                 </div>
                 <div className='mt-6 border-t border-neutral-200 text-sm'>
                     <dl className='divide-y divide-neutral-200'>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Project</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.projectTitle}</dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 grid items-center'>Description</dt>
-                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.description}</dd>
+                            <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 break-words'>{ticket.description}</dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Reporter</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.reporter.name}</dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Assignee</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{ticket.assignee.name}</dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Priority</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <PriorityCell priority={ticket.priority} />
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6'>Status</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0 -ml-2'>
                                 <StatusCell status={ticket.status} />
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Created At</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{format(new Date(ticket.createdAt), 'PPP')}</p>
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Resolved At</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>{ticket.resolvedAt ? format(new Date(ticket.resolvedAt), 'PPP') : 'Ticket is not yet resolved'}</p>
                             </dd>
                         </div>
-                        <div className='p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+                        <div className='p-4 grid grid-cols-1 sm:grid-cols-3 sm:gap-4 sm:px-0'>
                             <dt className='font-medium leading-6 text-gray-900'>Resolution time</dt>
                             <dd className='mt-1 leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>
                                 <p>
