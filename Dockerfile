@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
+COPY prisma ./prisma/
 
 RUN npm install
 
