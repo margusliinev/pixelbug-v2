@@ -5,7 +5,9 @@ import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { AuthenticatedRequest } from 'src/types';
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}

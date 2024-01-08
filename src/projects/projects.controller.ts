@@ -5,7 +5,9 @@ import { ArchiveProjectDto } from './dto/archive-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { DeleteProjectDto } from './dto/delete-project.dto';
 import { AuthenticatedRequest } from 'src/types';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}

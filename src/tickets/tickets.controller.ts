@@ -5,7 +5,9 @@ import { AssignTicketDto } from './dto/assign-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { DeleteTicketDto } from './dto/delete-ticket.dto';
 import { AuthenticatedRequest } from 'src/types';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Tickets')
 @Controller('tickets')
 export class TicketsController {
     constructor(private readonly ticketsService: TicketsService) {}

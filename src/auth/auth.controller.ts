@@ -4,9 +4,11 @@ import { SignupDto } from './dto/sign-up.dto';
 import { SigninDto } from './dto/sign-in.dto';
 import { AuthenticatedRequest } from 'src/types';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 const AllowUnauthorizedRequest = () => SetMetadata('allowUnauthorizedRequest', true);
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}

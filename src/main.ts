@@ -1,4 +1,5 @@
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
@@ -50,6 +51,9 @@ async function bootstrap() {
             },
         }),
     );
+    const config = new DocumentBuilder().setTitle('PixelBug API').setVersion('1.0').build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('docs', app, document);
     await app.listen(process.env.PORT || 5000);
 }
 
