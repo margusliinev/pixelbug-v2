@@ -57,7 +57,30 @@ PixelBug is built using the following technologies:
 
 ## Usage
 
-Create your profile, set up your first project, add team members to the project and start tracking, reporting and most importantly, resolving bugs with your team. Get started with PixelBug today and deliver flawless experiences to your users!
+1. **Clone the Repository:**
+   ```
+   git clone https://github.com/margusliinev/pixelbug-v2.git
+   ```
+2. **Install Dependencies:**
+   ```
+   cd client && npm install && cd .. && npm install
+   ```
+3. **Spin up Local PostgreSQL:**
+   ```
+   docker-compose up -d
+   ```
+4. **Run Database Migrations**
+   ```
+   npx prisma migrate dev
+   ```
+5. **Seed The Database (Optional)**
+   ```
+   npx prisma db seed
+   ```
+6. **Start The Project In Development Mode**
+   ```
+   npm run dev
+   ```
 
 ## License
 
