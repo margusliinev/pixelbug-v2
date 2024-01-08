@@ -4,6 +4,8 @@ PixelBug is your ultimate companion for bug-free software development. With its 
 
 Site is live at [https://pixelbug.up.railway.app](https://pixelbug.up.railway.app)
 
+API Docs: [https://pixelbug.up.railway.app/docs](https://pixelbug.up.railway.app/docs)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
