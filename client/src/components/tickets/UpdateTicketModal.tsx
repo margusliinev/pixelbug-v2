@@ -27,6 +27,7 @@ import ButtonSpinner from '../spinners/ButtonSpinner';
 
 export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
     const { users } = useAppSelector((store) => store.users);
+    const { user } = useAppSelector((store) => store.user);
     const { isLoading } = useAppSelector((store) => store.tickets);
     const [open, setOpen] = useState(false);
     const [typeError, setTypeError] = useState<string>('');
@@ -226,62 +227,70 @@ export default function UpdateTicketModal({ ticket }: { ticket: TicketData }) {
                                 ) : null}
                             </fieldset>
                         </div>
-                        <fieldset className='space-y-1 w-full'>
-                            <Label htmlFor='status'>Status</Label>
-                            <Select
-                                value={status}
-                                onValueChange={(value: TicketStatus) => {
-                                    setStatusError('');
-                                    setStatus(value);
-                                }}
-                            >
-                                <SelectTrigger id='status' aria-invalid={statusError ? true : undefined} aria-describedby='status-error'>
-                                    <SelectValue placeholder='status' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value='UNASSIGNED'>Unassigned</SelectItem>
-                                    <SelectItem value='ASSIGNED'>Assigned</SelectItem>
-                                    <SelectItem value='IN_DEVELOPMENT'>In Development</SelectItem>
-                                    <SelectItem value='ON_HOLD'>On Hold</SelectItem>
-                                    <SelectItem value='RESOLVED'>Resolved</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            {statusError ? (
-                                <p className='pt-1 text-sm text-destructive' id='status-error'>
-                                    {statusError}
-                                </p>
-                            ) : null}
-                        </fieldset>
-                        <fieldset className='space-y-1 w-full'>
-                            <Label htmlFor='assignee'>Assignee</Label>
-                            <Select
-                                value={assignee ?? undefined}
-                                onValueChange={(value: string) => {
-                                    setAssigneeError('');
-                                    setAssignee(value);
-                                }}
-                            >
-                                <SelectTrigger id='assignee' aria-invalid={assigneeError ? true : undefined} aria-describedby='assignee-error'>
-                                    <SelectValue placeholder='Assign developer' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {users.map((user) => {
-                                        if (user.role === 'DEVELOPER' || user.role === 'ADMIN') {
-                                            return (
-                                                <SelectItem value={user.id} key={user.id}>
-                                                    {user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user.username}
-                                                </SelectItem>
-                                            );
-                                        }
-                                    })}
-                                </SelectContent>
-                            </Select>
-                            {assigneeError ? (
-                                <p className='pt-1 text-sm text-destructive' id='assignee-error'>
-                                    {assigneeError}
-                                </p>
-                            ) : null}
-                        </fieldset>
+                        {user?.role !== 'USER' ? (
+                            <>
+                                <fieldset className='space-y-1 w-full'>
+                                    <Label htmlFor='status'>Status</Label>
+                                    <Select
+                                        value={status}
+                                        onValueChange={(value: TicketStatus) => {
+                                            setStatusError('');
+                                            setStatus(value);
+                                        }}
+                                    >
+                                        <SelectTrigger id='status' aria-invalid={statusError ? true : undefined} aria-describedby='status-error'>
+                                            <SelectValue placeholder='status' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value='UNASSIGNED'>Unassigned</SelectItem>
+                                            <SelectItem value='ASSIGNED'>Assigned</SelectItem>
+                                            <SelectItem value='IN_DEVELOPMENT'>In Development</SelectItem>
+                                            <SelectItem value='ON_HOLD'>On Hold</SelectItem>
+                                            <SelectItem value='RESOLVED'>Resolved</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    {statusError ? (
+                                        <p className='pt-1 text-sm text-destructive' id='status-error'>
+                                            {statusError}
+                                        </p>
+                                    ) : null}
+                                </fieldset>
+                                <fieldset className='space-y-1 w-full'>
+                                    <Label htmlFor='assignee'>Assignee</Label>
+                                    <Select
+                                        value={assignee ?? undefined}
+                                        onValueChange={(value: string) => {
+                                            setAssigneeError('');
+                                            setAssignee(value);
+                                        }}
+                                    >
+                                        <SelectTrigger
+                                            id='assignee'
+                                            aria-invalid={assigneeError ? true : undefined}
+                                            aria-describedby='assignee-error'
+                                        >
+                                            <SelectValue placeholder='Assign developer' />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {users.map((user) => {
+                                                if (user.role === 'DEVELOPER' || user.role === 'ADMIN') {
+                                                    return (
+                                                        <SelectItem value={user.id} key={user.id}>
+                                                            {user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user.username}
+                                                        </SelectItem>
+                                                    );
+                                                }
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+                                    {assigneeError ? (
+                                        <p className='pt-1 text-sm text-destructive' id='assignee-error'>
+                                            {assigneeError}
+                                        </p>
+                                    ) : null}
+                                </fieldset>
+                            </>
+                        ) : null}
                         <Button type='submit' className='mt-4 w-32 whitespace-nowrap' disabled={isLoading}>
                             {isLoading ? <ButtonSpinner /> : 'Update Ticket'}
                         </Button>
