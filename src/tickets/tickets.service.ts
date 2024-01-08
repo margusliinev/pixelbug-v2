@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, InternalServerErrorException } from '@n
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Ticket, Project, User } from '@prisma/client';
+import { Ticket, Project, User, Role } from '@prisma/client';
 
 interface TicketData extends Ticket {
     project: Project;
@@ -95,7 +95,7 @@ export class TicketsService {
         return { newTicket };
     }
 
-    async assignTicket(ticketId: string, userId: string) {
+    async assignTicket(ticketId: string, user: { id: string; role: Role }) {
         const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
         if (!ticket) {
             throw new InternalServerErrorException({
@@ -106,17 +106,17 @@ export class TicketsService {
             });
         }
 
-        if (ticket.assigneeId === userId) {
-            throw new ForbiddenException({ success: false, message: 'Ticket is already assigned to you', status: 403, fields: null });
+        if (user.role === 'USER') {
+            throw new ForbiddenException({ success: false, message: 'Only developers can assign tickets', status: 403, fields: null });
         }
 
-        if (ticket.assigneeId !== null && ticket.project.leadId !== userId) {
-            throw new ForbiddenException({ success: false, message: 'Ticket is already taken', status: 403, fields: null });
+        if (ticket.assigneeId === user.id) {
+            throw new ForbiddenException({ success: false, message: 'Ticket is already assigned to you', status: 403, fields: null });
         }
 
         const updatedTicket = await this.prisma.ticket.update({
             where: { id: ticketId },
-            data: { assigneeId: userId, status: ticket.status === 'UNASSIGNED' ? 'ASSIGNED' : ticket.status },
+            data: { assigneeId: user.id, status: ticket.status === 'UNASSIGNED' ? 'ASSIGNED' : ticket.status },
             include: {
                 project: true,
                 reporter: true,
@@ -133,7 +133,7 @@ export class TicketsService {
         return { assignedTicket };
     }
 
-    async updateTicket(updateTicketDto: UpdateTicketDto, userId: string) {
+    async updateTicket(updateTicketDto: UpdateTicketDto, user: { id: string; role: Role }) {
         const { ticketId, assigneeId, status, title, description, priority, type } = updateTicketDto;
 
         const ticket = await this.prisma.ticket.findUnique({ where: { id: ticketId }, include: { project: true } });
@@ -146,13 +146,22 @@ export class TicketsService {
             });
         }
 
-        if (assigneeId && assigneeId !== userId && ticket.project.leadId !== userId) {
+        if (status && user.role === 'USER') {
             throw new ForbiddenException({
                 success: false,
-                message: 'Only project lead can assign ticket to other developers',
+                message: 'Only developers can update ticket status',
+                status: 403,
+                fields: null,
+            });
+        }
+
+        if (assigneeId && user.role === 'USER') {
+            throw new ForbiddenException({
+                success: false,
+                message: 'Only developers can assign tickets',
                 status: 403,
                 fields: {
-                    assigneeId: 'Only project lead can assign ticket to other developers',
+                    assigneeId: 'Only developers can assign tickets',
                 },
             });
         }

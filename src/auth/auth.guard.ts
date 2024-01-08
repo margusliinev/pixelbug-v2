@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
     private async getUserBySessionId(sessionId: Session['id']) {
         const session = await this.prisma.session.findUnique({
-            select: { user: { select: { id: true } } },
+            select: { user: { select: { id: true, role: true } } },
             where: { id: sessionId, expirationDate: { gt: new Date(Date.now()) } },
         });
         return session?.user || null;

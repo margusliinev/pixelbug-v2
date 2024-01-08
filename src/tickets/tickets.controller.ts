@@ -24,13 +24,13 @@ export class TicketsController {
 
     @Patch()
     async assignTicket(@Body() assignTicketDto: AssignTicketDto, @Req() req: AuthenticatedRequest) {
-        const { assignedTicket } = await this.ticketsService.assignTicket(assignTicketDto.ticketId, req.user.id);
+        const { assignedTicket } = await this.ticketsService.assignTicket(assignTicketDto.ticketId, req.user);
         return { success: true, message: 'Ticket assigned', data: assignedTicket };
     }
 
     @Put()
     async updateTicket(@Body() updateTicketDto: UpdateTicketDto, @Req() req: AuthenticatedRequest) {
-        const { updatedTicket } = await this.ticketsService.updateTicket(updateTicketDto, req.user.id);
+        const { updatedTicket } = await this.ticketsService.updateTicket(updateTicketDto, req.user);
         return { success: true, message: 'Ticket updated', data: updatedTicket };
     }
 
