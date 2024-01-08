@@ -7,7 +7,6 @@ export class SearchService {
     constructor(private readonly prisma: PrismaService) {}
 
     async search(queryParams: { searchTerm: string }) {
-        console.log(queryParams.searchTerm);
         if (typeof queryParams.searchTerm !== 'string') {
             throw new BadRequestException({ success: false, message: 'Invalid search term', status: 400, fields: null });
         }

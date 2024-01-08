@@ -39,21 +39,23 @@ export default function GlobalSearch() {
                 <div className='grid w-4 place-items-center'>{isLoading && searchTerm !== '' ? <SearchSpinner /> : <Search />}</div>
             </label>
             <div className='w-full'>
-                <input
-                    type='text'
-                    name='search'
-                    id='search'
-                    placeholder='Search'
-                    className='w-full text-sm focus:outline-none'
-                    value={searchTerm}
-                    onChange={handleChange}
-                    onFocus={() => setIsSearchboxOpen(true)}
-                    onBlur={(e) => {
-                        if (!(e.relatedTarget instanceof HTMLAnchorElement)) {
-                            setIsSearchboxOpen(false);
-                        }
-                    }}
-                />
+                <form noValidate autoComplete='off'>
+                    <input
+                        type='text'
+                        name='search'
+                        id='search'
+                        placeholder='Search'
+                        className='w-full text-sm focus:outline-none'
+                        value={searchTerm}
+                        onChange={handleChange}
+                        onFocus={() => setIsSearchboxOpen(true)}
+                        onBlur={(e) => {
+                            if (!(e.relatedTarget instanceof HTMLAnchorElement)) {
+                                setIsSearchboxOpen(false);
+                            }
+                        }}
+                    />
+                </form>
                 <div
                     className={
                         isSearchboxOpen && !isLoading && debouncedSearchTerm !== ''
